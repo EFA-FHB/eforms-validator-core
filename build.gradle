@@ -52,39 +52,39 @@ subprojects {
             }
         }
 
-    dependencies {
-        compileOnly 'org.projectlombok:lombok:1.18.22'
-        annotationProcessor 'org.projectlombok:lombok:1.18.22'
+        dependencies {
+            compileOnly 'org.projectlombok:lombok:1.18.22'
+            annotationProcessor 'org.projectlombok:lombok:1.18.22'
 
-        testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
-        testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
-    }
+            testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+            testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+        }
 
-    java {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
-    }
+        java {
+            sourceCompatibility = JavaVersion.VERSION_17
+            targetCompatibility = JavaVersion.VERSION_17
+        }
 
-    compileJava {
-        options.encoding = 'UTF-8'
-        options.compilerArgs << '-parameters'
-    }
+        compileJava {
+            options.encoding = 'UTF-8'
+            options.compilerArgs << '-parameters'
+        }
 
-    test {
-        systemProperty "java.util.logging.manager", "org.jboss.logmanager.LogManager"
-        reports.html.required = false
-    }
+        test {
+            systemProperty "java.util.logging.manager", "org.jboss.logmanager.LogManager"
+            reports.html.required = false
+        }
 
-    compileTestJava {
-        options.encoding = 'UTF-8'
-    }
+        compileTestJava {
+            options.encoding = 'UTF-8'
+        }
 
-    tasks.register('buildInfo') {
-        doLast {
-            def commitId = System.getenv('GIT_SHA_REF') ?: grgit.head().getId()
+        tasks.register('buildInfo') {
+            doLast {
+                def commitId = System.getenv('GIT_SHA_REF') ?: grgit.head().getId()
 
-            new File(sourceSets.main.output.resourcesDir, "build_info.json").text =
-"""{
+                new File(sourceSets.main.output.resourcesDir, "build_info.json").text =
+                        """{
     "name" : "${rootProject.name}-${project.name}",
     "build" : {
         "version" : "${project.version}",
@@ -96,9 +96,7 @@ subprojects {
     }
 }
 """
+            }
         }
     }
 }
-
-
-
