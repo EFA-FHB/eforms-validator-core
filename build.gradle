@@ -32,6 +32,26 @@ subprojects {
         }
     }
 
+    publishing {
+        publications {
+            register("jar", MavenPublication) {
+                from(components["java"])
+                pom {
+                    url.set("https://github.com/EFA-FHB/eforms-validator-core.git")
+                }
+            }
+        }
+        repositories {
+            maven {
+                name = "GitHubPackages"
+                url = "https://maven.pkg.github.com/EFA-FHB/eforms-validator-core"
+                credentials {
+                    username = System.getenv("GITHUB_ACTOR")
+                    password = System.getenv("GITHUB_TOKEN")
+                }
+            }
+        }
+
     dependencies {
         compileOnly 'org.projectlombok:lombok:1.18.22'
         annotationProcessor 'org.projectlombok:lombok:1.18.22'
