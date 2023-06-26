@@ -1,0 +1,17 @@
+pluginManagement {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        gradlePluginPortal()
+    }
+    plugins {
+        id "${quarkusPluginId}" version "${quarkusPluginVersion}"
+        id "${sonarPluginId}" version "${sonarPluginVersion}"
+    }
+}
+
+rootProject.name="${name}"
+include 'core'
+include 'app-ext'
+include 'app-int'
+

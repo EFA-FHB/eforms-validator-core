@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ns3:SubmitObjectsRequest mode="CreateOrVersion" id="7121db9d-80e8-4088-b49c-cefac6f46e39" xmlns="urn:oasis:names:tc:ebxml-regrep:xsd:rim:4.0" xmlns:ns5="urn:oasis:names:tc:ebxml-regrep:xsd:rs:4.0" xmlns:ns2="http://www.w3.org/1999/xlink" xmlns:ns4="http://www.w3.org/2005/08/addressing" xmlns:ns3="urn:oasis:names:tc:ebxml-regrep:xsd:lcm:4.0">
+    <Slot name="SpecificationIdentification">
+        <SlotValue xsi:type="StringValueType" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <Value>urn:fdc:peppol.eu:prac:trns:t015:1.1</Value>
+        </SlotValue>
+    </Slot>
+    <Slot name="BusinessProcessTypeIdentifier">
+        <SlotValue xsi:type="StringValueType" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <Value>urn:fdc:peppol.eu:prac:bis:p008:1.1</Value>
+        </SlotValue>
+    </Slot>
+    <Slot name="IssueDateTime">
+        <SlotValue xsi:type="DateTimeValueType" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <Value>2022-09-28T12:02:42.477</Value>
+        </SlotValue>
+    </Slot>
+    <Slot name="SenderElectronicAddress" type="EAS">
+        <SlotValue xsi:type="StringValueType" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <Value>9930:de288921613</Value>
+        </SlotValue>
+    </Slot>
+    <Slot name="ReceiverElectronicAddress" type="EAS">
+        <SlotValue xsi:type="StringValueType" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <Value>0204:994-BKMS-22</Value>
+        </SlotValue>
+    </Slot>
+    <Slot name="PublicationRequested">
+        <SlotValue xsi:type="BooleanValueType" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <Value>true</Value>
+        </SlotValue>
+    </Slot>
+    <RegistryObjectList>
+        <RegistryObject xsi:type="ExtrinsicObjectType" lid="f6b0c839-1541-41ad-97e4-35e1a9e5019d" id="9365aba3-b2eb-4db1-893b-d24006741bff" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <Slot name="UBLDocumentSchema" type="ublDocumentSchema">
+                <SlotValue xsi:type="StringValueType">
+                    <Value>PIN</Value>
+                </SlotValue>
+            </Slot>
+            <Slot name="NoticeVersion">
+                <SlotValue xsi:type="IntegerValueType">
+                    <Value>1</Value>
+                </SlotValue>
+            </Slot>
+            <Slot name="eFormsVersion">
+                <SlotValue xsi:type="StringValueType">
+                    <Value>eforms-sdk-0.7</Value>
+                </SlotValue>
+            </Slot>
+            <RepositoryItemRef ns2:href="./notice.xml"/>
+        </RegistryObject>
+    </RegistryObjectList>
+</ns3:SubmitObjectsRequest>

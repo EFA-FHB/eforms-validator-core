@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+commit_regex='(D603345-[0-9]+|merge|github--skip-msg-validation)'
+error_msg="Incorrect commit message format. Please include 'D603345-issue-number' in your commit message."
+
+if ! grep -iqE "$commit_regex" "$1"; then
+    echo "$error_msg" >&2
+    echo "Your commit message was: $(cat .git/COMMIT_EDITMSG)"
+    exit 1
+fi

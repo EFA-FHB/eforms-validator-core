@@ -1,0 +1,84 @@
+import java.time.LocalDateTime
+import java.time.temporal.ChronoUnit
+
+plugins {
+    id 'java'
+    id 'jacoco'
+    id "com.github.vlsi.jandex" version "1.86"
+    id 'org.ajoberstar.grgit' version '5.0.0'
+}
+
+apply from: rootProject.file('gradle/install-git-hooks.gradle')
+
+allprojects {
+    group 'com.nortal.efafhb.eforms.validator'
+}
+
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'com.github.vlsi.jandex'
+
+    repositories {
+        mavenCentral()
+        mavenLocal()
+
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/${property("github.packages.xray")}")
+            credentials {
+                username = findProperty("gpr.user") ?: findProperty("github.packages.username")
+                password = findProperty("gpr.key") ?: findProperty("github.packages.password")
+            }
+        }
+    }
+
+    dependencies {
+        compileOnly 'org.projectlombok:lombok:1.18.22'
+        annotationProcessor 'org.projectlombok:lombok:1.18.22'
+
+        testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+        testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+    }
+
+    java {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+
+    compileJava {
+        options.encoding = 'UTF-8'
+        options.compilerArgs << '-parameters'
+    }
+
+    test {
+        systemProperty "java.util.logging.manager", "org.jboss.logmanager.LogManager"
+        reports.html.required = false
+    }
+
+    compileTestJava {
+        options.encoding = 'UTF-8'
+    }
+
+    tasks.register('buildInfo') {
+        doLast {
+            def commitId = System.getenv('GIT_SHA_REF') ?: grgit.head().getId()
+
+            new File(sourceSets.main.output.resourcesDir, "build_info.json").text =
+"""{
+    "name" : "${rootProject.name}-${project.name}",
+    "build" : {
+        "version" : "${project.version}",
+        "time" : "${LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS)}",
+        "git" : {
+            "sha" : "${commitId}",
+            "repository_url" : "${grgit.remote.list().get(0).url}"
+        }
+    }
+}
+"""
+        }
+    }
+}
+
+
+

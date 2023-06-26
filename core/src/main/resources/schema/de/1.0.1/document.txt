@@ -1,0 +1,12 @@
+All files in schema\de\1.0\common and schema\de\1.0\maindoc folders are from skd version 1.5.1 found
+on this location https://github.com/OP-TED/eForms-SDK/tree/1.5.1/schemas
+https://gitlab.opencode.de/OC000008125155/SDK-eforms-de/-/tree/main/sdk/schemas
+
+Everything inside schematron\de\kosit\1.0.0 folder is just copy of schematron\eu\kosit\1.5.0 except
+eforms-de-schematron-validator-0.1.0-SNAPSHOT.xsl file and files inside schematron\de\kosit\1.0.0\xsd\ubl\2.3
+which are same as from schema\de\1.0
+
+The content of schematron\eu\native-validation\1.5.0\complete-validation.sch file is copied to
+schematron\de\native-validation\1.0.0\eforms-de-validation.sch file.
+Also all validation-stage-*.sch files are copied from schematron\eu\native-validation\1.5.0 to schematron\de\native-validation\1.0.0
+only difference is that rule id="BR-OPT-00002-0052" is removed from validation-stage-3b.sch

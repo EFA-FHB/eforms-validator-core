@@ -1,0 +1,35 @@
+# To get started with Dependabot version updates, you'll need to specify which
+# package ecosystems to update and where the package manifests are located.
+# Please see the documentation for all configuration options:
+# https://docs.github.com/github/administering-a-repository/configuration-options-for-dependency-updates
+
+version: 2
+updates:
+  - package-ecosystem: "gradle" # See documentation for possible values
+    directory: "/app" # Location of package manifests
+    schedule:
+      interval: "daily"
+    allow:
+      # Allow both direct and indirect updates for all packages
+      - dependency-type: "all"
+    commit-message:
+      prefix: "[github]"
+      #mention dependency name in commit-message
+      include: "scope"
+    ignore:
+        # Ignore major updates for any dependency
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major"]
+        # Ignore test dependencies
+      - dependency-name: "app.getxray:xray-junit-extensions"
+    labels:
+      - "dependencies"
+    # limit on open pull requests
+    open-pull-requests-limit: 5
+    pull-request-branch-name:
+      separator: "/"
+    target-branch: "development"
+    reviewers:
+      - "@EFA-FHB/smurfs"
+      - "@EFA-FHB/slenders"
+    rebase-strategy: "auto"

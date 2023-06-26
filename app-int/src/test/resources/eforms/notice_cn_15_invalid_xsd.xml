@@ -1,0 +1,603 @@
+<ContractNotice xmlns:ext="urn:oasis:names:specification:ubl:schema:xsd:CommonExtensionComponents-2" xmlns="urn:oasis:names:specification:ubl:schema:xsd:ContractNotice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2" xmlns:efac="http://data.europa.eu/p27/eforms-ubl-extension-aggregate-components/1" xmlns:efbc="http://data.europa.eu/p27/eforms-ubl-extension-basic-components/1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:efext="http://data.europa.eu/p27/eforms-ubl-extensions/1">
+  <ext:UBLExtensions>
+    <ext:UBLExtension>
+      <ext:ExtensionContent>
+        <efext:EformsExtension>
+          <efac:NoticeSubType>
+            <cbc:SubTypeCode listName="notice-subtype">16</cbc:SubTypeCode>
+          </efac:NoticeSubType>
+          <efac:Organizations>
+            <efac:Organization>
+              <efac:Company>
+                <cbc:WebsiteURI>https://vergabe.bremen.de</cbc:WebsiteURI>
+                <cbc:EndpointID>
+                  https://vergabe.bremen.de/NetServer/TenderingProcedureDetails?function=_Details&amp;TenderOID=54321-Tender-17cc1f36736-5242b5186b68a093
+                </cbc:EndpointID>
+                <cac:PartyIdentification>
+                  <cbc:ID schemeName="organization">ORG-0001</cbc:ID>
+                </cac:PartyIdentification>
+                <cac:PartyName>
+                  <cbc:Name languageID="DEU">Immobilien Bremen, Anstalt des öffentlichen
+                    Rechts
+                  </cbc:Name>
+                </cac:PartyName>
+                <cac:PostalAddress>
+                  <cbc:StreetName>Theodor-Heuss-Allee 14</cbc:StreetName>
+                  <cbc:CityName>Bremen</cbc:CityName>
+                  <cbc:PostalZone>28215</cbc:PostalZone>
+                  <cbc:CountrySubentityCode listName="nuts">DE501
+                  </cbc:CountrySubentityCode>
+                  <cac:Country>
+                    <cbc:IdentificationCode listName="country">DEU
+                    </cbc:IdentificationCode>
+                  </cac:Country>
+                </cac:PostalAddress>
+                <cac:PartyLegalEntity>
+                  <cbc:CompanyID schemeID="002">123 456 789</cbc:CompanyID>
+                </cac:PartyLegalEntity>
+                <cac:PartyLegalEntity>
+                  <cbc:CompanyID>3f5ec208-9985-4cc2-a36a-78f4c7503b36</cbc:CompanyID>
+                </cac:PartyLegalEntity>
+                <cac:Contact>
+                  <cbc:Telephone>+49 421 36176945</cbc:Telephone>
+                  <cbc:Telefax>+49 421 49676945</cbc:Telefax>
+                  <cbc:ElectronicMail>michael.rose@immobilien.bremen.de
+                  </cbc:ElectronicMail>
+                </cac:Contact>
+              </efac:Company>
+            </efac:Organization>
+            <efac:Organization>
+              <efac:Company>
+                <cbc:WebsiteURI>https://www.bauumwelt.bremen.de</cbc:WebsiteURI>
+                <cbc:EndpointID>
+                  https://vergabe.bremen.de/NetServer/TenderingProcedureDetails?function=_Details&amp;TenderOID=54321-Tender-17cc1f36736-5242b5186b68a093
+                </cbc:EndpointID>
+                <cac:PartyIdentification>
+                  <cbc:ID schemeName="organization">ORG-0004</cbc:ID>
+                </cac:PartyIdentification>
+                <cac:PartyName>
+                  <cbc:Name languageID="DEU">Vergabekammer der Freien Hansestadt Bremen
+                    bei der Senatorin für Klimaschutz, Umwelt, Mobilität,
+                    Stadtentwicklung und Wohnungsbau
+                  </cbc:Name>
+                </cac:PartyName>
+                <cac:PostalAddress>
+                  <cbc:StreetName>Contrescarpe 72</cbc:StreetName>
+                  <cbc:CityName>Bremen</cbc:CityName>
+                  <cbc:PostalZone>28195</cbc:PostalZone>
+                  <cbc:CountrySubentityCode listName="nuts">DE501
+                  </cbc:CountrySubentityCode>
+                  <cac:Country>
+                    <cbc:IdentificationCode listName="country">DEU
+                    </cbc:IdentificationCode>
+                  </cac:Country>
+                </cac:PostalAddress>
+                <cac:PartyLegalEntity>
+                  <cbc:CompanyID schemeID="002">123 456 789</cbc:CompanyID>
+                </cac:PartyLegalEntity>
+                <cac:PartyLegalEntity>
+                  <cbc:CompanyID>46cb3bbc-a8fb-4a74-a437-ed118441f4cd</cbc:CompanyID>
+                </cac:PartyLegalEntity>
+                <cac:Contact>
+                  <cbc:Telephone>+49 421 36159796</cbc:Telephone>
+                  <cbc:Telefax>+49 421 49632311</cbc:Telefax>
+                  <cbc:ElectronicMail>vergabekammer@bau.bremen.de</cbc:ElectronicMail>
+                </cac:Contact>
+              </efac:Company>
+            </efac:Organization>
+            <efac:Organization>
+              <efac:Company>
+                <cbc:WebsiteURI>https://www.bauumwelt.bremen.de</cbc:WebsiteURI>
+                <cbc:EndpointID>
+                  https://vergabe.bremen.de/NetServer/TenderingProcedureDetails?function=_Details&amp;TenderOID=54321-Tender-17cc1f36736-5242b5186b68a093
+                </cbc:EndpointID>
+                <cac:PartyIdentification>
+                  <cbc:ID schemeName="organization">ORG-0005</cbc:ID>
+                </cac:PartyIdentification>
+                <cac:PartyName>
+                  <cbc:Name languageID="DEU">Vergabekammer der Freien Hansestadt Bremen
+                    bei der Senatorin für Klimaschutz, Umwelt, Mobilität,
+                    Stadtentwicklung und Wohnungsbau
+                  </cbc:Name>
+                </cac:PartyName>
+                <cac:PostalAddress>
+                  <cbc:StreetName>Contrescarpe 72</cbc:StreetName>
+                  <cbc:CityName>Bremen</cbc:CityName>
+                  <cbc:PostalZone>28195</cbc:PostalZone>
+                  <cbc:CountrySubentityCode listName="nuts">DE501
+                  </cbc:CountrySubentityCode>
+                  <cac:Country>
+                    <cbc:IdentificationCode listName="country">DEU
+                    </cbc:IdentificationCode>
+                  </cac:Country>
+                </cac:PostalAddress>
+                <cac:PartyLegalEntity>
+                  <cbc:CompanyID schemeID="002">123 456 789</cbc:CompanyID>
+                </cac:PartyLegalEntity>
+                <cac:PartyLegalEntity>
+                  <cbc:CompanyID>5404dace-d72b-4168-af00-2e54b3c5c9da</cbc:CompanyID>
+                </cac:PartyLegalEntity>
+                <cac:Contact>
+                  <cbc:Telephone>+49 421 36159796</cbc:Telephone>
+                  <cbc:Telefax>+49 421 49632311</cbc:Telefax>
+                  <cbc:ElectronicMail>vergabekammer@bau.bremen.de</cbc:ElectronicMail>
+                </cac:Contact>
+              </efac:Company>
+            </efac:Organization>
+            <efac:Organization>
+              <efac:Company>
+                <cbc:WebsiteURI>https://vergabe.bremen.de</cbc:WebsiteURI>
+                <cbc:EndpointID>
+                  https://vergabe.bremen.de/NetServer/TenderingProcedureDetails?function=_Details&amp;TenderOID=54321-Tender-17cc1f36736-5242b5186b68a093
+                </cbc:EndpointID>
+                <cac:PartyIdentification>
+                  <cbc:ID schemeName="organization">ORG-0002</cbc:ID>
+                </cac:PartyIdentification>
+                <cac:PartyName>
+                  <cbc:Name languageID="DEU">Immobilien Bremen - Eigenbetrieb der
+                    Stadtgemeinde Bremen
+                  </cbc:Name>
+                </cac:PartyName>
+                <cac:PostalAddress>
+                  <cbc:StreetName>Theodor-Heuss-Allee 14</cbc:StreetName>
+                  <cbc:CityName>Bremen</cbc:CityName>
+                  <cbc:PostalZone>28215</cbc:PostalZone>
+                  <cbc:CountrySubentityCode listName="nuts">DE501
+                  </cbc:CountrySubentityCode>
+                  <cac:Country>
+                    <cbc:IdentificationCode listName="country">DEU
+                    </cbc:IdentificationCode>
+                  </cac:Country>
+                </cac:PostalAddress>
+                <cac:PartyLegalEntity>
+                  <cbc:CompanyID>3228690c-4d18-4040-ac27-0f3efb100b12</cbc:CompanyID>
+                </cac:PartyLegalEntity>
+                <cac:Contact>
+                  <cbc:Name>Immobilien Bremen - Eigenbetrieb der Stadtgemeinde Bremen
+                  </cbc:Name>
+                  <cbc:Telephone>+4912345678</cbc:Telephone>
+                  <cbc:Telefax>+4912345678</cbc:Telefax>
+                  <cbc:ElectronicMail>info@vergabe.bremen.de</cbc:ElectronicMail>
+                </cac:Contact>
+              </efac:Company>
+            </efac:Organization>
+          </efac:Organizations>
+        </efext:EformsExtension>
+      </ext:ExtensionContent>
+    </ext:UBLExtension>
+  </ext:UBLExtensions>
+  <cbc:UBLVersionID>2.3</cbc:UBLVersionID>
+  <cbc:CustomizationID>eforms-sdk-1.5</cbc:CustomizationID>
+  <cbc:ID schemeName="notice-id">e0495711-39e7-4612-9f39-7cafb3f22c69</cbc:ID>
+  <cbc:ContractFolderID>425917d5-0f08-461c-b991-42985f713b1b</cbc:ContractFolderID>
+  <cbc:IssueDate>2022-02-25+01:00</cbc:IssueDate>
+  <cbc:IssueTime>10:00:05+01:00</cbc:IssueTime>
+  <cbc:VersionID>01</cbc:VersionID>
+  <cbc:RequestedPublicationDate>2022-02-27+01:00</cbc:RequestedPublicationDate>
+  <cbc:RegulatoryDomain>32014L0024</cbc:RegulatoryDomain>
+  <cbc:NoticeTypeCode listName="competition">cn-standard</cbc:NoticeTypeCode>
+  <cbc:NoticeLanguageCode>DEU</cbc:NoticeLanguageCode>
+  <!--<cac:ContractingParty>
+    <cbc:BuyerProfileURI>https://vergabe.bremen.de</cbc:BuyerProfileURI>
+    <cac:ContractingPartyType>
+      <cbc:PartyTypeCode listName="buyer-legal-type">body-pl</cbc:PartyTypeCode>
+    </cac:ContractingPartyType>
+    <cac:ContractingActivity>
+      <cbc:ActivityTypeCode listName="authority-activity">gen-pub</cbc:ActivityTypeCode>
+    </cac:ContractingActivity>
+    <cac:Party>
+      <cac:PartyIdentification>
+        <cbc:ID schemeName="organization">ORG-0001</cbc:ID>
+      </cac:PartyIdentification>
+      <cac:ServiceProviderParty>
+        <cbc:ServiceTypeCode listName="organization-role">ted-esen</cbc:ServiceTypeCode>
+        <cac:Party>
+          <cac:PartyIdentification>
+            <cbc:ID schemeName="organization">ORG-0002</cbc:ID>
+          </cac:PartyIdentification>
+        </cac:Party>
+      </cac:ServiceProviderParty>
+    </cac:Party>
+  </cac:ContractingParty>-->
+  <cac:TenderingTerms>
+    <cac:TendererQualificationRequest>
+      <cac:SpecificTendererRequirement>
+        <cbc:TendererRequirementTypeCode listName="exclusion-ground">nati-ground
+        </cbc:TendererRequirementTypeCode>
+        <cbc:Description languageID="DEU">Wie in den Vergabedokumenten beschrieben</cbc:Description>
+      </cac:SpecificTendererRequirement>
+    </cac:TendererQualificationRequest>
+    <cac:AppealTerms>
+      <cac:PresentationPeriod>
+        <cbc:Description languageID="DEU">1. Rügen sind ausschließlich an den unter 1.1) genannten
+          Auftraggeber zu senden.
+          2. Werden im Vergabeverfahren Bescheinigungen von Auftraggebern oder amtlichen Stellen
+          gefordert, sind sie - soweit sie nicht in deutsch verfasst wurden - inklusive einer
+          beglaubigten deutschsprachigen Übersetzung einzureichen.
+        </cbc:Description>
+      </cac:PresentationPeriod>
+      <cac:AppealInformationParty>
+        <cbc:WebsiteURI>https://vergabe.bremen.de</cbc:WebsiteURI>
+        <cac:PartyName>
+          <cbc:Name languageID="DEU">Vergabekammer der Freien Hansestadt Bremen bei der Senatorin
+            für Klimaschutz, Umwelt, Mobilität, Stadtentwicklung und Wohnungsbau
+          </cbc:Name>
+        </cac:PartyName>
+        <cac:PostalAddress>
+          <cbc:StreetName>Contrescarpe 72</cbc:StreetName>
+          <cbc:CityName>Bremen</cbc:CityName>
+          <cbc:PostalZone>28195</cbc:PostalZone>
+          <cbc:CountrySubentityCode listName="nuts">DE501</cbc:CountrySubentityCode>
+          <cac:Country>
+            <cbc:IdentificationCode listName="country">DEU</cbc:IdentificationCode>
+          </cac:Country>
+        </cac:PostalAddress>
+        <cac:Contact>
+          <cbc:Telephone>+49 421 36159796</cbc:Telephone>
+          <cbc:Telefax>+49 421 49632311</cbc:Telefax>
+          <cbc:ElectronicMail>vergabekammer@bau.bremen.de</cbc:ElectronicMail>
+        </cac:Contact>
+      </cac:AppealInformationParty>
+      <cac:AppealReceiverParty>
+        <cbc:WebsiteURI>https://vergabe.bremen.de</cbc:WebsiteURI>
+        <cac:PartyName>
+          <cbc:Name languageID="DEU">Vergabekammer der Freien Hansestadt Bremen bei der Senatorin
+            für Klimaschutz, Umwelt, Mobilität, Stadtentwicklung und Wohnungsbau
+          </cbc:Name>
+        </cac:PartyName>
+        <cac:PostalAddress>
+          <cbc:StreetName>Contrescarpe 72</cbc:StreetName>
+          <cbc:CityName>Bremen</cbc:CityName>
+          <cbc:PostalZone>28195</cbc:PostalZone>
+          <cbc:CountrySubentityCode listName="nuts">DE501</cbc:CountrySubentityCode>
+          <cac:Country>
+            <cbc:IdentificationCode listName="country">DEU</cbc:IdentificationCode>
+          </cac:Country>
+        </cac:PostalAddress>
+        <cac:Contact>
+          <cbc:Telephone>+49 421 36159796</cbc:Telephone>
+          <cbc:Telefax>+49 421 49632311</cbc:Telefax>
+          <cbc:ElectronicMail>vergabekammer@bau.bremen.de</cbc:ElectronicMail>
+        </cac:Contact>
+      </cac:AppealReceiverParty>
+    </cac:AppealTerms>
+    <cac:Language>
+      <cbc:ID>DEU</cbc:ID>
+    </cac:Language>
+  </cac:TenderingTerms>
+  <cac:TenderingProcess>
+    <cbc:ProcedureCode listName="procurement-procedure-type">open</cbc:ProcedureCode>
+  </cac:TenderingProcess>
+  <cac:ProcurementProject>
+    <cbc:ID schemeName="InternalID">V0693/2021</cbc:ID>
+    <cbc:Name languageID="DEU">Dachdeckerarbeiten, Universität Bremen, Neubau Zentrum für
+      Tiefseeforschung
+    </cbc:Name>
+    <cbc:Description languageID="DEU">Dachdecker/Dachklempner</cbc:Description>
+    <cbc:ProcurementTypeCode listName="contract-nature">works</cbc:ProcurementTypeCode>
+    <cac:MainCommodityClassification>
+      <cbc:ItemClassificationCode listName="cpv">45261410</cbc:ItemClassificationCode>
+    </cac:MainCommodityClassification>
+    <cac:RealizedLocation>
+      <cac:Address>
+        <cbc:CountrySubentityCode listName="nuts">DE501</cbc:CountrySubentityCode>
+        <cac:Country>
+          <cbc:IdentificationCode listName="country">DEU</cbc:IdentificationCode>
+        </cac:Country>
+      </cac:Address>
+    </cac:RealizedLocation>
+  </cac:ProcurementProject>
+  <cac:ProcurementProjectLot>
+    <cbc:ID schemeName="Lot">LOT-0000</cbc:ID>
+    <cac:TenderingTerms>
+      <ext:UBLExtensions>
+        <ext:UBLExtension>
+          <ext:ExtensionContent>
+            <efext:EformsExtension>
+              <efac:SelectionCriteria>
+                <cbc:CriterionTypeCode listName="selection-criterion">sui-act
+                </cbc:CriterionTypeCode>
+                <cbc:Description languageID="DEU">
+                  Auflistung und kurze Beschreibung der Bedingungen, Angabe der
+                  erforderlichen Informationen und Dokumente: "1. Erklärung über die
+                  Eintragung in das Berufs- oder Handelsregister oder Handwerksrolle (§ 6a
+                  EU Nr. 1 VOB/A 2019)"
+                  2. Erklärung, ob Ausschlussgründe nach § 6e EU VOB/A 2019 vorliegen und
+                  ggf. Erklärungen zur Selbstreinigung gem. § 6f EU VOB/A 2019.
+                  3. Erklärung, dass der Bieter seiner Verpflichtung zur Zahlung von
+                  Steuern und Abgaben sowie der Beiträge zur gesetzlichen
+                  Sozialversicherung, soweit er der Pflicht zur Betragszahlung unterfällt,
+                  ordnungsgemäß erfüllt hat.
+                  Falls das Angebot/Teilnahmeantrag in die engere Wahl kommt, ist der
+                  Bieter auf gesondertes Verlangen der Vergabestelle verpflichtet, eine
+                  Unbedenklichkeitsbescheinigung der tariflichen Sozialkasse (nur: soweit
+                  der Betrieb des Bieters beitragspflichtig ist), eine
+                  Unbedenklichkeitsbescheinigung des Finanzamtes bzw. Bescheinigung in
+                  Steuersachen (nur: soweit das Finanzamt derartige Bescheinigungen
+                  ausstellt) sowie eine Freistellungsbescheinigung nach § 48b EStG
+                  vorzulegen. Wenn der Bieter nicht in den Anwendungsbereich eines
+                  Sozialkassentarifvertrages fällt, ist das durch formlose Eigenerklärung
+                  mitzuteilen.
+                  4. Erklärung, dass der Bieter Mitglied der Berufsgenossenschaft ist.
+                  Falls das Angebot/Teilnahmeantrag in die engere Wahl kommt, ist der
+                  Bieter auf gesondertes Verlangen der Vergabestelle verpflichtet, eine
+                  Unbedenklichkeitsbescheinigung der Berufsgenossenschaft des für ihn
+                  zuständigen Versicherungsträgers mit Angabe der Lohnsummen vorzulegen.
+                  5. Ausländische Unternehmen haben zu Ziff. 1, 3 und 4 vergleichbare
+                  Erklärungen/Nachweise zu erbringen.
+                  6. Wegen der Erklärungen und Nachweisführung und der Nachweispflichten
+                  gilt § 6b EU VOB/A 2019.
+                  7. Das Formblatt 124 "Eigenerklärung zur Eignung" liegt den
+                  Vergabeunterlagen bei."
+                </cbc:Description>
+                <cbc:CalculationExpressionCode listName="usage">used
+                </cbc:CalculationExpressionCode>
+              </efac:SelectionCriteria>
+              <efac:SelectionCriteria>
+                <cbc:CriterionTypeCode listName="selection-criterion">ef-stand
+                </cbc:CriterionTypeCode>
+                <cbc:Description languageID="DEU">
+
+
+                  Auflistung und kurze Beschreibung der Eignungskriterien, Angabe der
+                  erforderlichen Informationen und Dokumente: Erklärungen (und auf
+                  gesondertes Verlangen der Vergabestelle: Nachweise) über
+                  a) Umsatz der letzten 3 abgeschlossenen Geschäftsjahre für vergleichbare
+                  Leistungen (§ 6a EU Nr. 2c VOB/A 2019)
+                  Mindeststandard: Mindestumsatz 1.600.000,00 EUR in jedem Geschäftsjahr
+                  b) Nachweis der Haftpflichtversicherung (§6a EU Nr. 2a VOB/A2019)
+                  Wegen der Erklärungen und der Nachweisführung und der Nachweispflichten
+                  gilt
+                  § 6b EU VOB/A 2019.
+                  Möglicherweise geforderte Mindeststandards:
+                </cbc:Description>
+                <cbc:CalculationExpressionCode listName="usage">used
+                </cbc:CalculationExpressionCode>
+              </efac:SelectionCriteria>
+              <efac:SelectionCriteria>
+                <cbc:CriterionTypeCode listName="selection-criterion">tp-abil
+                </cbc:CriterionTypeCode>
+                <cbc:Description languageID="DEU">
+
+
+                  Auflistung und kurze Beschreibung der Eignungskriterien, Angabe der
+                  erforderlichen Informationen und Dokumente: Erklärungen (und auf
+                  gesondertes Verlagen der Vergabestelle: Nachweise) über:
+                  a) Die Ausführung von Leistungen in den letzten 3
+                  abgeschlossenen Geschäftsjahren, die mit der zu vergebenden
+                  Leistung vergleichbar sind, mit Angabe der Auftragswerte,
+                  sowie der vollständigen Kontaktdaten des privaten oder
+                  öffentlichen Auftraggebers.
+                  Geforderter Mindeststandart:
+                  3 Referenzen, die nach Art und Umfang mit der
+                  ausgeschriebenen Leistung vergleichbar sind.
+                  b) Die Zahl der in den letzten 3 abgeschlossenen
+                  Geschäftsjahren jahresdurchschnittlich beschäftigten
+                  Arbeitskräfte.
+                  Geforderter Mindeststandard: mindestens 7 Arbeitskräfte in
+                  jedem Jahr
+                  c) Soweit Nachunternehmer zum Einsatz gebracht werden
+                  sollen, wird deren Eignung und technische Leistungsfähigkeit
+                  ebenfalls geprüft. Auf gesondertes Verlangen der Vergabestelle
+                  sind für den Nachunternehmer Erklärungen des
+                  Nachunternehmers wir folgt vorzulegen:
+                  - Angaben nach § 6e EU VOB/A 2019 und ggf. zu § 6f EU VOB/
+                  A 2019
+                  - Nachweis des NU über die Ausführung von Leistungen in den letzten 3
+                  abgeschlossenen Geschäftsjahren, die mit den (vom
+                  Bieter an den NU) zu vergebenden Leistungen vergleichbar
+                  sind, mit Angabe des Auftragswertes sowie der vollständigen
+                  Kontaktdaten des privaten oder öffentlichen Auftraggebers.
+                  Hierzu geforderter Mindeststandard: 3 vergleichbare
+                  Referenzen der letzten 3 Geschäftsjahre.
+                  Hinweis:
+                  Die fehlende Eignung oder die fehlende technische
+                  Leistungsfähigkeit eines benannten NU kann zum Ausschluss
+                  des Angebots führen.
+                  Der Bieter ist berechtigt, einen benannten NU auszutauschen,
+                  wenn dieser die geforderten Erklärungen/Nachweise nicht
+                  erbringt und die Vergabestelle das Angebot deshalb
+                  ausschließen will. Der neue NU ist unter Vorlage der
+                  Nachweise/Erklärungen innerhalb von 6 Werktagen nach
+                  Mitteilung der Vergabestelle zu benennen. Alternativ kann der
+                  Bieter innerhalb dieser Frist erklären, dass er die Leistung im
+                  eigenen Betrieb erbringt, muss aber in dem Fall, dass der den
+                  NU für Bereich benannt hat, für die besonderer Qualifikation
+                  oder Referenzen des NU verlangt werden, entsprechend (den
+                  Anforderungen an den NU) nachweisen, dass er die
+                  Qualifikation oder Referenzen im eigenen Betrieb erfüllt.
+                  Auf gesondertes Verlangen der Vergabestelle sind für jeden
+                  benannten NU Erklärungen/Nachweise entsprechend Ziff.
+                  III.1.1 und zur Haftpflichtversicherung entsprechend Ziff. III.1.2
+                  (dort zu b)) vorzulegen.
+                  Ergänzend gilt § 6d EU VOB/A 2019
+                  Wegen der Erklärungen und der Nachweisführung und der
+                  Nachweispflichten gilt § 6b EU VOB/A 2019."
+                  Möglicherweise geforderte Mindeststandards:
+                </cbc:Description>
+                <cbc:CalculationExpressionCode listName="usage">used
+                </cbc:CalculationExpressionCode>
+              </efac:SelectionCriteria>
+            </efext:EformsExtension>
+          </ext:ExtensionContent>
+        </ext:UBLExtension>
+      </ext:UBLExtensions>
+      <cbc:FundingProgramCode listName="eu-funded">no-eu-funds</cbc:FundingProgramCode>
+      <cbc:RecurringProcurementIndicator>false</cbc:RecurringProcurementIndicator>
+      <cac:CallForTendersDocumentReference>
+        <cbc:ID>V0693/2021</cbc:ID>
+        <cbc:DocumentType>non-restricted-document</cbc:DocumentType>
+        <cac:Attachment>
+          <cac:ExternalReference>
+            <cbc:URI>
+              https://vergabe.bremen.de/NetServer/TenderingProcedureDetails?function=_Details&amp;TenderOID=54321-Tender-17cc1f36736-5242b5186b68a093
+            </cbc:URI>
+          </cac:ExternalReference>
+        </cac:Attachment>
+      </cac:CallForTendersDocumentReference>
+      <cac:TendererQualificationRequest>
+        <cac:SpecificTendererRequirement>
+          <cbc:TendererRequirementTypeCode listName="reserved-procurement">none
+          </cbc:TendererRequirementTypeCode>
+        </cac:SpecificTendererRequirement>
+      </cac:TendererQualificationRequest>
+      <cac:ContractExecutionRequirement>
+        <cbc:ExecutionRequirementCode listName="reserved-execution">no
+        </cbc:ExecutionRequirementCode>
+      </cac:ContractExecutionRequirement>
+      <cac:ContractExecutionRequirement>
+        <cbc:ExecutionRequirementCode listName="einvoicing">required</cbc:ExecutionRequirementCode>
+      </cac:ContractExecutionRequirement>
+      <cac:ContractExecutionRequirement>
+        <cbc:ExecutionRequirementCode listName="ecatalog-submission">not-allowed
+        </cbc:ExecutionRequirementCode>
+      </cac:ContractExecutionRequirement>
+      <cac:TenderRecipientParty>
+        <cbc:WebsiteURI>https://vergabe.bremen.de</cbc:WebsiteURI>
+        <cbc:EndpointID>https://vergabe.bremen.de</cbc:EndpointID>
+        <cac:PartyIdentification>
+          <cbc:ID schemeName="organization">ORG-0001</cbc:ID>
+        </cac:PartyIdentification>
+        <cac:PartyName>
+          <cbc:Name languageID="DEU">Immobilien Bremen, Anstalt des öffentlichen Rechts</cbc:Name>
+        </cac:PartyName>
+        <cac:PostalAddress>
+          <cbc:StreetName>Theodor-Heuss-Allee 14</cbc:StreetName>
+          <cbc:CityName>Bremen</cbc:CityName>
+          <cbc:PostalZone>28215</cbc:PostalZone>
+          <cbc:CountrySubentityCode listName="nuts">DE501</cbc:CountrySubentityCode>
+          <cac:Country>
+            <cbc:IdentificationCode listName="country">DEU</cbc:IdentificationCode>
+          </cac:Country>
+        </cac:PostalAddress>
+        <cac:Contact>
+          <cbc:Telephone>+49 421 36176945</cbc:Telephone>
+          <cbc:Telefax>+49 421 49676945</cbc:Telefax>
+          <cbc:ElectronicMail>michael.rose@immobilien.bremen.de</cbc:ElectronicMail>
+        </cac:Contact>
+      </cac:TenderRecipientParty>
+      <cac:TenderValidityPeriod>
+        <cbc:DurationMeasure unitCode="WEEK">8</cbc:DurationMeasure>
+      </cac:TenderValidityPeriod>
+      <cac:AppealTerms>
+        <cac:PresentationPeriod>
+          <cbc:Description languageID="DEU">1. Rügen sind ausschließlich an den unter 1.1)
+            genannten Auftraggeber zu senden.
+            2. Werden im Vergabeverfahren Bescheinigungen von Auftraggebern oder amtlichen
+            Stellen gefordert, sind sie - soweit sie nicht in deutsch verfasst wurden -
+            inklusive einer beglaubigten deutschsprachigen Übersetzung einzureichen.
+          </cbc:Description>
+        </cac:PresentationPeriod>
+        <cac:AppealInformationParty>
+          <cbc:WebsiteURI>https://vergabe.bremen.de</cbc:WebsiteURI>
+          <cac:PartyIdentification>
+            <cbc:ID schemeName="organization">ORG-0004</cbc:ID>
+          </cac:PartyIdentification>
+          <cac:PartyName>
+            <cbc:Name languageID="DEU">Vergabekammer der Freien Hansestadt Bremen bei der
+              Senatorin für Klimaschutz, Umwelt, Mobilität, Stadtentwicklung und Wohnungsbau
+            </cbc:Name>
+          </cac:PartyName>
+          <cac:PostalAddress>
+            <cbc:StreetName>Contrescarpe 72</cbc:StreetName>
+            <cbc:CityName>Bremen</cbc:CityName>
+            <cbc:PostalZone>28195</cbc:PostalZone>
+            <cbc:CountrySubentityCode listName="nuts">DE501</cbc:CountrySubentityCode>
+            <cac:Country>
+              <cbc:IdentificationCode listName="country">DEU</cbc:IdentificationCode>
+            </cac:Country>
+          </cac:PostalAddress>
+          <cac:Contact>
+            <cbc:Telephone>+49 421 36159796</cbc:Telephone>
+            <cbc:Telefax>+49 421 49632311</cbc:Telefax>
+            <cbc:ElectronicMail>vergabekammer@bau.bremen.de</cbc:ElectronicMail>
+          </cac:Contact>
+        </cac:AppealInformationParty>
+        <cac:AppealReceiverParty>
+          <cbc:WebsiteURI>https://vergabe.bremen.de</cbc:WebsiteURI>
+          <cac:PartyIdentification>
+            <cbc:ID schemeName="organization">ORG-0005</cbc:ID>
+          </cac:PartyIdentification>
+          <cac:PartyName>
+            <cbc:Name languageID="DEU">Vergabekammer der Freien Hansestadt Bremen bei der
+              Senatorin für Klimaschutz, Umwelt, Mobilität, Stadtentwicklung und Wohnungsbau
+            </cbc:Name>
+          </cac:PartyName>
+          <cac:PostalAddress>
+            <cbc:StreetName>Contrescarpe 72</cbc:StreetName>
+            <cbc:CityName>Bremen</cbc:CityName>
+            <cbc:PostalZone>28195</cbc:PostalZone>
+            <cbc:CountrySubentityCode listName="nuts">DE501</cbc:CountrySubentityCode>
+            <cac:Country>
+              <cbc:IdentificationCode listName="country">DEU</cbc:IdentificationCode>
+            </cac:Country>
+          </cac:PostalAddress>
+          <cac:Contact>
+            <cbc:Telephone>+49 421 36159796</cbc:Telephone>
+            <cbc:Telefax>+49 421 49632311</cbc:Telefax>
+            <cbc:ElectronicMail>vergabekammer@bau.bremen.de</cbc:ElectronicMail>
+          </cac:Contact>
+        </cac:AppealReceiverParty>
+      </cac:AppealTerms>
+      <cac:Language>
+        <cbc:ID>DEU</cbc:ID>
+      </cac:Language>
+      <cac:PostAwardProcess>
+        <cbc:ElectronicOrderUsageIndicator>false</cbc:ElectronicOrderUsageIndicator>
+        <cbc:ElectronicPaymentUsageIndicator>false</cbc:ElectronicPaymentUsageIndicator>
+      </cac:PostAwardProcess>
+    </cac:TenderingTerms>
+    <cac:TenderingProcess>
+      <cbc:SubmissionMethodCode listName="esubmission">allowed</cbc:SubmissionMethodCode>
+      <cbc:GovernmentAgreementConstraintIndicator>true</cbc:GovernmentAgreementConstraintIndicator>
+      <cac:TenderSubmissionDeadlinePeriod>
+        <cbc:EndDate>2022-04-13+02:00</cbc:EndDate>
+        <cbc:EndTime>10:30:00+02:00</cbc:EndTime>
+      </cac:TenderSubmissionDeadlinePeriod>
+      <cac:OpenTenderEvent>
+        <cbc:OccurrenceDate>2022-04-13+02:00</cbc:OccurrenceDate>
+        <cbc:OccurrenceTime>10:30:00+02:00</cbc:OccurrenceTime>
+        <cac:OccurenceLocation>
+          <cbc:Description languageID="DEU">Immobilien BremenVergabemanagementTheodor-Heuss-Allee
+            1428215 Bremen
+          </cbc:Description>
+        </cac:OccurenceLocation>
+      </cac:OpenTenderEvent>
+      <cac:AuctionTerms>
+        <cbc:AuctionConstraintIndicator>false</cbc:AuctionConstraintIndicator>
+      </cac:AuctionTerms>
+      <cac:ContractingSystem>
+        <cbc:ContractingSystemTypeCode listName="framework-agreement">none
+        </cbc:ContractingSystemTypeCode>
+      </cac:ContractingSystem>
+      <cac:ContractingSystem>
+        <cbc:ContractingSystemTypeCode listName="dps-usage">none</cbc:ContractingSystemTypeCode>
+      </cac:ContractingSystem>
+    </cac:TenderingProcess>
+    <cac:ProcurementProject>
+      <cbc:ID schemeName="InternalID">0000</cbc:ID>
+      <cbc:Name languageID="DEU">Dachdeckerarbeiten, Universität Bremen, Neubau Zentrum für
+        Tiefseeforschung
+        Referenznummer der Bekanntmachung: V0693/2021
+      </cbc:Name>
+      <cbc:Description languageID="DEU">Dachdecker/Dachklempner</cbc:Description>
+      <cbc:ProcurementTypeCode listName="contract-nature">works</cbc:ProcurementTypeCode>
+      <cac:MainCommodityClassification>
+        <cbc:ItemClassificationCode listName="cpv">45261410</cbc:ItemClassificationCode>
+      </cac:MainCommodityClassification>
+      <cac:RealizedLocation>
+        <cbc:Description languageID="DEU">Bremen</cbc:Description>
+        <cac:Address>
+          <cbc:CountrySubentityCode listName="nuts">DE501</cbc:CountrySubentityCode>
+          <cac:Country>
+            <cbc:IdentificationCode listName="country">DEU</cbc:IdentificationCode>
+          </cac:Country>
+        </cac:Address>
+      </cac:RealizedLocation>
+      <cac:PlannedPeriod>
+        <cbc:StartDate>2022-07-04+02:00</cbc:StartDate>
+        <cbc:EndDate>2023-07-28+02:00</cbc:EndDate>
+      </cac:PlannedPeriod>
+    </cac:ProcurementProject>
+  </cac:ProcurementProjectLot>
+</ContractNotice>

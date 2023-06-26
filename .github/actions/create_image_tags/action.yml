@@ -1,0 +1,85 @@
+name: create_image_tag_names
+description: "Create image tags based on branch name and version"
+
+inputs:
+  debug:
+    description: "Whether to debug the script"
+    required: false
+  release_module_name:
+    description: "Indicator of the release module name"
+    required: true
+
+outputs:
+  tags:
+    description: "Space separated list of image tags"
+    value: ${{steps.dependabot.outputs.tags || steps.create_image_tags.outputs.tags}}
+
+runs:
+  using: "composite"
+
+  steps:
+
+    - name: get ref to check
+      id: get_ref
+      shell: bash
+      run: |
+        refName=
+        if [[ "${{github.head_ref}}" = "" ]]; then
+          refName="${{ github.ref_name }}"
+        else
+          refName="${{ github.head_ref }}"
+        fi
+        echo "refName=${refName}" >> $GITHUB_OUTPUT
+
+    - name: current version
+      id: get_version
+      shell: bash
+      run: |
+
+        if [[ -f ${{ inputs.release_module_name }}/gradle.properties ]]; then
+          version=$(grep -E "version" ${{ inputs.release_module_name }}/gradle.properties | cut -d "=" -f2)
+        elif [[ -f ${{ inputs.release_module_name }}/package.json ]]; then
+          version=$(jq < ${{ inputs.release_module_name }}/package.json .version | tr -d '"')
+        else
+          echo >&2 "Could not gradle.properties or package.json to retrieve version!"
+          exit 1
+        fi
+
+        echo "version=${version}" >> $GITHUB_OUTPUT
+
+    - name: dependabot
+      id: dependabot
+      if: ${{startsWith(steps.get_ref.outputs.refName, 'dependabot')}}
+      shell: bash
+      env:
+        SEMVER: ${{steps.get_version.outputs.version}}
+        BUILD_NUMBER: ${{github.run_number}}
+      run:
+        echo "tags=${{env.SEMVER}}-beta-${{env.BUILD_NUMBER}}" >> $GITHUB_OUTPUT
+
+    - name: create image tags
+      id: create_image_tags
+      if: ${{ ! startsWith(steps.get_ref.outputs.refName, 'dependabot')}}
+      shell: bash
+      env:
+        REF_NAME: ${{steps.get_ref.outputs.refName}}
+        SEMVER: ${{steps.get_version.outputs.version}}
+        BUILD_NUMBER: ${{github.run_number}}
+        DEBUG: ${{inputs.debug}}
+      run: |
+        basename=$(echo "${{github.action_path}}" | xargs -I% basename %)
+        file=$(find "${{github.workspace}}" -type f -name "$basename*" | head -1)
+        if [[ -z "${file}" ]]; then
+          echo "found no file to execute"
+          exit 1
+        fi
+
+        tags=
+        tags=$(bash $file)
+        exit_code="$?"
+
+        echo "tags=${tags}" >> $GITHUB_OUTPUT
+        exit $exit_code
+
+
+

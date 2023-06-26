@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+
+spin()
+{
+  spinner="/|\\-/|\\-"
+  while :
+  do
+    for i in `seq 0 7`
+    do
+      echo -n "${spinner:$i:1}"
+      echo -en "\010"
+      sleep 1
+    done
+  done
+}
+
+# Start the Spinner:
+spin &
+# Make a note of its Process ID (PID):
+SPIN_PID=$!
+# Kill the spinner on any signal, including our own exit.
+trap "kill -9 $SPIN_PID" `seq 0 15`
+
+git status --porcelain  | grep -E ".java" -q
+[[ $(echo $?) -eq 1 ]] && exit 0;
+echo "execute spotlessJavaApply (pre-commit)"
+./gradlew spotlessJavaApply > /dev/null
+echo "done"
+

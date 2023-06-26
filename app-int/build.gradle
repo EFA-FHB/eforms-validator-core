@@ -1,0 +1,106 @@
+plugins {
+    id 'io.quarkus'
+    id 'jacoco'
+    id 'org.sonarqube'
+    id "com.diffplug.spotless" version "6.3.0"
+}
+
+dependencies {
+    implementation project(':core')
+    // Quarkus
+    implementation(platform("${quarkusPlatformGroupId}:${quarkusPlatformArtifactId}:${quarkusPlatformVersion}"))
+    implementation 'io.quarkus:quarkus-arc'
+    implementation 'io.quarkus:quarkus-hibernate-validator'
+    implementation 'io.quarkus:quarkus-resteasy'
+    implementation 'io.quarkus:quarkus-resteasy-jackson'
+    implementation 'io.quarkus:quarkus-resteasy-multipart'
+
+    implementation 'io.quarkus:quarkus-smallrye-openapi'
+    implementation 'io.quarkus:quarkus-smallrye-health'
+    implementation 'io.quarkus:quarkus-logging-json'
+    implementation 'io.quarkus:quarkus-micrometer-registry-prometheus'
+    implementation 'org.json:json:20220924'
+
+    //Start [D603345-542]
+    implementation 'org.apache.commons:commons-collections4:4.4'
+    implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.13.4'
+    //End [D603345-542]
+
+    //Start [D603345-976]     
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.14.0-rc1'
+    //End [D603345-976]
+
+    // Utils
+    implementation 'commons-io:commons-io:2.11.0'
+    implementation 'org.apache.commons:commons-lang3:3.0'
+    compileOnly 'io.swagger:swagger-annotations:1.6.4'
+
+
+    testImplementation 'io.rest-assured:rest-assured'
+    testImplementation 'io.quarkus:quarkus-junit5'
+    testImplementation 'app.getxray:xray-junit-extensions:0.6.1'
+    testImplementation 'io.quarkus:quarkus-junit5-mockito'
+}
+
+test {
+    minHeapSize = "1024m" // initial heap size
+    maxHeapSize = "7168m" // maximum heap size
+}
+
+sonarqube {
+    String sonarHostUrl = System.getenv("SONAR_HOST_URL") ?: property("sonarHostUrl")
+    String sonarLogin = System.getenv("SONAR_TOKEN") ?: property("sonarLogin")
+    String sonarPassword = System.getenv("SONAR_TOKEN") ? "" : property("sonarPassword")
+    properties {
+        property 'sonar.host.url', sonarHostUrl
+        property 'sonar.login', sonarLogin
+        property 'sonar.password', sonarPassword
+        property "sonar.projectKey", "EFA-FHB_gdk-eforms-validator"
+        property "sonar.projectName", "gdk-eforms-validator"
+        property "sonar.organization", "efa-fhb"
+        property 'sonar.inclusions', "**/validator/**"
+    }
+}
+
+test.finalizedBy jacocoTestReport
+
+jacocoTestReport {
+
+    reports {
+        xml.enabled true
+        csv.enabled false
+        html.enabled false
+    }
+
+    getExecutionData().setFrom(fileTree(buildDir).include("jacoco/*.exec"))
+
+    afterEvaluate {
+        classDirectories.setFrom(files(classDirectories.files.collect {
+            fileTree(dir: it, exclude: ["**/build/generated/*"])
+        }))
+    }
+    dependsOn processResources, quarkusGenerateCode, compileJava
+}
+
+tasks.named('sonarqube').configure {
+    dependsOn jacocoTestReport
+}
+
+task xrayTests(type: Test) {
+    useJUnitPlatform {
+        includeTags "xray-test"
+    }
+}
+
+spotless {
+    ratchetFrom 'origin/main'
+    java {
+        importOrder()
+        removeUnusedImports()
+        googleJavaFormat()
+    }
+}
+
+tasks.named('compileJava').configure {
+    dependsOn buildInfo
+}

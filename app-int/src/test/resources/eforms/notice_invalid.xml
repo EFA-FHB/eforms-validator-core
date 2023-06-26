@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ns7:ContractNotice xmlns:ns7="urn:oasis:names:specification:ubl:schema:xsd:ContractNotice-2"
+                    xmlns="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2"
+                    xmlns:ns5="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2">
+    <UBLVersionID>2.3</UBLVersionID>
+    <CustomizationID>eforms-sdk-0.1</CustomizationID>
+    <ID schemeName="notice-id">e0495711-39e7-4612-9f39-7cafb3f22c69</ID>
+    <ContractFolderID>425917d5-0f08-461c-b991-42985f713b1b</ContractFolderID>
+    <VersionID>01</VersionID>
+    <RegulatoryDomain>32014L0024</RegulatoryDomain>
+    <NoticeTypeCode listName="competition">cn-standard</NoticeTypeCode>
+    <NoticeLanguageCode>DEU</NoticeLanguageCode>
+   <!-- <ns5:ContractingParty>
+        <BuyerProfileURI>https://vergabe.bremen.de</BuyerProfileURI>
+        <ns5:ContractingPartyType>
+            <PartyTypeCode listName="buyer-legal-type">ra</PartyTypeCode>
+        </ns5:ContractingPartyType>
+        <ns5:ContractingActivity>
+            <ActivityTypeCode listName="authority-activity">gen-pub</ActivityTypeCode>
+        </ns5:ContractingActivity>
+        <ns5:Party>
+            <ns5:PartyName>
+                <Name>Immobilien Bremen, Anstalt des öffentlichen Rechts</Name>
+            </ns5:PartyName>
+            <ns5:PostalAddress>
+                <StreetName>Theodor-Heuss-Allee 14</StreetName>
+                <AdditionalStreetName />
+                <CityName>Bremen</CityName>
+                <PostalZone>28215</PostalZone>
+                <CountrySubentityCode>DE501</CountrySubentityCode>
+                <ns5:Country>
+                    <IdentificationCode>DEU</IdentificationCode>
+                </ns5:Country>
+            </ns5:PostalAddress>
+            <ns5:Contact>
+                <Telephone />
+                <Telefax />
+                <ElectronicMail>Marcus.Begemann@immobilien.bremen.de</ElectronicMail>
+            </ns5:Contact>
+        </ns5:Party>
+    </ns5:ContractingParty>-->
+    <ns5:TenderingProcess>
+        <ProcedureCode listName="procurement-procedure-type">open</ProcedureCode>
+    </ns5:TenderingProcess>
+    <ns5:ProcurementProject>
+        <ID schemeName="InternalID">V0786/2021</ID>
+        <Name languageID="DEU">Lieferung von Elektroartikeln für Büro und Büroküchen</Name>
+        <Description languageID="DEU">Liefern von Elektroartikeln und Zubehör für Büro und Büroküchen für das Land Bremen inkl. der Stadtgemeinden, sonstige Bezugsberechtigte und Partner
+            von Einkaufskooperationen.</Description>
+        <ns5:RealizedLocation>
+            <ns5:Address>
+                <Description languageID="DEU">Option auf 1 Jahr Verlängerung</Description>
+                <CityName>Bremen und nach Angabe der Bedarfsträger, sowie
+                    diverse Bezugsberechtigte gemäß den "Ergänzenden Vertragsbedingungen
+                    über Bezugsberechtigte aus Rahmenverträgen des Strategischen Einkaufs
+                    im Einkaufs- und Vergabezentrum der Freien Hansestadt Bremen"
+                    (EVB Bezugsberechtigte)</CityName>
+            </ns5:Address>
+        </ns5:RealizedLocation>
+        <ns5:PlannedPeriod>
+            <StartDate>2022-04-01Z</StartDate>
+            <EndDate>2023-03-31Z</EndDate>
+        </ns5:PlannedPeriod>
+    </ns5:ProcurementProject>
+</ns7:ContractNotice>

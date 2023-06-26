@@ -1,0 +1,6 @@
+version: "3.3"
+
+services:
+  sonar:
+    image: sonarqube:lts
+    ports: [ "9000:9000" ]

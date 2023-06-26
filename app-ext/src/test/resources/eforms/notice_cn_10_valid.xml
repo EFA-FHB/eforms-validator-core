@@ -1,0 +1,1607 @@
+<?xml-model href="../../../bremen/eforms-validator/core/src/main/resources/schematron/de/native-validation/1.0.1/eforms-de-validation.sch" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<ContractAwardNotice xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                     xmlns:ext="urn:oasis:names:specification:ubl:schema:xsd:CommonExtensionComponents-2"
+                     xmlns="urn:oasis:names:specification:ubl:schema:xsd:ContractAwardNotice-2"
+                     xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2"
+                     xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2"
+                     xmlns:efac="http://data.europa.eu/p27/eforms-ubl-extension-aggregate-components/1"
+                     xmlns:efbc="http://data.europa.eu/p27/eforms-ubl-extension-basic-components/1"
+                     xmlns:efext="http://data.europa.eu/p27/eforms-ubl-extensions/1">
+  <ext:UBLExtensions>
+    <ext:UBLExtension>
+      <ext:ExtensionContent>
+        <efext:EformsExtension>
+          <!--BT-803(d)-notice "Notice Dispatch Date eSender (date)"-->
+          <efbc:TransmissionDate>2023-04-23+01:00</efbc:TransmissionDate>
+          <!--BT-803(t)-notice "Notice Dispatch Date eSender (time)"-->
+          <efbc:TransmissionTime>21:00:00+01:00</efbc:TransmissionTime>
+          <efac:NoticeResult>
+            <!--BT-161-NoticeResult "Notice Value"-->
+            <cbc:TotalAmount currencyID="EUR">9999999.99</cbc:TotalAmount>
+            <efac:LotResult>
+              <!-- OPT-322-LotResult "LotResult Technical Identifier"-->
+              <cbc:ID schemeName="result">RES-0001</cbc:ID>
+              <!--BT-142-LotResult "Winner Chosen"-->
+              <cbc:TenderResultCode listName="winner-selection-status">selec-w</cbc:TenderResultCode>
+              <!--BT-119-LotResult "Dynamic Purchasing System Termination"-->
+              <efbc:DPSTerminationIndicator>true</efbc:DPSTerminationIndicator>
+              <efac:AppealRequestsStatistics>
+                <!--BT-636-LotResult "Buyer Review Requets Irregularity Type"-->
+                <efbc:StatisticsCode listName="irregularity-type">noex-timl</efbc:StatisticsCode>
+                <!--BT-635-LotResult "Buyer Review Requets Count"-->
+                <efbc:StatisticsNumeric>3</efbc:StatisticsNumeric>
+              </efac:AppealRequestsStatistics>
+              <efac:LotTender>
+                <!-- OPT-320-LotResult "Tender Identifier Reference"-->
+                <cbc:ID schemeName="tender">TEN-0001</cbc:ID>
+              </efac:LotTender>
+              <efac:LotTender>
+                <!-- OPT-320-LotResult "Tender Identifier Reference"-->
+                <cbc:ID schemeName="tender">TEN-0002</cbc:ID>
+              </efac:LotTender>
+              <efac:ReceivedSubmissionsStatistics>
+                <!--BT-760-LotResult "Received Submissions Type"-->
+                <efbc:StatisticsCode listName="received-submission-type">t-oth-eea</efbc:StatisticsCode>
+                <!--BT-759-LotResult" "Received Submissions Count"-->
+                <efbc:StatisticsNumeric>3</efbc:StatisticsNumeric>
+              </efac:ReceivedSubmissionsStatistics>
+              <efac:SettledContract>
+                <!-- OPT-315-LotResult" "Contract Identifier Reference"-->
+                <cbc:ID schemeName="contract">CON-0001</cbc:ID>
+              </efac:SettledContract>
+              <efac:SettledContract>
+                <!-- OPT-315-LotResult" "Contract Identifier Reference"-->
+                <cbc:ID schemeName="contract">CON-0002</cbc:ID>
+              </efac:SettledContract>
+              <efac:StrategicProcurement>
+                <efac:StrategicProcurementInformation>
+                  <!--BT-735-LotResult" "CVD Contract Type"-->
+                  <efbc:ProcurementCategoryCode listName="cvd-contract-type">oth-serv-contr</efbc:ProcurementCategoryCode>
+                  <efac:ProcurementDetails>
+                    <!--BT-723-LotResult" "Vehicle Category"-->
+                    <efbc:AssetCategoryCode listName="vehicle-category">n2-n3</efbc:AssetCategoryCode>
+                    <efac:StrategicProcurementStatistics>
+                      <!-- OPT-155-LotResult "Vehicule Type"-->
+                      <efbc:StatisticsCode listName="vehicles">vehicles</efbc:StatisticsCode>
+                      <!-- OPT-156-LotResult "Vehicule Numeric"-->
+                      <efbc:StatisticsNumeric>45</efbc:StatisticsNumeric>
+                    </efac:StrategicProcurementStatistics>
+                    <efac:StrategicProcurementStatistics>
+                      <!-- OPT-155-LotResult "Vehicule Type"-->
+                      <efbc:StatisticsCode listName="vehicles">vehicles-zero-emission</efbc:StatisticsCode>
+                      <!-- OPT-156-LotResult "Vehicule Numeric"-->
+                      <efbc:StatisticsNumeric>2</efbc:StatisticsNumeric>
+                    </efac:StrategicProcurementStatistics>
+                    <efac:StrategicProcurementStatistics>
+                      <!-- OPT-155-LotResult "Vehicule Type"-->
+                      <efbc:StatisticsCode listName="vehicles">vehicles-clean</efbc:StatisticsCode>
+                      <!-- OPT-156-LotResult "Vehicule Numeric"-->
+                      <efbc:StatisticsNumeric>10</efbc:StatisticsNumeric>
+                    </efac:StrategicProcurementStatistics>
+                  </efac:ProcurementDetails>
+                </efac:StrategicProcurementInformation>
+              </efac:StrategicProcurement>
+              <efac:TenderLot>
+                <!--BT-13713-LotResult "Result Lot Identifier" -->
+                <cbc:ID schemeName="Lot">LOT-0001</cbc:ID>
+              </efac:TenderLot>
+            </efac:LotResult>
+            <efac:LotResult>
+              <!-- OPT-322-LotResult "LotResult Technical Identifier"-->
+              <cbc:ID schemeName="result">RES-0002</cbc:ID>
+              <!--BT-711-LotResult "Tender Value Highest"-->
+              <cbc:HigherTenderAmount currencyID="EUR">9999999.99</cbc:HigherTenderAmount>
+              <!--BT-710-LotResult "Tender Value Lowest"-->
+              <cbc:LowerTenderAmount currencyID="EUR">999999.99</cbc:LowerTenderAmount>
+              <!--BT-142-LotResult "Winner Chosen"-->
+              <cbc:TenderResultCode listName="winner-selection-status">clos-nw</cbc:TenderResultCode>
+              <efac:AppealRequestsStatistics>
+                <!--BT-636-LotResult "Buyer Review Requets Irregularity Type"-->
+                <efbc:StatisticsCode listName="irregularity-type">noex-timl</efbc:StatisticsCode>
+                <!--   BT-635-LotResult" "Buyer Review Requets Count-->
+                <efbc:StatisticsNumeric>3</efbc:StatisticsNumeric>
+              </efac:AppealRequestsStatistics>
+              <efac:DecisionReason>
+                <!--BT-144-LotResult "Not Awarded Reason"-->
+                <efbc:DecisionReasonCode listName="non-award-justification">all-rej</efbc:DecisionReasonCode>
+              </efac:DecisionReason>
+              <efac:LotTender>
+                <!-- OPT-320-LotResult "Tender Identifier Reference"-->
+                <cbc:ID schemeName="tender">TEN-0003</cbc:ID>
+              </efac:LotTender>
+              <efac:TenderLot>
+                <!--BT-13713-LotResult "Result Lot Identifier" -->
+                <cbc:ID schemeName="Lot">LOT-0002</cbc:ID>
+              </efac:TenderLot>
+            </efac:LotResult>
+            <efac:LotTender>
+              <!-- OPT-321-Tender - Tender Technical Identifier -->
+              <cbc:ID schemeName="tender">TEN-0001</cbc:ID>
+              <!--BT-171-Tender "Tender Rank"-->
+              <cbc:RankCode>3</cbc:RankCode>
+              <!--BT-1711-Tender "Tender Ranked"-->
+              <efbc:TenderRankedIndicator>true</efbc:TenderRankedIndicator>
+              <!--BT-193-Tender "Tender Variant",-->
+              <efbc:TenderVariantIndicator>true</efbc:TenderVariantIndicator>
+              <cac:LegalMonetaryTotal>
+                <!--BT-720-Tender "Tender Value"-->
+                <cbc:PayableAmount currencyID="EUR">9999999.99</cbc:PayableAmount>
+              </cac:LegalMonetaryTotal>
+              <efac:SubcontractingTerm>
+                <!--BT-553-Tender "Subcontracting Value"-->
+                <efbc:TermAmount currencyID="EUR">9999999.99</efbc:TermAmount>
+                <!--BT-554-Tender "Subcontracting Description"-->
+                <efbc:TermDescription languageID="ENG">Subcontracting Description ---</efbc:TermDescription>
+                <!-- BT-555-Tender "Subcontracting Percentage"-->
+                <efbc:TermPercent>30</efbc:TermPercent>
+                <!--BT-773-Tender "Subcontracting"-->
+                <efbc:TermCode listName="applicability">yes</efbc:TermCode>
+                <!--BT-731-Tender "Subcontracting Percentage Known",-->
+                <efbc:PercentageKnownIndicator>true</efbc:PercentageKnownIndicator>
+                <!--BT-730-Tender "Subcontracting Value Known",-->
+                <efbc:ValueKnownIndicator>true</efbc:ValueKnownIndicator>
+              </efac:SubcontractingTerm>
+              <efac:TenderingParty>
+                <!-- OPT-310-Tender - Tendering Party ID Reference -->
+                <cbc:ID schemeName="tendering-party">TPA-0001</cbc:ID>
+              </efac:TenderingParty>
+              <efac:TenderLot>
+                <!--BT-13714-Tender "Tender Lot Identifier -->
+                <cbc:ID>LOT-0001</cbc:ID>
+              </efac:TenderLot>
+              <efac:TenderReference>
+                <!--BT-3201-Tender "Tender Identifier", -->
+                <cbc:ID>REF DEF-001/02</cbc:ID>
+              </efac:TenderReference>
+            </efac:LotTender>
+            <efac:LotTender>
+              <!-- OPT-321-Tender - Tender Technical Identifier -->
+              <cbc:ID schemeName="tender">TEN-0002</cbc:ID>
+              <!--BT-171-Tender "Tender Rank"-->
+              <cbc:RankCode>4</cbc:RankCode>
+              <!--BT-1711-Tender "Tender Ranked"-->
+              <efbc:TenderRankedIndicator>true</efbc:TenderRankedIndicator>
+              <!--BT-193-Tender "Tender Variant",-->
+              <efbc:TenderVariantIndicator>true</efbc:TenderVariantIndicator>
+              <cac:LegalMonetaryTotal>
+                <!--BT-720-Tender "Tender Value"-->
+                <cbc:PayableAmount currencyID="EUR">9999999.99</cbc:PayableAmount>
+              </cac:LegalMonetaryTotal>
+              <efac:SubcontractingTerm>
+                <!--BT-553-Tender "Subcontracting Value"-->
+                <efbc:TermAmount currencyID="EUR">9999999.99</efbc:TermAmount>
+                <!--BT-554-Tender "Subcontracting Description"-->
+                <efbc:TermDescription languageID="ENG">Subcontracting Description ---</efbc:TermDescription>
+                <!-- BT-555-Tender "Subcontracting Percentage"-->
+                <efbc:TermPercent>30</efbc:TermPercent>
+                <!--BT-773-Tender "Subcontracting"-->
+                <efbc:TermCode listName="applicability">yes</efbc:TermCode>
+                <!--BT-731-Tender "Subcontracting Percentage Known",-->
+                <efbc:PercentageKnownIndicator>true</efbc:PercentageKnownIndicator>
+                <!--BT-730-Tender "Subcontracting Value Known",-->
+                <efbc:ValueKnownIndicator>true</efbc:ValueKnownIndicator>
+              </efac:SubcontractingTerm>
+              <efac:TenderingParty>
+                <!-- OPT-310-Tender - Tendering Party ID Reference -->
+                <cbc:ID schemeName="tendering-party">TPA-0002</cbc:ID>
+              </efac:TenderingParty>
+              <efac:TenderLot>
+                <!--BT-13714-Tender "Tender Lot Identifier -->
+                <cbc:ID schemeName="Lot">LOT-0001</cbc:ID>
+              </efac:TenderLot>
+              <efac:TenderReference>
+                <!--BT-3201-Tender "Tender Identifier", -->
+                <cbc:ID>REF GHI/0003-01</cbc:ID>
+              </efac:TenderReference>
+            </efac:LotTender>
+            <efac:LotTender>
+              <!-- OPT-321-Tender - Tender Technical Identifier -->
+              <cbc:ID schemeName="tender">TEN-0003</cbc:ID>
+              <efac:SubcontractingTerm>
+                <!--BT-553-Tender "Subcontracting Value"-->
+                <efbc:TermAmount currencyID="EUR">99999999.99</efbc:TermAmount>
+                <!--BT-554-Tender "Subcontracting Description"-->
+                <efbc:TermDescription languageID="ENG">Subcontracting Description ---</efbc:TermDescription>
+                <!-- BT-555-Tender "Subcontracting Percentage"-->
+                <efbc:TermPercent>30</efbc:TermPercent>
+                <!--BT-773-Tender "Subcontracting"-->
+                <efbc:TermCode listName="applicability">yes</efbc:TermCode>
+                <!--BT-731-Tender "Subcontracting Percentage Known",-->
+                <efbc:PercentageKnownIndicator>true</efbc:PercentageKnownIndicator>
+                <!--BT-730-Tender "Subcontracting Value Known",-->
+                <efbc:ValueKnownIndicator>true</efbc:ValueKnownIndicator>
+              </efac:SubcontractingTerm>
+              <efac:TenderingParty>
+                <!-- OPT-310-Tender - Tendering Party ID Reference -->
+                <cbc:ID schemeName="tendering-party">TPA-0002</cbc:ID>
+              </efac:TenderingParty>
+              <efac:TenderLot>
+                <!--BT-13714-Tender "Tender Lot Identifier -->
+                <cbc:ID schemeName="Lot">LOT-0002</cbc:ID>
+              </efac:TenderLot>
+              <efac:TenderReference>
+                <!--BT-3201-Tender "Tender Identifier", -->
+                <cbc:ID>REF JKL/0003-01</cbc:ID>
+              </efac:TenderReference>
+            </efac:LotTender>
+            <efac:SettledContract>
+              <!--OPT-316-Contract "Contract Technical Identifier"-->
+              <cbc:ID schemeName="contract">CON-0001</cbc:ID>
+              <!--BT-1451-Contract "Winner Decision Date"-->
+              <cbc:AwardDate>2023-03-23+02:00</cbc:AwardDate>
+              <!--BT-145-Contract "Contract Conclusion Date"-->
+              <cbc:IssueDate>2023-03-24+02:00</cbc:IssueDate>
+              <!--BT-721-Contract "Contract Title"-->
+              <cbc:Title languageID="ENG">This is the title of the contract ---</cbc:Title>
+              <cac:SignatoryParty>
+                <cac:PartyIdentification>
+                  <!--  OPT-300-Contract-Signatory "Signatory Identifier Reference" -->
+                  <cbc:ID schemeName="organization">ORG-0001</cbc:ID>
+                </cac:PartyIdentification>
+              </cac:SignatoryParty>
+              <efac:ContractReference>
+                <!--BT-150-Contract "Contract Identifier",-->
+                <cbc:ID>REF RST-678</cbc:ID>
+              </efac:ContractReference>
+              <efac:LotTender>
+                <!-- BT-3202-Contract "Contract Tender ID (Reference) -->
+                <cbc:ID schemeName="tender">TEN-0001</cbc:ID>
+              </efac:LotTender>
+              <efac:Funding>
+                <!-- BT-5011-Contract "Contract EU Funds Financing Identifier"-->
+                <efbc:FinancingIdentifier>2021/1234</efbc:FinancingIdentifier>
+                <!--BT-722-Contract "Contract EU Funds Programme"-->
+                <cbc:FundingProgramCode listName="eu-funded">LIFE_2021</cbc:FundingProgramCode>
+                <!--BT-6110-Contract "Contract EU Funds Details"-->
+                <cbc:Description languageID="ENG">Recovery Fund</cbc:Description>
+              </efac:Funding>
+            </efac:SettledContract>
+            <efac:SettledContract>
+              <!--OPT-316-Contract "Contract Technical Identifier"-->
+              <cbc:ID schemeName="contract">CON-0002</cbc:ID>
+              <!--BT-1451-Contract "Winner Decision Date"-->
+              <cbc:AwardDate>2023-03-23+02:00</cbc:AwardDate>
+              <!--BT-145-Contract "Contract Conclusion Date"-->
+              <cbc:IssueDate>2023-03-24+02:00</cbc:IssueDate>
+              <!--BT-721-Contract "Contract Title"-->
+              <cbc:Title languageID="ENG">Title of second contract ---</cbc:Title>
+              <cac:SignatoryParty>
+                <cac:PartyIdentification>
+                  <!--OPT-300-Contract-Signatory "Signatory Identifier Reference" -->
+                  <cbc:ID schemeName="organization">ORG-0001</cbc:ID>
+                </cac:PartyIdentification>
+              </cac:SignatoryParty>
+              <efac:ContractReference>
+                <!--BT-150-Contract "Contract Identifier",-->
+                <cbc:ID>KLM FGH/912</cbc:ID>
+              </efac:ContractReference>
+              <efac:LotTender>
+                <!-- BT-3202-Contract "Contract Tender ID (Reference) -->
+                <cbc:ID schemeName="tender">TEN-0002</cbc:ID>
+              </efac:LotTender>
+              <efac:Funding>
+                <!-- BT-5011-Contract "Contract EU Funds Financing Identifier"-->
+                <efbc:FinancingIdentifier>2021/5678</efbc:FinancingIdentifier>
+                <!--BT-722-Contract "Contract EU Funds Programme"-->
+                <cbc:FundingProgramCode listName="eu-funded">LIFE_2021</cbc:FundingProgramCode>
+                <!--BT-6110-Contract "Contract EU Funds Details"-->
+                <cbc:Description languageID="ENG">Recovery Fund</cbc:Description>
+              </efac:Funding>
+            </efac:SettledContract>
+            <efac:TenderingParty>
+              <!-- OPT-210-Tenderer "Tendering Party ID -->
+              <cbc:ID schemeName="tendering-party">TPA-0001</cbc:ID>
+              <efac:Tenderer>
+                <!-- OPT-300-Tenderer "Tenderer ID Reference "-->
+                <cbc:ID schemeName="organization">ORG-0008</cbc:ID>
+                <!-- OPT-170-Tenderer "Tendering Party Leader "-->
+                <efbc:GroupLeadIndicator>true</efbc:GroupLeadIndicator>
+              </efac:Tenderer>
+              <efac:Tenderer>
+                <!-- OPT-300-Tenderer "Tenderer ID Reference "-->
+                <cbc:ID schemeName="organization">ORG-0009</cbc:ID>
+                <!-- OPT-170-Tenderer "Tendering Party Leader "-->
+                <efbc:GroupLeadIndicator>false</efbc:GroupLeadIndicator>
+              </efac:Tenderer>
+              <efac:SubContractor>
+                <!-- OPT-301-Tenderer-SubCont "Subcontractor ID Reference"-->
+                <cbc:ID schemeName="organization">ORG-0010</cbc:ID>
+                <efac:MainContractor>
+                  <!-- OPT-301-Tenderer-MainCont "Main Contractor ID Reference"-->
+                  <cbc:ID schemeName="organization">ORG-0008</cbc:ID>
+                </efac:MainContractor>
+                <efac:MainContractor>
+                  <!-- OPT-301-Tenderer-MainCont "Main Contractor ID Reference"-->
+                  <cbc:ID schemeName="organization">ORG-0009</cbc:ID>
+                </efac:MainContractor>
+              </efac:SubContractor>
+            </efac:TenderingParty>
+            <efac:TenderingParty>
+              <!-- OPT-210-Tenderer "Tendering Party ID -->
+              <cbc:ID schemeName="tendering-party">TPA-0002</cbc:ID>
+              <efac:Tenderer>
+                <!-- OPT-300-Tenderer "Tenderer ID Reference "-->
+                <cbc:ID schemeName="organization">ORG-0011</cbc:ID>
+              </efac:Tenderer>
+            </efac:TenderingParty>
+          </efac:NoticeResult>
+          <efac:NoticeSubType>
+            <cbc:SubTypeCode listName="notice-subtype">29</cbc:SubTypeCode>
+          </efac:NoticeSubType>
+          <efac:Organizations>
+            <efac:Organization>
+              <efac:Company>
+                <!-- BT-505-Organization-Company "Organisation Internet Address"-->
+                <cbc:WebsiteURI>https://www.fin-adm.com</cbc:WebsiteURI>
+                <cac:PartyIdentification>
+                  <!--OPT-200-Organization-Company "Company Technical Identifier"-->
+                  <cbc:ID schemeName="organization">ORG-0001</cbc:ID>
+                </cac:PartyIdentification>
+                <!--BT-500-Organization-Company "Organisation Name"-->
+                <cac:PartyName>
+                  <cbc:Name languageID="ENG">Financial Adinistration for ...</cbc:Name>
+                </cac:PartyName>
+                <cac:PostalAddress>
+                  <!--BT-510-->
+                  <cbc:StreetName>Bruce Wayne House</cbc:StreetName>
+                  <!--BT-513-->
+                  <cbc:CityName>London</cbc:CityName>
+                  <!--BT-512-->
+                  <cbc:PostalZone>N1 9FL</cbc:PostalZone>
+                  <!--BT-507-->
+                  <cbc:CountrySubentityCode listName="nuts">UKI62</cbc:CountrySubentityCode>
+                  <!--BT-514-->
+                  <cac:Country>
+                    <cbc:IdentificationCode listName="country">GBR</cbc:IdentificationCode>
+                  </cac:Country>
+                </cac:PostalAddress>
+                <cac:PartyLegalEntity>
+                  <!--BT-501-Organization-Company "Organisation Identifier"-->
+                  <cbc:CompanyID>998298</cbc:CompanyID>
+                </cac:PartyLegalEntity>
+                <cac:Contact>
+                  <!--BT-502-Organization-Company "Organisation Contact Point"-->
+                  <cbc:Name>Info desk</cbc:Name>
+                  <!--BT-503-Organization-Company "Organisation Contact Telephone Number"-->
+                  <cbc:Telephone>+44 123456780</cbc:Telephone>
+                  <!--BT-739-Organization-Company "Organisation Contact Fax"-->
+                  <cbc:Telefax>+44 123456789</cbc:Telefax>
+                  <!--BT-506-Organization-Company "Organisation Contact Email Address"-->
+                  <cbc:ElectronicMail>info@fin-adm.com</cbc:ElectronicMail>
+                </cac:Contact>
+              </efac:Company>
+              <efac:TouchPoint>
+                <cbc:WebsiteURI>https://www.fin-adm.com</cbc:WebsiteURI>
+                <cac:PartyIdentification>
+                  <cbc:ID schemeName="touchpoint">TPO-0001</cbc:ID>
+                </cac:PartyIdentification>
+                <cac:PartyName>
+                  <cbc:Name languageID="ENG">Procurement Department</cbc:Name>
+                </cac:PartyName>
+                <cac:PostalAddress>
+                  <!--BT-510-->
+                  <cbc:StreetName>Bruce Wayne House</cbc:StreetName>
+                  <cbc:AdditionalStreetName>2 Gotham Street</cbc:AdditionalStreetName>
+                  <!--BT-16-->
+                  <cbc:Department>Procurement Dpt</cbc:Department>
+                  <!--BT-513-->
+                  <cbc:CityName>London</cbc:CityName>
+                  <!--BT-512-->
+                  <cbc:PostalZone>N1 9FL</cbc:PostalZone>
+                  <!--BT-507-->
+                  <cbc:CountrySubentityCode listName="nuts">UKI62</cbc:CountrySubentityCode>
+                  <!--BT-514-->
+                  <cac:Country>
+                    <cbc:IdentificationCode listName="country">GBR</cbc:IdentificationCode>
+                  </cac:Country>
+                </cac:PostalAddress>
+                <cac:Contact>
+                  <cbc:Name>Head of Procurement Department</cbc:Name>
+                  <cbc:Telephone>+123 45678</cbc:Telephone>
+                  <cbc:Telefax>+123 456789</cbc:Telefax>
+                  <cbc:ElectronicMail>proc-info@fin-adm.com</cbc:ElectronicMail>
+                </cac:Contact>
+              </efac:TouchPoint>
+              <efac:TouchPoint>
+                <cbc:WebsiteURI>https://www.fin-adm.com</cbc:WebsiteURI>
+                <cac:PartyIdentification>
+                  <cbc:ID schemeName="touchpoint">TPO-0002</cbc:ID>
+                </cac:PartyIdentification>
+                <cac:PartyName>
+                  <cbc:Name languageID="ENG">Fin Adm Archives</cbc:Name>
+                </cac:PartyName>
+                <cac:PostalAddress>
+                  <!--BT-510-->
+                  <cbc:StreetName>Bruce Wayne House</cbc:StreetName>
+                  <cbc:AdditionalStreetName>2 Gotham Street</cbc:AdditionalStreetName>
+                  <!--BT-16-->
+                  <cbc:Department>Fin Adm Archives Dpt</cbc:Department>
+                  <!--BT-513-->
+                  <cbc:CityName>London</cbc:CityName>
+                  <!--BT-512-->
+                  <cbc:PostalZone>N1 9FL</cbc:PostalZone>
+                  <!--BT-507-->
+                  <cbc:CountrySubentityCode listName="nuts">UKI62</cbc:CountrySubentityCode>
+                  <!--BT-514-->
+                  <cac:Country>
+                    <cbc:IdentificationCode listName="country">GBR</cbc:IdentificationCode>
+                  </cac:Country>
+                </cac:PostalAddress>
+                <cac:Contact>
+                  <!--BT-502-->
+                  <cbc:Name>Proc Archives Dpt Lead</cbc:Name>
+                  <!--BT-503-->
+                  <cbc:Telephone>+44 123456776</cbc:Telephone>
+                  <!--BT-739-->
+                  <cbc:Telefax>+44 1234567769</cbc:Telefax>
+                  <!--BT-506-->
+                  <cbc:ElectronicMail>proc-archi@fin-adm.com</cbc:ElectronicMail>
+                </cac:Contact>
+              </efac:TouchPoint>
+            </efac:Organization>
+            <efac:Organization>
+              <efac:Company>
+                <!--BT-505-->
+                <cbc:WebsiteURI>https://www.fin-leg.com</cbc:WebsiteURI>
+                <cac:PartyIdentification>
+                  <!--OPT-200-->
+                  <cbc:ID schemeName="organization">ORG-0002</cbc:ID>
+                </cac:PartyIdentification>
+                <cac:PartyName>
+                  <!--BT-500-->
+                  <cbc:Name languageID="ENG">TaxInfo Department</cbc:Name>
+                </cac:PartyName>
+                <cac:PostalAddress>
+                  <!--BT-510-->
+                  <cbc:StreetName>6 Main Street</cbc:StreetName>
+                  <!--BT-513-->
+                  <cbc:CityName>London</cbc:CityName>
+                  <!--BT-512-->
+                  <cbc:PostalZone>N1 9FL</cbc:PostalZone>
+                  <!--BT-507-->
+                  <cbc:CountrySubentityCode listName="nuts">UKI62</cbc:CountrySubentityCode>
+                  <cac:Country>
+                    <!--BT-514-->
+                    <cbc:IdentificationCode listName="country">GBR</cbc:IdentificationCode>
+                  </cac:Country>
+                </cac:PostalAddress>
+                <cac:PartyLegalEntity>
+                  <!--BT-501-->
+                  <cbc:CompanyID>12345</cbc:CompanyID>
+                </cac:PartyLegalEntity>
+                <cac:Contact>
+                  <!--BT-502-->
+                  <cbc:Name languageID="ENG">Info desk</cbc:Name>
+                  <!--BT-503-->
+                  <cbc:Telephone>+44 123456780</cbc:Telephone>
+                  <!--BT-739-->
+                  <cbc:Telefax>+44 123456789</cbc:Telefax>
+                  <!--BT-506-->
+                  <cbc:ElectronicMail>info@example.com</cbc:ElectronicMail>
+                </cac:Contact>
+              </efac:Company>
+            </efac:Organization>
+            <efac:Organization>
+              <efac:Company>
+                <!--BT-505-->
+                <cbc:WebsiteURI>https://www.env-dpt.com</cbc:WebsiteURI>
+                <cac:PartyIdentification>
+                  <!--OPT-200-->
+                  <cbc:ID schemeName="organization">ORG-0003</cbc:ID>
+                </cac:PartyIdentification>
+                <cac:PartyName>
+                  <!--BT-500-->
+                  <cbc:Name languageID="ENG">EnvironmentalInfo Dpt</cbc:Name>
+                </cac:PartyName>
+                <cac:PostalAddress>
+                  <!--BT-510-->
+                  <cbc:StreetName>23 Nelson Square</cbc:StreetName>
+                  <!--BT-16-->
+                  <cbc:Department>Environment Information department</cbc:Department>
+                  <!--BT-513-->
+                  <cbc:CityName>London</cbc:CityName>
+                  <!--BT-512-->
+                  <cbc:PostalZone>N1 9FL</cbc:PostalZone>
+                  <!--BT-507-->
+                  <cbc:CountrySubentityCode listName="nuts">UKI62</cbc:CountrySubentityCode>
+                  <cac:Country>
+                    <!--BT-514-->
+                    <cbc:IdentificationCode listName="country">GBR</cbc:IdentificationCode>
+                  </cac:Country>
+                </cac:PostalAddress>
+                <cac:PartyLegalEntity>
+                  <!--BT-501-->
+                  <cbc:CompanyID>7812345</cbc:CompanyID>
+                </cac:PartyLegalEntity>
+                <cac:Contact>
+                  <!--BT-502-->
+                  <cbc:Name languageID="ENG">Info desk</cbc:Name>
+                  <!--BT-503-->
+                  <cbc:Telephone>+44 123456780</cbc:Telephone>
+                  <!--BT-739-->
+                  <cbc:Telefax>+44 123456789</cbc:Telefax>
+                  <!--BT-506-->
+                  <cbc:ElectronicMail>info@env-dpt.com</cbc:ElectronicMail>
+                </cac:Contact>
+              </efac:Company>
+            </efac:Organization>
+            <efac:Organization>
+              <!--BT-633-->
+              <efac:Company>
+                <!--BT-505-->
+                <cbc:WebsiteURI>https://www.employment-legis.com</cbc:WebsiteURI>
+                <cac:PartyIdentification>
+                  <!--OPT-200-->
+                  <cbc:ID schemeName="organization">ORG-0004</cbc:ID>
+                </cac:PartyIdentification>
+                <cac:PartyName>
+                  <!--BT-500-->
+                  <cbc:Name languageID="ENG">EmploymentInfo Division</cbc:Name>
+                </cac:PartyName>
+                <cac:PostalAddress>
+                  <!--BT-510-->
+                  <cbc:StreetName>162 Broad Street</cbc:StreetName>
+                  <cbc:AdditionalStreetName>2nd floor</cbc:AdditionalStreetName>
+                  <!--BT-16-->
+                  <cbc:Department>ABC Unit</cbc:Department>
+                  <!--BT-513-->
+                  <cbc:CityName>London</cbc:CityName>
+                  <!--BT-512-->
+                  <cbc:PostalZone>N1 9FL</cbc:PostalZone>
+                  <!--BT-507-->
+                  <cbc:CountrySubentityCode listName="nuts">UKI62</cbc:CountrySubentityCode>
+                  <cac:Country>
+                    <!--BT-514-->
+                    <cbc:IdentificationCode listName="country">GBR</cbc:IdentificationCode>
+                  </cac:Country>
+                </cac:PostalAddress>
+                <cac:PartyLegalEntity>
+                  <!--BT-501-->
+                  <cbc:CompanyID>99283</cbc:CompanyID>
+                </cac:PartyLegalEntity>
+                <cac:Contact>
+                  <!--BT-502-->
+                  <cbc:Name languageID="ENG">Info desk</cbc:Name>
+                  <!--BT-503-->
+                  <cbc:Telephone>+44 123456780</cbc:Telephone>
+                  <!--BT-739-->
+                  <cbc:Telefax>+44 123456789</cbc:Telefax>
+                  <!--BT-506-->
+                  <cbc:ElectronicMail>info@example.com</cbc:ElectronicMail>
+                </cac:Contact>
+              </efac:Company>
+            </efac:Organization>
+            <efac:Organization>
+              <efac:Company>
+                <!--BT-505-->
+                <cbc:WebsiteURI>https://www.appeal-adm-proc.com</cbc:WebsiteURI>
+                <cac:PartyIdentification>
+                  <!--OPT-200-->
+                  <cbc:ID schemeName="organization">ORG-0005</cbc:ID>
+                </cac:PartyIdentification>
+                <cac:PartyName>
+                  <!--BT-500-->
+                  <cbc:Name languageID="ENG">Pub Proc Appeal Adm</cbc:Name>
+                </cac:PartyName>
+                <cac:PostalAddress>
+                  <!--BT-510-->
+                  <cbc:StreetName>87 Big Avenue</cbc:StreetName>
+                  <!--BT-16-->
+                  <cbc:Department>Reviews and Complains</cbc:Department>
+                  <!--BT-513-->
+                  <cbc:CityName>London</cbc:CityName>
+                  <!--BT-512-->
+                  <cbc:PostalZone>N1 9FL</cbc:PostalZone>
+                  <!--BT-507-->
+                  <cbc:CountrySubentityCode listName="nuts">UKI62</cbc:CountrySubentityCode>
+                  <cac:Country>
+                    <!--BT-514-->
+                    <cbc:IdentificationCode listName="country">GBR</cbc:IdentificationCode>
+                  </cac:Country>
+                </cac:PostalAddress>
+                <cac:PartyLegalEntity>
+                  <!--BT-501-->
+                  <cbc:CompanyID>0986543</cbc:CompanyID>
+                </cac:PartyLegalEntity>
+                <cac:Contact>
+                  <!--BT-502-->
+                  <cbc:Name languageID="ENG">A and R Department</cbc:Name>
+                  <!--BT-503-->
+                  <cbc:Telephone>+44 899375</cbc:Telephone>
+                  <!--BT-739-->
+                  <cbc:Telefax>+44 9928736</cbc:Telefax>
+                  <!--BT-506-->
+                  <cbc:ElectronicMail>info@appeal-adm-proc.com</cbc:ElectronicMail>
+                </cac:Contact>
+              </efac:Company>
+            </efac:Organization>
+            <efac:Organization>
+              <!--BT-633-->
+              <efac:Company>
+                <!--BT-505-->
+                <cbc:WebsiteURI>https://www.pub-mediator.com</cbc:WebsiteURI>
+                <cac:PartyIdentification>
+                  <!--OPT-200-->
+                  <cbc:ID schemeName="organization">ORG-0006</cbc:ID>
+                </cac:PartyIdentification>
+                <cac:PartyName>
+                  <!--BT-500-->
+                  <cbc:Name languageID="ENG">The Public Mediator</cbc:Name>
+                </cac:PartyName>
+                <cac:PostalAddress>
+                  <!--BT-510-->
+                  <cbc:StreetName>85 Norwish Road</cbc:StreetName>
+                  <!--BT-16-->
+                  <cbc:Department>Public Procurement</cbc:Department>
+                  <!--BT-513-->
+                  <cbc:CityName>London</cbc:CityName>
+                  <!--BT-512-->
+                  <cbc:PostalZone>N1 9FL</cbc:PostalZone>
+                  <!--BT-507-->
+                  <cbc:CountrySubentityCode listName="nuts">UKI62</cbc:CountrySubentityCode>
+                  <cac:Country>
+                    <!--BT-514-->
+                    <cbc:IdentificationCode listName="country">GBR</cbc:IdentificationCode>
+                  </cac:Country>
+                </cac:PostalAddress>
+                <cac:PartyLegalEntity>
+                  <!--BT-501-->
+                  <cbc:CompanyID>09812345</cbc:CompanyID>
+                </cac:PartyLegalEntity>
+                <cac:Contact>
+                  <!--BT-502-->
+                  <cbc:Name languageID="ENG">Info desk</cbc:Name>
+                  <!--BT-503-->
+                  <cbc:Telephone>+44 123456345678</cbc:Telephone>
+                  <!--BT-739-->
+                  <cbc:Telefax>+44 098765432</cbc:Telefax>
+                  <!--BT-506-->
+                  <cbc:ElectronicMail>info@pub-mediator.com</cbc:ElectronicMail>
+                </cac:Contact>
+              </efac:Company>
+            </efac:Organization>
+            <efac:Organization>
+              <efac:Company>
+                <cbc:WebsiteURI>https://esendercorp.eu</cbc:WebsiteURI>
+                <cac:PartyIdentification>
+                  <cbc:ID schemeName="organization">ORG-0007</cbc:ID>
+                </cac:PartyIdentification>
+                <cac:PartyName>
+                  <cbc:Name languageID="ENG">eSendCorp</cbc:Name>
+                </cac:PartyName>
+                <cac:PostalAddress>
+                  <cbc:CityName>Luxembourg</cbc:CityName>
+                  <cbc:PostalZone>2985</cbc:PostalZone>
+                  <cbc:CountrySubentityCode listName="nuts">LU000</cbc:CountrySubentityCode>
+                  <cac:Country>
+                    <cbc:IdentificationCode listName="country">LUX</cbc:IdentificationCode>
+                  </cac:Country>
+                </cac:PostalAddress>
+                <cac:PartyLegalEntity>
+                  <cbc:CompanyID>111 222 333</cbc:CompanyID>
+                </cac:PartyLegalEntity>
+                <cac:Contact>
+                  <cbc:Telephone>+352 123456789</cbc:Telephone>
+                  <cbc:Telefax>+352 1234567899</cbc:Telefax>
+                  <cbc:ElectronicMail>esender@esendcorp.lu</cbc:ElectronicMail>
+                </cac:Contact>
+              </efac:Company>
+            </efac:Organization>
+            <efac:Organization>
+              <!--BT-746-->
+              <efbc:ListedOnRegulatedMarketIndicator>false</efbc:ListedOnRegulatedMarketIndicator>
+              <!--BT-633 Organization Natural Person-->
+              <efbc:NaturalPersonIndicator>false</efbc:NaturalPersonIndicator>
+              <efac:UltimateBeneficialOwner>
+                <cbc:ID schemeName="ubo">UBO-0001</cbc:ID>
+              </efac:UltimateBeneficialOwner>
+              <efac:Company>
+                <!--BT-505-->
+                <cbc:WebsiteURI>https://www.gyro-soft.com</cbc:WebsiteURI>
+                <!--BT-165-->
+                <efbc:CompanySizeCode listName="economic-operator-size">large</efbc:CompanySizeCode>
+                <cac:PartyIdentification>
+                  <cbc:ID schemeName="organization">ORG-0008</cbc:ID>
+                </cac:PartyIdentification>
+                <cac:PartyName>
+                  <!--BT-500-->
+                  <cbc:Name languageID="ENG">Gyro Soft SA</cbc:Name>
+                </cac:PartyName>
+                <cac:PostalAddress>
+                  <!--BT-510-->
+                  <cbc:StreetName>4 rue du Bug</cbc:StreetName>
+                  <cbc:AdditionalStreetName>immeubke A</cbc:AdditionalStreetName>
+                  <!--BT-16-->
+                  <cbc:Department>Contrats</cbc:Department>
+                  <!--BT-513-->
+                  <cbc:CityName>Luxembourg</cbc:CityName>
+                  <!--BT-512-->
+                  <cbc:PostalZone>8754</cbc:PostalZone>
+                  <!--BT-507-->
+                  <cbc:CountrySubentityCode listName="nuts">LU000</cbc:CountrySubentityCode>
+                  <cac:Country>
+                    <!--BT-514-->
+                    <cbc:IdentificationCode listName="country">LUX</cbc:IdentificationCode>
+                  </cac:Country>
+                </cac:PostalAddress>
+                <cac:PartyLegalEntity>
+                  <!--BT-501-->
+                  <cbc:CompanyID>927384203</cbc:CompanyID>
+                </cac:PartyLegalEntity>
+                <cac:Contact>
+                  <!--BT-502-->
+                  <cbc:Name>Service Presse and Communication</cbc:Name>
+                  <!--BT-503-->
+                  <cbc:Telephone>+352 123456780</cbc:Telephone>
+                  <!--BT-739-->
+                  <cbc:Telefax>+352 123456789</cbc:Telefax>
+                  <!--BT-506-->
+                  <cbc:ElectronicMail>info@gyro-soft.com</cbc:ElectronicMail>
+                </cac:Contact>
+              </efac:Company>
+            </efac:Organization>
+            <efac:Organization>
+              <!--BT-746-->
+              <efbc:ListedOnRegulatedMarketIndicator>false</efbc:ListedOnRegulatedMarketIndicator>
+              <!--BT-633 Organization Natural Person-->
+              <efbc:NaturalPersonIndicator>true</efbc:NaturalPersonIndicator>
+              <efac:Company>
+                <!--BT-505-->
+                <cbc:WebsiteURI>https://www.the-best-app.com</cbc:WebsiteURI>
+                <!--BT-165-->
+                <efbc:CompanySizeCode listName="economic-operator-size">micro</efbc:CompanySizeCode>
+                <cac:PartyIdentification>
+                  <cbc:ID schemeName="organization">ORG-0009</cbc:ID>
+                </cac:PartyIdentification>
+                <cac:PartyName>
+                  <!--BT-500-->
+                  <cbc:Name languageID="ENG">The best App Ltd.</cbc:Name>
+                </cac:PartyName>
+                <cac:PostalAddress>
+                  <!--BT-510-->
+                  <cbc:StreetName>3A smart avenue</cbc:StreetName>
+                  <!--BT-16-->
+                  <cbc:Department>Innovation division</cbc:Department>
+                  <!--BT-513-->
+                  <cbc:CityName>Frankfurt</cbc:CityName>
+                  <!--BT-512-->
+                  <cbc:PostalZone>73846</cbc:PostalZone>
+                  <!--BT-507-->
+                  <cbc:CountrySubentityCode listName="nuts">DE712</cbc:CountrySubentityCode>
+                  <cac:Country>
+                    <!--BT-514-->
+                    <cbc:IdentificationCode listName="country">DEU</cbc:IdentificationCode>
+                  </cac:Country>
+                </cac:PostalAddress>
+                <cac:PartyLegalEntity>
+                  <!--BT-501-->
+                  <cbc:CompanyID>928374653</cbc:CompanyID>
+                </cac:PartyLegalEntity>
+                <cac:Contact>
+                  <!--BT-502-->
+                  <cbc:Name>Contact</cbc:Name>
+                  <!--BT-503-->
+                  <cbc:Telephone>+49 123456780</cbc:Telephone>
+                  <!--BT-739-->
+                  <cbc:Telefax>+49 123456789</cbc:Telefax>
+                  <!--BT-506-->
+                  <cbc:ElectronicMail>info@the-best-app.com</cbc:ElectronicMail>
+                </cac:Contact>
+              </efac:Company>
+            </efac:Organization>
+            <efac:Organization>
+              <!--BT-746-->
+              <efbc:ListedOnRegulatedMarketIndicator>false</efbc:ListedOnRegulatedMarketIndicator>
+              <!--BT-633 Organization Natural Person-->
+              <efbc:NaturalPersonIndicator>false</efbc:NaturalPersonIndicator>
+              <efac:UltimateBeneficialOwner>
+                <cbc:ID schemeName="ubo">UBO-0003</cbc:ID>
+              </efac:UltimateBeneficialOwner>
+              <efac:Company>
+                <!--BT-505-->
+                <cbc:WebsiteURI>https://www.ayuda.com</cbc:WebsiteURI>
+                <!--BT-165-->
+                <efbc:CompanySizeCode listName="economic-operator-size">medium</efbc:CompanySizeCode>
+                <cac:PartyIdentification>
+                  <cbc:ID schemeName="organization">ORG-0010</cbc:ID>
+                </cac:PartyIdentification>
+                <cac:PartyName>
+                  <!--BT-500-->
+                  <cbc:Name languageID="ENG">Ayuda</cbc:Name>
+                </cac:PartyName>
+                <cac:PostalAddress>
+                  <!--BT-510-->
+                  <cbc:StreetName>7 calle ancha</cbc:StreetName>
+                  <!--BT-16-->
+                  <cbc:Department>tech Dpt</cbc:Department>
+                  <!--BT-513-->
+                  <cbc:CityName>El pueblo</cbc:CityName>
+                  <!--BT-512-->
+                  <cbc:PostalZone>34875</cbc:PostalZone>
+                  <!--BT-507-->
+                  <cbc:CountrySubentityCode listName="nuts">ES418</cbc:CountrySubentityCode>
+                  <cac:Country>
+                    <!--BT-514-->
+                    <cbc:IdentificationCode listName="country">ESP</cbc:IdentificationCode>
+                  </cac:Country>
+                </cac:PostalAddress>
+                <cac:PartyLegalEntity>
+                  <!--BT-501-->
+                  <cbc:CompanyID>34578345</cbc:CompanyID>
+                </cac:PartyLegalEntity>
+                <cac:Contact>
+                  <!--BT-502-->
+                  <cbc:Name>Info</cbc:Name>
+                  <!--BT-503-->
+                  <cbc:Telephone>+34 123456780</cbc:Telephone>
+                  <!--BT-739-->
+                  <cbc:Telefax>+34 123456789</cbc:Telefax>
+                  <!--BT-506-->
+                  <cbc:ElectronicMail>info@ayuda.com</cbc:ElectronicMail>
+                </cac:Contact>
+              </efac:Company>
+            </efac:Organization>
+            <efac:Organization>
+              <!--BT-746-->
+              <efbc:ListedOnRegulatedMarketIndicator>false</efbc:ListedOnRegulatedMarketIndicator>
+              <!--BT-633 Organization Natural Person-->
+              <efbc:NaturalPersonIndicator>false</efbc:NaturalPersonIndicator>
+              <efac:UltimateBeneficialOwner>
+                <cbc:ID schemeName="ubo">UBO-0004</cbc:ID>
+              </efac:UltimateBeneficialOwner>
+              <efac:Company>
+                <!--BT-505-->
+                <cbc:WebsiteURI>https://www.competitor.com</cbc:WebsiteURI>
+                <!--BT-165-->
+                <efbc:CompanySizeCode listName="economic-operator-size">large</efbc:CompanySizeCode>
+                <cac:PartyIdentification>
+                  <cbc:ID schemeName="organization">ORG-0011</cbc:ID>
+                </cac:PartyIdentification>
+                <cac:PartyName>
+                  <!--BT-500-->
+                  <cbc:Name languageID="ENG">Competitor</cbc:Name>
+                </cac:PartyName>
+                <cac:PostalAddress>
+                  <!--BT-510-->
+                  <cbc:StreetName>7 rue de la republique</cbc:StreetName>
+                  <!--BT-16-->
+                  <cbc:Department>Offres et contrats</cbc:Department>
+                  <!--BT-513-->
+                  <cbc:CityName>Paris</cbc:CityName>
+                  <!--BT-512-->
+                  <cbc:PostalZone>75004</cbc:PostalZone>
+                  <!--BT-507-->
+                  <cbc:CountrySubentityCode listName="nuts">FR101</cbc:CountrySubentityCode>
+                  <cac:Country>
+                    <!--BT-514-->
+                    <cbc:IdentificationCode listName="country">FRA</cbc:IdentificationCode>
+                  </cac:Country>
+                </cac:PostalAddress>
+                <cac:PartyLegalEntity>
+                  <!--BT-501-->
+                  <cbc:CompanyID>1223456789</cbc:CompanyID>
+                </cac:PartyLegalEntity>
+                <cac:Contact>
+                  <!--BT-502-->
+                  <cbc:Name>Contact</cbc:Name>
+                  <!--BT-503-->
+                  <cbc:Telephone>+33 123456780</cbc:Telephone>
+                  <!--BT-739-->
+                  <cbc:Telefax>+33 123456789</cbc:Telefax>
+                  <!--BT-506-->
+                  <cbc:ElectronicMail>info@competitor.com</cbc:ElectronicMail>
+                </cac:Contact>
+              </efac:Company>
+            </efac:Organization>
+            <efac:UltimateBeneficialOwner>
+              <cbc:ID schemeName="ubo">UBO-0001</cbc:ID>
+              <cbc:FirstName>Jean</cbc:FirstName>
+              <!--BT-500-->
+              <cbc:FamilyName>Dupont</cbc:FamilyName>
+              <cac:Contact>
+                <!--BT-503-->
+                <cbc:Telephone>+33 123456780</cbc:Telephone>
+                <!--BT-739-->
+                <cbc:Telefax>+33 123456789</cbc:Telefax>
+                <!--BT-506-->
+                <cbc:ElectronicMail>jean@dupont.be</cbc:ElectronicMail>
+              </cac:Contact>
+              <cac:ResidenceAddress>
+                <!--BT-510-->
+                <cbc:StreetName>7 rue de la loi</cbc:StreetName>
+                <!--BT-513-->
+                <cbc:CityName>Bruxelles</cbc:CityName>
+                <!--BT-512-->
+                <cbc:PostalZone>10123</cbc:PostalZone>
+                <!--BT-507-->
+                <cbc:CountrySubentityCode listName="nuts">BE100</cbc:CountrySubentityCode>
+                <cac:Country>
+                  <!--BT-514-->
+                  <cbc:IdentificationCode listName="country">BEL</cbc:IdentificationCode>
+                </cac:Country>
+              </cac:ResidenceAddress>
+              <!--BT-706-->
+              <efac:Nationality>
+                <cbc:NationalityID>BEL</cbc:NationalityID>
+              </efac:Nationality>
+            </efac:UltimateBeneficialOwner>
+            <efac:UltimateBeneficialOwner>
+              <cbc:ID schemeName="ubo">UBO-0003</cbc:ID>
+              <cbc:FirstName>Jill</cbc:FirstName>
+              <!--BT-500-->
+              <cbc:FamilyName>Dupont</cbc:FamilyName>
+              <cac:Contact>
+                <!--BT-503-->
+                <cbc:Telephone>+33 123456780</cbc:Telephone>
+                <!--BT-739-->
+                <cbc:Telefax>+33 123456789</cbc:Telefax>
+                <!--BT-506-->
+                <cbc:ElectronicMail>jill@dupont.be</cbc:ElectronicMail>
+              </cac:Contact>
+              <cac:ResidenceAddress>
+                <!--BT-510-->
+                <cbc:StreetName>7 rue de la loi</cbc:StreetName>
+                <!--BT-513-->
+                <cbc:CityName>Bruxelles</cbc:CityName>
+                <!--BT-512-->
+                <cbc:PostalZone>10123</cbc:PostalZone>
+                <!--BT-507-->
+                <cbc:CountrySubentityCode listName="nuts">BE100</cbc:CountrySubentityCode>
+                <cac:Country>
+                  <!--BT-514-->
+                  <cbc:IdentificationCode listName="country">BEL</cbc:IdentificationCode>
+                </cac:Country>
+              </cac:ResidenceAddress>
+              <!--BT-706-->
+              <efac:Nationality>
+                <cbc:NationalityID>ESP</cbc:NationalityID>
+              </efac:Nationality>
+            </efac:UltimateBeneficialOwner>
+            <efac:UltimateBeneficialOwner>
+              <cbc:ID schemeName="ubo">UBO-0004</cbc:ID>
+              <cbc:FirstName>Fred</cbc:FirstName>
+              <!--BT-500-->
+              <cbc:FamilyName>Dupont</cbc:FamilyName>
+              <cac:Contact>
+                <!--BT-503-->
+                <cbc:Telephone>+33 123456780</cbc:Telephone>
+                <!--BT-739-->
+                <cbc:Telefax>+33 987654321</cbc:Telefax>
+                <!--BT-506-->
+                <cbc:ElectronicMail>fred@dupont.be</cbc:ElectronicMail>
+              </cac:Contact>
+              <cac:ResidenceAddress>
+                <!--BT-510-->
+                <cbc:StreetName>7 rue de la loi</cbc:StreetName>
+                <!--BT-513-->
+                <cbc:CityName>Bruxelles</cbc:CityName>
+                <!--BT-512-->
+                <cbc:PostalZone>10123</cbc:PostalZone>
+                <!--BT-507-->
+                <cbc:CountrySubentityCode listName="nuts">BE100</cbc:CountrySubentityCode>
+                <cac:Country>
+                  <!--BT-514-->
+                  <cbc:IdentificationCode listName="country">BEL</cbc:IdentificationCode>
+                </cac:Country>
+              </cac:ResidenceAddress>
+              <!--BT-706-->
+              <efac:Nationality>
+                <cbc:NationalityID>FRA</cbc:NationalityID>
+              </efac:Nationality>
+            </efac:UltimateBeneficialOwner>
+          </efac:Organizations>
+        </efext:EformsExtension>
+      </ext:ExtensionContent>
+    </ext:UBLExtension>
+  </ext:UBLExtensions>
+  <cbc:UBLVersionID>2.3</cbc:UBLVersionID>
+  <!--OPT-002-notice "Customization ID (UBL)" -->
+  <cbc:CustomizationID>eforms-de-1.0</cbc:CustomizationID>
+  <!--BT-701-notice "Notice Identifier" -->
+  <cbc:ID schemeName="notice-id">15377ca1-6cf7-4060-90f0-9290128957a3</cbc:ID>
+  <!--BT-04-notice "Procedure Identifier"-->
+  <cbc:ContractFolderID>2d2d24a2-df84-449e-8695-fb66ef504a5a</cbc:ContractFolderID>
+  <!--BT-05(a)-notice "Notice Dispatch Date"-->
+  <cbc:IssueDate>2023-04-23+01:00</cbc:IssueDate>
+  <!--BT-05(b)-notice "Notice Dispatch Time"-->
+  <cbc:IssueTime>20:59:32+01:00</cbc:IssueTime>
+  <!--BT-757-notice "Notice Version"-->
+  <cbc:VersionID>03</cbc:VersionID>
+  <!-- BT-738 -->
+  <cbc:RequestedPublicationDate>2023-04-24+02:00</cbc:RequestedPublicationDate>
+  <!--BT-01-notice "Procedure Legal Basis" updated from 32014L0024-->
+  <cbc:RegulatoryDomain>31985R2137</cbc:RegulatoryDomain>
+  <!-- BT-03-notice "Form Type"-->
+  <cbc:NoticeTypeCode listName="result">can-standard</cbc:NoticeTypeCode>
+  <!-- BT-702(a)-notice "Notice Official Language" -->
+  <cbc:NoticeLanguageCode>ENG</cbc:NoticeLanguageCode>
+  <cac:ContractingParty>
+    <!-- BT-508-Procedure-Buyer "Buyer Profile URI" -->
+    <cbc:BuyerProfileURI>https://profile.example.com</cbc:BuyerProfileURI>
+    <cac:ContractingPartyType>
+      <!--BT-11-Procedure-Buyer "Buyer Legal Type", updated-->
+      <cbc:PartyTypeCode listName="buyer-legal-type">omu-lbeh</cbc:PartyTypeCode>
+    </cac:ContractingPartyType>
+    <cac:ContractingActivity>
+      <!-- BT-10-Procedure-Buyer "Activity Authority" -->
+      <cbc:ActivityTypeCode listName="authority-activity">econ-aff</cbc:ActivityTypeCode>
+    </cac:ContractingActivity>
+    <cac:Party>
+      <cac:PartyIdentification>
+        <!-- OPT-300-Procedure-Buyer "Buyer Technical Identifier Reference" -->
+        <cbc:ID schemeName="organization">ORG-0001</cbc:ID>
+      </cac:PartyIdentification>
+      <cac:ServiceProviderParty>
+        <!-- OPT-030-Procedure-SProvider "Provided Service Type" -->
+        <cbc:ServiceTypeCode listName="organisation-role">ted-esen</cbc:ServiceTypeCode>
+        <cac:Party>
+          <cac:PartyIdentification>
+            <!-- OPT-300-Procedure-SProvider "Service Provider Technical Identifier Reference" -->
+            <cbc:ID schemeName="organization">ORG-0007</cbc:ID>
+          </cac:PartyIdentification>
+        </cac:Party>
+      </cac:ServiceProviderParty>
+    </cac:Party>
+  </cac:ContractingParty>
+  <cac:TenderingTerms>
+    <cac:ProcurementLegislationDocumentReference>
+      <!--BT-09(a)-Procedure "Cross Border Law"-->
+      <cbc:ID>sl-other</cbc:ID>
+      <!--BT-09(b)-Procedure "Cross Border Law-->
+      <cbc:DocumentDescription languageID="ENG">Cross border law description ---</cbc:DocumentDescription>
+    </cac:ProcurementLegislationDocumentReference>
+  </cac:TenderingTerms>
+  <cac:TenderingProcess>
+    <!--BT-88-Procedure "Procedure Features"-->
+    <cbc:Description languageID="ENG">Description of the procedure  ---</cbc:Description>
+    <!--BT-105-Procedure "Procedure Type"-->
+    <cbc:ProcedureCode listName="procurement-procedure-type">neg-w-call</cbc:ProcedureCode>
+    <cac:ProcessJustification>
+      <!--BT-106-Procedure "Procedure Accelerated -->
+      <cbc:ProcessReasonCode listName="accelerated-procedure">true</cbc:ProcessReasonCode>
+      <!--BT-1351-Procedure "Procedure Accelerated Justification" -->
+      <cbc:ProcessReason languageID="ENG">Procedure Accelerated Justification ---</cbc:ProcessReason>
+    </cac:ProcessJustification>
+  </cac:TenderingProcess>
+  <cac:ProcurementProject>
+    <!--BT-22-Procedure "Internal Identifier"-->
+    <cbc:ID schemeName="InternalID">2023-P-0001</cbc:ID>
+    <!--BT-21-Procedure "Title"-->
+    <cbc:Name languageID="ENG">Procurement Title ---</cbc:Name>
+    <!--BT-24-Procedure "Description" -->
+    <cbc:Description languageID="ENG">Description ---</cbc:Description>
+    <!--BT-23-Procedure "Main Nature"-->
+    <cbc:ProcurementTypeCode listName="contract-nature">services</cbc:ProcurementTypeCode>
+    <!--BT-300-Procedure "Additional Information"-->
+    <cbc:Note languageID="ENG">Additional information ---</cbc:Note>
+    <cac:ProcurementAdditionalType>
+      <!-- BT-531-Procedure "Additional Nature (different from Main)"-->
+      <cbc:ProcurementTypeCode listName="contract-nature">works</cbc:ProcurementTypeCode>
+    </cac:ProcurementAdditionalType>
+    <cac:RequestedTenderTotal>
+      <!--BT-27-Procedure "Estimated Value"-->
+      <cbc:EstimatedOverallContractAmount currencyID="EUR">9999999.99</cbc:EstimatedOverallContractAmount>
+    </cac:RequestedTenderTotal>
+    <cac:MainCommodityClassification>
+      <!--BT-262-Procedure "Main Classification Code"-->
+      <!--BT-26(m)-Procedure "Classification Type (e.g. CPV)" -->
+      <cbc:ItemClassificationCode listName="cpv">79710000</cbc:ItemClassificationCode>
+    </cac:MainCommodityClassification>
+    <cac:AdditionalCommodityClassification>
+      <!--BT-263-Procedure "Additional Classification Code",-->
+      <!--BT-26(a)-Procedure "Classification Type (e.g. CPV)"-->
+      <cbc:ItemClassificationCode listName="cpv">79720000</cbc:ItemClassificationCode>
+    </cac:AdditionalCommodityClassification>
+    <cac:RealizedLocation>
+      <cac:Address>
+        <!--BT-5101(a)-Procedure "Place Performance Street"-->
+        <cbc:StreetName>Bruce Wayne House</cbc:StreetName>
+        <cbc:AdditionalStreetName>2 Gotham Street</cbc:AdditionalStreetName>
+        <!--BT-5131-Procedure "Place Performance City"-->
+        <cbc:CityName>London</cbc:CityName>
+        <!--BT-5121-Procedure "Place Performance Post Code"-->
+        <cbc:PostalZone>N1 9FL</cbc:PostalZone>
+        <!--BT-5071-Procedure "Place Performance Country Subdivision"-->
+        <cbc:CountrySubentityCode listName="nuts">DE123</cbc:CountrySubentityCode>
+        <cac:Country>
+          <!--BT-5141-Procedure "Place Performance Country Code"-->
+          <cbc:IdentificationCode listName="country">DEU</cbc:IdentificationCode>
+        </cac:Country>
+      </cac:Address>
+    </cac:RealizedLocation>
+  </cac:ProcurementProject>
+  <cac:ProcurementProjectLot>
+    <!-- BT-137-Lot "Purpose Lot Identifier" -->
+    <cbc:ID schemeName="Lot">LOT-0001</cbc:ID>
+    <cac:TenderingTerms>
+      <ext:UBLExtensions>
+        <ext:UBLExtension>
+          <ext:ExtensionContent>
+            <efext:EformsExtension>
+              <efac:StrategicProcurement>
+                <!--BT-717-Lot" "Clean Vehicles Directive"-->
+                <efbc:ApplicableLegalBasis listName="cvd-scope">true</efbc:ApplicableLegalBasis>
+                <efac:StrategicProcurementInformation>
+                  <!--BT-735-Lot" "CVD Contract Type"-->
+                  <efbc:ProcurementCategoryCode listName="cvd-contract-type">oth-serv-contr</efbc:ProcurementCategoryCode>
+                </efac:StrategicProcurementInformation>
+              </efac:StrategicProcurement>
+            </efext:EformsExtension>
+          </ext:ExtensionContent>
+        </ext:UBLExtension>
+      </ext:UBLExtensions>
+      <!--BT-60-Lot "EU Funds"-->
+      <cbc:FundingProgramCode listName="eu-funded">eu-funds</cbc:FundingProgramCode>
+      <cac:FiscalLegislationDocumentReference>
+        <!-- OPT-111-Part-FiscalLegis "Fiscal Legislation Document ID"-->
+        <cbc:ID>FiscalDocID1</cbc:ID>
+        <cac:IssuerParty>
+          <cac:PartyIdentification>
+            <!-- OPT-301-Part-FiscalLegis "Fiscal Legislation Organization Technical Identifier Reference -->
+            <cbc:ID schemeName="organization">ORG-0002</cbc:ID>
+          </cac:PartyIdentification>
+        </cac:IssuerParty>
+      </cac:FiscalLegislationDocumentReference>
+      <cac:EnvironmentalLegislationDocumentReference>
+        <!-- OPT-112-Part-EnvironLegis "Environmental Legislation Document ID" -->
+        <cbc:ID>EnvDocID1</cbc:ID>
+        <cac:IssuerParty>
+          <cac:PartyIdentification>
+            <!-- OPT-301-Part-EnvironLegis "Environmental Legislation Organization Technical Identifier Reference -->
+            <cbc:ID schemeName="organization">ORG-0003</cbc:ID>
+          </cac:PartyIdentification>
+        </cac:IssuerParty>
+      </cac:EnvironmentalLegislationDocumentReference>
+      <cac:EmploymentLegislationDocumentReference>
+        <!-- OPT-113-Part-EmployLegis "Employment Legislation Document ID"-->
+        <cbc:ID>EmplDocID1</cbc:ID>
+        <cac:IssuerParty>
+          <cac:PartyIdentification>
+            <!-- OPT-301-Part-EmployLegis "Employment Legislation Organization Technical Identifier Reference" -->
+            <cbc:ID schemeName="organization">ORG-0004</cbc:ID>
+          </cac:PartyIdentification>
+        </cac:IssuerParty>
+      </cac:EmploymentLegislationDocumentReference>
+      <!-- LOT-0001 - Awarding criteria -->
+      <cac:AwardingTerms>
+        <cac:AwardingCriterion>
+          <cac:SubordinateAwardingCriterion>
+            <ext:UBLExtensions>
+              <ext:UBLExtension>
+                <ext:ExtensionContent>
+                  <efext:EformsExtension>
+                    <efac:AwardCriterionParameter>
+                      <!--BT-5421-Lot "Award Criterion Number Weight"-->
+                      <efbc:ParameterCode listName="number-weight">per-exa</efbc:ParameterCode>
+                      <!--BT-541-Lot "Award Criterion Number"-->
+                      <efbc:ParameterNumeric>60</efbc:ParameterNumeric>
+                    </efac:AwardCriterionParameter>
+                  </efext:EformsExtension>
+                </ext:ExtensionContent>
+              </ext:UBLExtension>
+            </ext:UBLExtensions>
+            <!--BT-539-Lot "Award Criterion Type"-->
+            <cbc:AwardingCriterionTypeCode listName="award-criterion-type">cost</cbc:AwardingCriterionTypeCode>
+            <!--BT-734-Lot "Award Criterion Name"-->
+            <cbc:Name languageID="ENG">Name of AC ---</cbc:Name>
+            <!--BT-540-Lot "Award Criterion Description"-->
+            <cbc:Description languageID="ENG">AC Description ---</cbc:Description>
+          </cac:SubordinateAwardingCriterion>
+          <cac:SubordinateAwardingCriterion>
+            <ext:UBLExtensions>
+              <ext:UBLExtension>
+                <ext:ExtensionContent>
+                  <efext:EformsExtension>
+                    <efac:AwardCriterionParameter>
+                      <!--BT-5421-Lot "Award Criterion Number Weight"-->
+                      <efbc:ParameterCode listName="number-weight">per-exa</efbc:ParameterCode>
+                      <!--BT-541-Lot "Award Criterion Number"-->
+                      <efbc:ParameterNumeric>40</efbc:ParameterNumeric>
+                    </efac:AwardCriterionParameter>
+                  </efext:EformsExtension>
+                </ext:ExtensionContent>
+              </ext:UBLExtension>
+            </ext:UBLExtensions>
+            <!--BT-539-Lot "Award Criterion Type"-->
+            <cbc:AwardingCriterionTypeCode listName="award-criterion-type">quality</cbc:AwardingCriterionTypeCode>
+            <!--BT-734-Lot "Award Criterion Name"-->
+            <cbc:Name languageID="ENG">name of AC ---</cbc:Name>
+            <!--BT-540-Lot "Award Criterion Description"-->
+            <cbc:Description languageID="ENG">AC Description ---</cbc:Description>
+          </cac:SubordinateAwardingCriterion>
+        </cac:AwardingCriterion>
+      </cac:AwardingTerms>
+      <cac:AdditionalInformationParty>
+        <cac:PartyIdentification>
+          <!--OPT-301-Lot-AddInfo "Additional Info Provider Technical Identifier Reference" -->
+          <cbc:ID schemeName="touchpoint">TPO-0001</cbc:ID>
+        </cac:PartyIdentification>
+      </cac:AdditionalInformationParty>
+      <cac:DocumentProviderParty>
+        <cac:PartyIdentification>
+          <!-- OPT-301-Lot-DocProvider "Document Provider Technical Identifier Reference" -->
+          <cbc:ID schemeName="touchpoint">TPO-0002</cbc:ID>
+        </cac:PartyIdentification>
+      </cac:DocumentProviderParty>
+      <cac:AppealTerms>
+        <cac:PresentationPeriod>
+          <!--BT-99-Lot "Review Deadline Description"-->
+          <cbc:Description languageID="ENG">Review Deadline Description ---</cbc:Description>
+        </cac:PresentationPeriod>
+        <cac:AppealInformationParty>
+          <cac:PartyIdentification>
+            <!-- OPT-301-Lot-ReviewInfo "Review Info Provider Technical Identifier Reference" -->
+            <cbc:ID schemeName="touchpoint">TPO-0001</cbc:ID>
+          </cac:PartyIdentification>
+        </cac:AppealInformationParty>
+        <cac:AppealReceiverParty>
+          <cac:PartyIdentification>
+            <!-- OPT-301-Lot-ReviewOrg "Review Organization Technical Identifier Reference" -->
+            <cbc:ID schemeName="organization">ORG-0005</cbc:ID>
+          </cac:PartyIdentification>
+        </cac:AppealReceiverParty>
+        <cac:MediationParty>
+          <cac:PartyIdentification>
+            <!-- OPT-301-Part-Mediator "Mediator Technical Identifier Reference" -->
+            <cbc:ID schemeName="organization">ORG-0006</cbc:ID>
+          </cac:PartyIdentification>
+        </cac:MediationParty>
+      </cac:AppealTerms>
+    </cac:TenderingTerms>
+    <cac:TenderingProcess>
+      <ext:UBLExtensions>
+        <ext:UBLExtension>
+          <ext:ExtensionContent>
+            <efext:EformsExtension>
+              <!--BT-634-Lot "Procurement Relaunch"-->
+              <efbc:ProcedureRelaunchIndicator>true</efbc:ProcedureRelaunchIndicator>
+            </efext:EformsExtension>
+          </ext:ExtensionContent>
+        </ext:UBLExtension>
+      </ext:UBLExtensions>
+      <!--BT-115-Lot "GPA Coverage-->
+      <cbc:GovernmentAgreementConstraintIndicator>true</cbc:GovernmentAgreementConstraintIndicator>
+      <cac:NoticeDocumentReference>
+        <!-- BT-125(i)-Lot "Previous Planning Identifier"-->
+        <cbc:ID>9c0fd704-64d3-4294-a3b6-6df45911ab9f-01</cbc:ID>
+        <!-- BT-1251-Lot "Previous Planning Part Identifier"-->
+        <cbc:ReferencedDocumentInternalAddress>123</cbc:ReferencedDocumentInternalAddress>
+      </cac:NoticeDocumentReference>
+      <cac:AuctionTerms>
+        <!--BT-767-Lot "Electronic Auction",-->
+        <cbc:AuctionConstraintIndicator>true</cbc:AuctionConstraintIndicator>
+      </cac:AuctionTerms>
+      <cac:ContractingSystem>
+        <!--BT-765-Lot "Framework Agreement"-->
+        <cbc:ContractingSystemTypeCode listName="framework-agreement">fa-w-rc</cbc:ContractingSystemTypeCode>
+      </cac:ContractingSystem>
+      <cac:ContractingSystem>
+        <!--BT-766-Lot "Dynamic Purchasing System"-->
+        <cbc:ContractingSystemTypeCode listName="dps-usage">dps-list</cbc:ContractingSystemTypeCode>
+      </cac:ContractingSystem>
+    </cac:TenderingProcess>
+    <cac:ProcurementProject>
+      <!-- BT-22-Procedure "Internal Identifier" -->
+      <cbc:ID schemeName="InternalID">Object Reference Number---</cbc:ID>
+      <!-- BT-21-Procedure "Title" -->
+      <cbc:Name languageID="ENG">Title ---</cbc:Name>
+      <!-- BT-24-Procedure "Description" -->
+      <cbc:Description languageID="ENG">Description ---</cbc:Description>
+      <!-- BT-23-Procedure "Main Nature" -->
+      <cbc:ProcurementTypeCode listName="contract-nature">services</cbc:ProcurementTypeCode>
+      <!--BT-25-Lot "Quantity"-->
+      <cbc:EstimatedOverallContractQuantity unitCode="HUR">1000</cbc:EstimatedOverallContractQuantity>
+      <!--  BT-300-Procedure "Additional Information" -->
+      <cbc:Note languageID="ENG">Additional information for GLO-0001 ProcurementProject ---</cbc:Note>
+      <cac:ProcurementAdditionalType>
+        <!-- BT-531-Procedure "Additional Nature (different from Main) -->
+        <cbc:ProcurementTypeCode listName="contract-nature">works</cbc:ProcurementTypeCode>
+      </cac:ProcurementAdditionalType>
+      <cac:ProcurementAdditionalType>
+        <!--BT-774-Lot "Green Procurement-->
+        <cbc:ProcurementTypeCode listName="environmental-impact">clim-mitig</cbc:ProcurementTypeCode>
+      </cac:ProcurementAdditionalType>
+      <cac:ProcurementAdditionalType>
+        <!--BT-775-Lot "Social Procurement"-->
+        <cbc:ProcurementTypeCode listName="social-objective">acc-all</cbc:ProcurementTypeCode>
+      </cac:ProcurementAdditionalType>
+      <cac:ProcurementAdditionalType>
+        <!--BT-776-Lot","Innovative Procurement"-->
+        <cbc:ProcurementTypeCode listName="innovative-acquisition">buy-eff</cbc:ProcurementTypeCode>
+      </cac:ProcurementAdditionalType>
+      <cac:ProcurementAdditionalType>
+        <!--BT-06-Lot "Strategic Procurement"-->
+        <cbc:ProcurementTypeCode listName="strategic-procurement">env-imp</cbc:ProcurementTypeCode>
+        <!-- BT-777-Lot","Strategic Procurement Description"-->
+        <cbc:ProcurementType languageID="ENG">Strategic procurement description ---</cbc:ProcurementType>
+      </cac:ProcurementAdditionalType>
+      <cac:ProcurementAdditionalType>
+        <!--BT-754-Lot "Accessibility"-->
+        <cbc:ProcurementTypeCode listName="accessibility">n-inc-just</cbc:ProcurementTypeCode>
+        <!-- BT-755-Lot "Accessibility Justification",-->
+        <cbc:ProcurementType languageID="ENG">Accessibility Justification ---</cbc:ProcurementType>
+      </cac:ProcurementAdditionalType>
+      <cac:MainCommodityClassification>
+        <!-- "BT-26(m)-Procedure "Classification Type (e.g. CPV)" -->
+        <!-- BT-262-Procedure "Main Classification Code" -->
+        <cbc:ItemClassificationCode listName="cpv">75121000</cbc:ItemClassificationCode>
+      </cac:MainCommodityClassification>
+      <cac:RealizedLocation>
+        <!-- BT-728-Lot "Place Performance Additional Information" -->
+        <cbc:Description languageID="ENG">The main location is ...</cbc:Description>
+        <cac:Address>
+          <!--BT-5101(a)-Lot "Place Performance Street"-->
+          <cbc:StreetName>Bruce Wayne House</cbc:StreetName>
+          <cbc:AdditionalStreetName>2 Gotham Street</cbc:AdditionalStreetName>
+          <!--BT-5131-Lot "Place Performance City"-->
+          <cbc:CityName>London</cbc:CityName>
+          <!--BT-5121-Lot "Place Performance Post Code"-->
+          <cbc:PostalZone>N1 9FL</cbc:PostalZone>
+          <!--BT-5071-Lot "Place Performance Country Subdivision"-->
+          <cbc:CountrySubentityCode listName="nuts">DE123</cbc:CountrySubentityCode>
+          <cac:Country>
+            <!--BT-5141-Lot "Place Performance Country Code"-->
+            <cbc:IdentificationCode listName="country">DEU</cbc:IdentificationCode>
+          </cac:Country>
+        </cac:Address>
+      </cac:RealizedLocation>
+      <cac:PlannedPeriod>
+        <!--BT-536-Lot "Duration Start Date"-->
+        <cbc:StartDate>2023-01-01+01:00</cbc:StartDate>
+        <!--BT-537-Lot "Duration End Date"-->
+        <cbc:EndDate>2023-05-23+01:00</cbc:EndDate>
+      </cac:PlannedPeriod>
+      <cac:ContractExtension>
+        <!--BT-54-Lot "Options Description",-->
+        <cbc:OptionsDescription languageID="ENG">Options description ---</cbc:OptionsDescription>
+        <!--BT-58-Lot "Renewal Maximum"-->
+        <cbc:MaximumNumberNumeric>3</cbc:MaximumNumberNumeric>
+        <cac:Renewal>
+          <cac:Period>
+            <!--BT-57-Lot "Renewal Description"-->
+            <cbc:Description languageID="ENG">Renewal description ---</cbc:Description>
+          </cac:Period>
+        </cac:Renewal>
+      </cac:ContractExtension>
+    </cac:ProcurementProject>
+  </cac:ProcurementProjectLot>
+  <cac:ProcurementProjectLot>
+    <!-- BT-137-Lot "Purpose Lot Identifier" -->
+    <cbc:ID schemeName="Lot">LOT-0002</cbc:ID>
+    <cac:TenderingTerms>
+      <!--BT-60-Lot "EU Funds"-->
+      <cbc:FundingProgramCode listName="eu-funded">eu-funds</cbc:FundingProgramCode>
+      <cac:FiscalLegislationDocumentReference>
+        <!-- OPT-111-Lot-FiscalLegis "Fiscal Legislation Document ID"-->
+        <cbc:ID>FiscalDocID1</cbc:ID>
+        <cac:IssuerParty>
+          <cac:PartyIdentification>
+            <!-- OPT-301-Part-FiscalLegis "Fiscal Legislation Organization Technical Identifier Reference -->
+            <cbc:ID schemeName="organization">ORG-0002</cbc:ID>
+          </cac:PartyIdentification>
+        </cac:IssuerParty>
+      </cac:FiscalLegislationDocumentReference>
+      <cac:EnvironmentalLegislationDocumentReference>
+        <!-- OPT-112-Lot-EnvironLegis "Environmental Legislation Document ID" -->
+        <cbc:ID>EnvDocID1</cbc:ID>
+        <cac:IssuerParty>
+          <cac:PartyIdentification>
+            <!-- OPT-301-Lot-EnvironLegis "Environmental Legislation Organization Technical Identifier Reference -->
+            <cbc:ID schemeName="organization">ORG-0003</cbc:ID>
+          </cac:PartyIdentification>
+        </cac:IssuerParty>
+      </cac:EnvironmentalLegislationDocumentReference>
+      <cac:EmploymentLegislationDocumentReference>
+        <!-- OPT-113-Lot-EmployLegis "Employment Legislation Document ID"-->
+        <cbc:ID>EmplDocID1</cbc:ID>
+        <cac:IssuerParty>
+          <cac:PartyIdentification>
+            <!-- OPT-301-Lot-EmployLegis "Employment Legislation Organization Technical Identifier Reference" -->
+            <cbc:ID schemeName="organization">ORG-0004</cbc:ID>
+          </cac:PartyIdentification>
+        </cac:IssuerParty>
+      </cac:EmploymentLegislationDocumentReference>
+      <cac:AwardingTerms>
+        <cac:AwardingCriterion>
+          <cac:SubordinateAwardingCriterion>
+            <ext:UBLExtensions>
+              <ext:UBLExtension>
+                <ext:ExtensionContent>
+                  <efext:EformsExtension>
+                    <efac:AwardCriterionParameter>
+                      <!--BT-5421-Lot "Award Criterion Number Weight"-->
+                      <efbc:ParameterCode listName="number-weight">per-exa</efbc:ParameterCode>
+                      <!--BT-541-Lot "Award Criterion Number"-->
+                      <efbc:ParameterNumeric>60</efbc:ParameterNumeric>
+                    </efac:AwardCriterionParameter>
+                  </efext:EformsExtension>
+                </ext:ExtensionContent>
+              </ext:UBLExtension>
+            </ext:UBLExtensions>
+            <!--BT-539-Lot "Award Criterion Type"-->
+            <cbc:AwardingCriterionTypeCode listName="award-criterion-type">cost</cbc:AwardingCriterionTypeCode>
+            <!--BT-734-Lot "Award Criterion Name"-->
+            <cbc:Name languageID="ENG">Name of AC ---</cbc:Name>
+            <!--BT-540-Lot "Award Criterion Description"-->
+            <cbc:Description languageID="ENG">AC Description ---</cbc:Description>
+          </cac:SubordinateAwardingCriterion>
+          <cac:SubordinateAwardingCriterion>
+            <ext:UBLExtensions>
+              <ext:UBLExtension>
+                <ext:ExtensionContent>
+                  <efext:EformsExtension>
+                    <efac:AwardCriterionParameter>
+                      <!--BT-5421-Lot "Award Criterion Number Weight"-->
+                      <efbc:ParameterCode listName="number-weight">per-exa</efbc:ParameterCode>
+                      <!--BT-541-Lot "Award Criterion Number"-->
+                      <efbc:ParameterNumeric>40</efbc:ParameterNumeric>
+                    </efac:AwardCriterionParameter>
+                  </efext:EformsExtension>
+                </ext:ExtensionContent>
+              </ext:UBLExtension>
+            </ext:UBLExtensions>
+            <!--BT-539-Lot "Award Criterion Type"-->
+            <cbc:AwardingCriterionTypeCode listName="award-criterion-type">quality</cbc:AwardingCriterionTypeCode>
+            <!--BT-734-Lot "Award Criterion Name"-->
+            <cbc:Name languageID="ENG">name of AC ---</cbc:Name>
+            <!--BT-540-Lot "Award Criterion Description"-->
+            <cbc:Description languageID="ENG">AC Description ---</cbc:Description>
+          </cac:SubordinateAwardingCriterion>
+        </cac:AwardingCriterion>
+      </cac:AwardingTerms>
+      <cac:AdditionalInformationParty>
+        <cac:PartyIdentification>
+          <!--OPT-301-Lot-AddInfo "Additional Info Provider Technical Identifier Reference" -->
+          <cbc:ID schemeName="touchpoint">TPO-0001</cbc:ID>
+        </cac:PartyIdentification>
+      </cac:AdditionalInformationParty>
+      <cac:DocumentProviderParty>
+        <cac:PartyIdentification>
+          <!-- OPT-301-Lot-DocProvider "Document Provider Technical Identifier Reference" -->
+          <cbc:ID schemeName="touchpoint">TPO-0002</cbc:ID>
+        </cac:PartyIdentification>
+      </cac:DocumentProviderParty>
+      <cac:AppealTerms>
+        <cac:PresentationPeriod>
+          <!--BT-99-Lot "Review Deadline Description"-->
+          <cbc:Description languageID="ENG">Review Deadline Description ---</cbc:Description>
+        </cac:PresentationPeriod>
+        <cac:AppealInformationParty>
+          <cac:PartyIdentification>
+            <!-- OPT-301-Lot-ReviewInfo "Review Info Provider Technical Identifier Reference" -->
+            <cbc:ID schemeName="touchpoint">TPO-0001</cbc:ID>
+          </cac:PartyIdentification>
+        </cac:AppealInformationParty>
+        <cac:AppealReceiverParty>
+          <cac:PartyIdentification>
+            <!-- OPT-301-Lot-ReviewOrg "Review Organization Technical Identifier Reference" -->
+            <cbc:ID schemeName="organization">ORG-0005</cbc:ID>
+          </cac:PartyIdentification>
+        </cac:AppealReceiverParty>
+        <cac:MediationParty>
+          <cac:PartyIdentification>
+            <!-- OPT-301-Part-Mediator "Mediator Technical Identifier Reference" -->
+            <cbc:ID schemeName="organization">ORG-0006</cbc:ID>
+          </cac:PartyIdentification>
+        </cac:MediationParty>
+      </cac:AppealTerms>
+    </cac:TenderingTerms>
+    <cac:TenderingProcess>
+      <ext:UBLExtensions>
+        <ext:UBLExtension>
+          <ext:ExtensionContent>
+            <efext:EformsExtension>
+              <!--BT-634-Lot "Procurement Relaunch"-->
+              <efbc:ProcedureRelaunchIndicator>true</efbc:ProcedureRelaunchIndicator>
+            </efext:EformsExtension>
+          </ext:ExtensionContent>
+        </ext:UBLExtension>
+      </ext:UBLExtensions>
+      <!--BT-115-Lot "GPA Coverage-->
+      <cbc:GovernmentAgreementConstraintIndicator>true</cbc:GovernmentAgreementConstraintIndicator>
+      <cac:NoticeDocumentReference>
+        <!-- BT-125(i)-Lot "Previous Planning Identifier"-->
+        <cbc:ID>9c0fd704-64d3-4294-a3b6-6df45911ab9f-01</cbc:ID>
+        <!-- BT-1251-Lot "Previous Planning Part Identifier"-->
+        <cbc:ReferencedDocumentInternalAddress>123</cbc:ReferencedDocumentInternalAddress>
+      </cac:NoticeDocumentReference>
+      <cac:AuctionTerms>
+        <!--BT-767-Lot "Electronic Auction",-->
+        <cbc:AuctionConstraintIndicator>true</cbc:AuctionConstraintIndicator>
+      </cac:AuctionTerms>
+      <cac:ContractingSystem>
+        <!--BT-765-Lot "Framework Agreement"-->
+        <cbc:ContractingSystemTypeCode listName="framework-agreement">fa-w-rc</cbc:ContractingSystemTypeCode>
+      </cac:ContractingSystem>
+      <cac:ContractingSystem>
+        <!--BT-766-Lot "Dynamic Purchasing System"-->
+        <cbc:ContractingSystemTypeCode listName="dps-usage">none</cbc:ContractingSystemTypeCode>
+      </cac:ContractingSystem>
+    </cac:TenderingProcess>
+    <cac:ProcurementProject>
+      <!-- BT-22-Lot "Internal Identifier" -->
+      <cbc:ID schemeName="InternalID">Object Reference Number---</cbc:ID>
+      <!-- BT-21-Lot "Title" -->
+      <cbc:Name languageID="ENG">Title lot 2---</cbc:Name>
+      <!-- BT-24-Lot "Description" -->
+      <cbc:Description languageID="ENG">Description lot 2---</cbc:Description>
+      <!-- BT-23-Lot "Main Nature" -->
+      <cbc:ProcurementTypeCode listName="contract-nature">services</cbc:ProcurementTypeCode>
+      <!--BT-25-Lot "Quantity"-->
+      <cbc:EstimatedOverallContractQuantity unitCode="HUR">1000</cbc:EstimatedOverallContractQuantity>
+      <!--  BT-300-Procedure "Additional Information" -->
+      <cbc:Note languageID="ENG">Additional information for lot 2 ProcurementProject ---</cbc:Note>
+      <cac:ProcurementAdditionalType>
+        <!-- BT-531-Procedure "Additional Nature (different from Main) -->
+        <cbc:ProcurementTypeCode listName="contract-nature">works</cbc:ProcurementTypeCode>
+      </cac:ProcurementAdditionalType>
+      <cac:ProcurementAdditionalType>
+        <!--BT-774-Lot "Green Procurement-->
+        <cbc:ProcurementTypeCode listName="environmental-impact">clim-mitig</cbc:ProcurementTypeCode>
+      </cac:ProcurementAdditionalType>
+      <cac:ProcurementAdditionalType>
+        <!--BT-775-Lot "Social Procurement"-->
+        <cbc:ProcurementTypeCode listName="social-objective">acc-all</cbc:ProcurementTypeCode>
+      </cac:ProcurementAdditionalType>
+      <cac:ProcurementAdditionalType>
+        <!--BT-776-Lot","Innovative Procurement"-->
+        <cbc:ProcurementTypeCode listName="innovative-acquisition">buy-eff</cbc:ProcurementTypeCode>
+      </cac:ProcurementAdditionalType>
+      <cac:ProcurementAdditionalType>
+        <!--BT-06-Lot "Strategic Procurement"-->
+        <cbc:ProcurementTypeCode listName="strategic-procurement">env-imp</cbc:ProcurementTypeCode>
+        <!-- BT-777-Lot","Strategic Procurement Description"-->
+        <cbc:ProcurementType languageID="ENG">Strategic procurement description lot 2 ---</cbc:ProcurementType>
+      </cac:ProcurementAdditionalType>
+      <cac:ProcurementAdditionalType>
+        <!--BT-754-Lot "Accessibility"-->
+        <cbc:ProcurementTypeCode listName="accessibility">n-inc-just</cbc:ProcurementTypeCode>
+        <!-- BT-755-Lot "Accessibility Justification",-->
+        <cbc:ProcurementType languageID="ENG">Accessibility Justification lot 2 ---</cbc:ProcurementType>
+      </cac:ProcurementAdditionalType>
+      <cac:MainCommodityClassification>
+        <!-- BT-262-Procedure "Main Classification Code" -->
+        <cbc:ItemClassificationCode listName="cpv">75121000</cbc:ItemClassificationCode>
+      </cac:MainCommodityClassification>
+      <cac:RealizedLocation>
+        <cbc:Description languageID="ENG">The main location of lot 2 is ...</cbc:Description>
+        <cac:Address>
+          <!--BT-5101(a)-Procedure "Place Performance Street"-->
+          <cbc:StreetName>Bruce Wayne House</cbc:StreetName>
+          <cbc:AdditionalStreetName>2 Gotham Street</cbc:AdditionalStreetName>
+          <!--BT-5131-Procedure "Place Performance City"-->
+          <cbc:CityName>London</cbc:CityName>
+          <!--BT-5121-Procedure "Place Performance Post Code"-->
+          <cbc:PostalZone>N1 9FL</cbc:PostalZone>
+          <!--BT-5071-Procedure "Place Performance Country Subdivision"-->
+          <cbc:CountrySubentityCode listName="nuts">DE123</cbc:CountrySubentityCode>
+          <cac:Country>
+            <!--BT-5141-Lot "Place Performance Country Code"-->
+            <cbc:IdentificationCode listName="country">DEU</cbc:IdentificationCode>
+          </cac:Country>
+        </cac:Address>
+      </cac:RealizedLocation>
+      <cac:PlannedPeriod>
+        <!--BT-536-Lot "Duration Start Date"-->
+        <cbc:StartDate>2023-01-01+01:00</cbc:StartDate>
+        <!--BT-537-Lot "Duration End Date"-->
+        <cbc:EndDate>2023-05-23+01:00</cbc:EndDate>
+      </cac:PlannedPeriod>
+      <cac:ContractExtension>
+        <!--BT-54-Lot "Options Description",-->
+        <cbc:OptionsDescription languageID="ENG">Options description lot 2 ---</cbc:OptionsDescription>
+        <!--BT-58-Lot "Renewal Maximum"-->
+        <cbc:MaximumNumberNumeric>3</cbc:MaximumNumberNumeric>
+        <cac:Renewal>
+          <cac:Period>
+            <!--BT-57-Lot "Renewal Description"-->
+            <cbc:Description languageID="ENG">Renewal description lot 2 ---</cbc:Description>
+          </cac:Period>
+        </cac:Renewal>
+      </cac:ContractExtension>
+    </cac:ProcurementProject>
+  </cac:ProcurementProjectLot>
+  <cac:TenderResult>
+    <cbc:AwardDate>2000-01-01Z</cbc:AwardDate>
+  </cac:TenderResult>
+</ContractAwardNotice>
