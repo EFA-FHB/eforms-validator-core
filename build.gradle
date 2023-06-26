@@ -4,6 +4,7 @@ import java.time.temporal.ChronoUnit
 plugins {
     id 'java'
     id 'jacoco'
+    id 'maven-publish'
     id "com.github.vlsi.jandex" version "1.86"
     id 'org.ajoberstar.grgit' version '5.0.0'
 }
@@ -12,6 +13,25 @@ apply from: rootProject.file('gradle/install-git-hooks.gradle')
 
 allprojects {
     group 'com.nortal.efafhb.eforms.validator'
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            from components.java
+        }
+    }
+
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = "https://maven.pkg.github.com/EFA-FHB/eforms-validator-core"
+            credentials {
+                username = System.getenv("GITHUB_ACTOR")
+                password = System.getenv("GITHUB_TOKEN")
+            }
+        }
+    }
 }
 
 subprojects {

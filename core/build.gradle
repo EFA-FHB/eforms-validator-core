@@ -2,7 +2,7 @@ plugins {
     id 'io.quarkus'
     id 'jacoco'
     id 'org.sonarqube'
-    id "com.diffplug.spotless" version "6.3.0"
+    id "com.diffplug.spotless" version "6.19.0"
 }
 
 dependencies {
