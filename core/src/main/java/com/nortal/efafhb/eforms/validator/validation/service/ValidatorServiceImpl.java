@@ -11,6 +11,7 @@ import com.nortal.efafhb.eforms.validator.enums.SupportedType;
 import com.nortal.efafhb.eforms.validator.enums.SupportedVersion;
 import com.nortal.efafhb.eforms.validator.exception.ErrorCode;
 import com.nortal.efafhb.eforms.validator.exception.ValidatorApplicationException;
+import com.nortal.efafhb.eforms.validator.validation.FormsValidator;
 import com.nortal.efafhb.eforms.validator.validation.ValidationConfig;
 import com.nortal.efafhb.eforms.validator.validation.ValidatorService;
 import com.nortal.efafhb.eforms.validator.validation.dto.BusinessDocumentValidationModelDTO;
@@ -47,12 +48,15 @@ public class ValidatorServiceImpl implements ValidatorService {
 
   BusinessDocumentValidator businessDocumentValidator;
   ValidationConfig validationConfig;
+  FormsValidator formsValidator;
 
   public ValidatorServiceImpl(
-      BusinessDocumentValidator businessDocumentValidator, ValidationConfig validationConfig) {
-
+      BusinessDocumentValidator businessDocumentValidator,
+      ValidationConfig validationConfig,
+      FormsValidator formsValidator) {
     this.businessDocumentValidator = businessDocumentValidator;
     this.validationConfig = validationConfig;
+    this.formsValidator = formsValidator;
   }
 
   @ExecutionTimeLogAspect
@@ -68,7 +72,7 @@ public class ValidatorServiceImpl implements ValidatorService {
     }
 
     if (validationRequestDTO.isSchematronValidation()) {
-      //   validationModelDTO = validateSchematron(validationRequestDTO, sdkType);
+      validationModelDTO = validateSchematron(validationRequestDTO, sdkType);
     }
 
     return validationModelDTO;
@@ -94,7 +98,7 @@ public class ValidatorServiceImpl implements ValidatorService {
     }
   }
 
-  /*  private ValidationModelDTO validateSchematron(
+  private ValidationModelDTO validateSchematron(
       ValidationRequestDTO validationRequestDTO, SupportedType sdkType) {
     String requestedEformsVersion =
         StringUtils.joinWith(
@@ -106,7 +110,7 @@ public class ValidatorServiceImpl implements ValidatorService {
             sdkType,
             new String(validationRequestDTO.getEforms(), StandardCharsets.UTF_8),
             SupportedVersion.versionFromSDK(requestedEformsVersion)));
-  }*/
+  }
 
   @ExecutionTimeLogAspect
   public BusinessDocumentValidationModelDTO validateBusinessDocument(
