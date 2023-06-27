@@ -29,7 +29,7 @@ public enum SupportedVersion {
    *     from input is not recognized
    */
   public static SupportedVersion versionFromSDK(String sdkVersion) {
-    var suportedVersion = EFormsSupportedVersion.getSupportedVersion(sdkVersion);
+    var suportedVersion = EFormSupportedVersion.getSupportedVersion(sdkVersion);
     return Arrays.stream(SupportedVersion.values())
         .filter(v -> v.getValue().equals(suportedVersion))
         .findFirst()

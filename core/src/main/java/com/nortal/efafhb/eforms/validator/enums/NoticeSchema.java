@@ -48,7 +48,7 @@ public enum NoticeSchema {
       String requestedEformsVersion, SupportedType sdkType, String noticeTypeName) {
     return SCHEMA_PATH_PATTERN.formatted(
         sdkType.name().toLowerCase(),
-        EFormsSupportedVersion.getSupportedVersion(requestedEformsVersion),
+        EFormSupportedVersion.getSupportedVersion(requestedEformsVersion),
         getSchemaNameFromNoticeTypeName(noticeTypeName));
   }
 }
