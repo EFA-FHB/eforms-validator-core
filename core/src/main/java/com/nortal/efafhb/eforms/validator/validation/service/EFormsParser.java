@@ -1,4 +1,4 @@
-package com.nortal.efafhb.eforms.validator.validation;
+package com.nortal.efafhb.eforms.validator.validation.service;
 
 import com.jcabi.xml.XML;
 import com.jcabi.xml.XMLDocument;

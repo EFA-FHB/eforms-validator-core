@@ -1,13 +1,14 @@
-package com.nortal.efafhb.eforms.validator.validation;
+package com.nortal.efafhb.eforms.validator.validation.service;
 
 import com.helger.schematron.ISchematronResource;
 import com.helger.schematron.pure.SchematronResourcePure;
 import com.helger.schematron.svrl.jaxb.SchematronOutputType;
 import com.helger.xml.transform.StringStreamSource;
+import com.nortal.efafhb.eforms.validator.enums.ReportType;
 import com.nortal.efafhb.eforms.validator.exception.ErrorCode;
 import com.nortal.efafhb.eforms.validator.exception.ValidatorApplicationException;
-import com.nortal.efafhb.eforms.validator.validation.output.ReportType;
-import com.nortal.efafhb.eforms.validator.validation.output.ValidationResult;
+import com.nortal.efafhb.eforms.validator.validation.schematron.SchematronHelper;
+import com.nortal.efafhb.eforms.validator.validation.util.ValidationResult;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;

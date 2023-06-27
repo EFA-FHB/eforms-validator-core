@@ -1,4 +1,4 @@
-package com.nortal.efafhb.eforms.validator;
+package com.nortal.efafhb.eforms.validator.validation;
 
 import io.smallrye.config.ConfigMapping;
 import io.smallrye.config.WithName;

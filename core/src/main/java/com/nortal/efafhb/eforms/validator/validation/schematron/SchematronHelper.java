@@ -1,4 +1,4 @@
-package com.nortal.efafhb.eforms.validator.validation;
+package com.nortal.efafhb.eforms.validator.validation.schematron;
 
 import com.helger.commons.ValueEnforcer;
 import com.helger.commons.annotation.ReturnsMutableCopy;

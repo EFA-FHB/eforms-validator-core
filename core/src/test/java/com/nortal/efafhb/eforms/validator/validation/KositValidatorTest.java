@@ -4,8 +4,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import com.nortal.efafhb.eforms.validator.validation.output.ValidationResult;
+import com.nortal.efafhb.eforms.validator.enums.SupportedType;
+import com.nortal.efafhb.eforms.validator.enums.SupportedVersion;
 import com.nortal.efafhb.eforms.validator.validation.profiles.KositValidatorProfile;
+import com.nortal.efafhb.eforms.validator.validation.util.ValidationResult;
 import io.quarkus.test.junit.QuarkusTest;
 import io.quarkus.test.junit.TestProfile;
 import java.io.IOException;
@@ -21,7 +23,7 @@ class KositValidatorTest {
   private static final String CN_24_MAXIMAL_XML = "cn_24_maximal.xml";
   private static final String CN_24_MAXIMAL_XML_ERROR = "cn_24_maximal_error.xml";
   private static final String CN_24_MINIMAL_XML = "cn_24_minimal.xml";
-  @Inject Validator kositValidator;
+  @Inject FormsValidator kositValidator;
 
   @Test
   void validate() throws IOException {

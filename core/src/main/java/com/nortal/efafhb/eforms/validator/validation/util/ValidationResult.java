@@ -1,5 +1,8 @@
-package com.nortal.efafhb.eforms.validator.validation.output;
+package com.nortal.efafhb.eforms.validator.validation.util;
 
+import com.nortal.efafhb.eforms.validator.enums.InfoLevel;
+import com.nortal.efafhb.eforms.validator.enums.ReportType;
+import com.nortal.efafhb.eforms.validator.validation.entry.ValidationEntry;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.EnumMap;

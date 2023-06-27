@@ -1,6 +1,9 @@
-package com.nortal.efafhb.eforms.validator.validation;
+package com.nortal.efafhb.eforms.validator.validation.service;
 
-import com.nortal.efafhb.eforms.validator.validation.output.ValidationResult;
+import com.nortal.efafhb.eforms.validator.enums.SupportedType;
+import com.nortal.efafhb.eforms.validator.enums.SupportedVersion;
+import com.nortal.efafhb.eforms.validator.validation.FormsValidator;
+import com.nortal.efafhb.eforms.validator.validation.util.ValidationResult;
 import io.quarkus.arc.properties.IfBuildProperty;
 import io.quarkus.runtime.Startup;
 import javax.annotation.PostConstruct;
@@ -11,7 +14,7 @@ import lombok.extern.jbosslog.JBossLog;
 @ApplicationScoped
 @Startup
 @IfBuildProperty(name = "eforms-validator.engine", stringValue = "noop")
-class NoopValidator implements Validator {
+class NoopValidator implements FormsValidator {
 
   @PostConstruct
   void init() {

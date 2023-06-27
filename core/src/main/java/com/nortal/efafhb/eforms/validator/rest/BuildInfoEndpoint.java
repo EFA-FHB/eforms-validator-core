@@ -16,6 +16,7 @@ public class BuildInfoEndpoint {
   @Produces(APPLICATION_JSON)
   public Response getBuildInfo() {
     try (InputStream inputStream = getClass().getResourceAsStream("/build_info.json")) {
+      assert inputStream != null;
       return Response.ok(inputStream.readAllBytes()).build();
     } catch (Exception e) {
       return Response.status(Status.NOT_FOUND).build();

@@ -1,11 +1,14 @@
-package com.nortal.efafhb.eforms.validator.validation;
+package com.nortal.efafhb.eforms.validator.validation.service;
 
-import static com.nortal.efafhb.eforms.validator.validation.ValidatorUtil.EXCLUDED_SCHEMATRON_RULES_DE;
+import static com.nortal.efafhb.eforms.validator.validation.service.ValidatorUtil.EXCLUDED_SCHEMATRON_RULES_DE;
 
-import com.nortal.efafhb.eforms.validator.ValidationConfig;
-import com.nortal.efafhb.eforms.validator.validation.output.ReportType;
-import com.nortal.efafhb.eforms.validator.validation.output.ValidationEntry;
-import com.nortal.efafhb.eforms.validator.validation.output.ValidationResult;
+import com.nortal.efafhb.eforms.validator.enums.ReportType;
+import com.nortal.efafhb.eforms.validator.enums.SupportedType;
+import com.nortal.efafhb.eforms.validator.enums.SupportedVersion;
+import com.nortal.efafhb.eforms.validator.validation.FormsValidator;
+import com.nortal.efafhb.eforms.validator.validation.ValidationConfig;
+import com.nortal.efafhb.eforms.validator.validation.entry.ValidationEntry;
+import com.nortal.efafhb.eforms.validator.validation.util.ValidationResult;
 import de.kosit.validationtool.api.Check;
 import de.kosit.validationtool.api.Configuration;
 import de.kosit.validationtool.api.Input;
@@ -34,7 +37,7 @@ import org.oclc.purl.dsdl.svrl.FailedAssert;
 @ApplicationScoped
 @Startup
 @IfBuildProperty(name = "eforms-validator.engine", stringValue = "kosit")
-class KositValidator implements Validator {
+public class KositValidator implements FormsValidator {
 
   private static final String KOSIT_SCENARIOS_PATH =
       ValidatorUtil.RESOURCE_PATH + "kosit/%s/scenarios.xml";

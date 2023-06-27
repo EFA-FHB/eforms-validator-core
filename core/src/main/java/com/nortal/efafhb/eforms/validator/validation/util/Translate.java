@@ -1,7 +1,9 @@
-package com.nortal.efafhb.eforms.validator.validation;
+package com.nortal.efafhb.eforms.validator.validation.util;
 
 import com.jcabi.xml.XMLDocument;
-import com.nortal.efafhb.eforms.validator.ValidationConfig;
+import com.nortal.efafhb.eforms.validator.enums.SupportedType;
+import com.nortal.efafhb.eforms.validator.enums.SupportedVersion;
+import com.nortal.efafhb.eforms.validator.validation.ValidationConfig;
 import io.smallrye.openapi.runtime.util.StringUtil;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
@@ -18,7 +20,7 @@ import org.apache.commons.io.IOUtils;
 @Singleton
 @NoArgsConstructor(access = AccessLevel.PACKAGE)
 @JBossLog
-class Translate {
+public class Translate {
 
   private static final String SCHEMATRON_TRANSLATIONS_LOC =
       "schematron/%s/translations/%s/rule_en.xml";
@@ -61,7 +63,7 @@ class Translate {
    * @param content rule to be translated
    * @return translated rule
    */
-  String translate(SupportedVersion version, SupportedType supportedType, String content) {
+  public String translate(SupportedVersion version, SupportedType supportedType, String content) {
     assertTranslations();
     XMLDocument xml = getTranslations(supportedType).get(version);
     if (xml == null) {

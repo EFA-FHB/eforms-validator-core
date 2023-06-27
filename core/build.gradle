@@ -2,6 +2,7 @@ plugins {
     id 'io.quarkus'
     id 'jacoco'
     id 'org.sonarqube'
+    id 'maven-publish'
     id "com.diffplug.spotless" version "6.19.0"
 }
 
@@ -23,10 +24,6 @@ dependencies {
     implementation 'com.jcabi:jcabi-xml:0.21.3'
     implementation files('libs/kosit-validator-patched.jar')
     implementation 'com.helger.schematron:ph-schematron-pure:6.3.3'
-
-    // this version is not released by kosit developers
-//    implementation group: 'de.schlichtherle.kosit-validator', name: 'validationtool', version: '1.5.0'
-
     implementation 'com.github.vladimir-bukhtoyarov:bucket4j-core:7.6.0'
 
     testImplementation 'app.getxray:xray-junit-extensions:0.6.1'

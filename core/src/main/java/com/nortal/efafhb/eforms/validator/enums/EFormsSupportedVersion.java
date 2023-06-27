@@ -1,4 +1,4 @@
-package com.nortal.efafhb.eforms.validator.validation;
+package com.nortal.efafhb.eforms.validator.enums;
 
 import java.util.stream.Stream;
 import lombok.Getter;
@@ -22,7 +22,7 @@ public enum EFormsSupportedVersion {
     return Stream.of(values())
         .filter(v -> v.getEformsVersion().equals(eformsVersion))
         .findAny()
-        .map(EFormsSupportedVersion::getSupportedVersion)
+        .map(com.nortal.efafhb.eforms.validator.enums.EFormsSupportedVersion::getSupportedVersion)
         .orElse(null);
   }
 }

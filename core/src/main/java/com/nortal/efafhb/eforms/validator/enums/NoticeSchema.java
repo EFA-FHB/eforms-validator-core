@@ -1,4 +1,4 @@
-package com.nortal.efafhb.eforms.validator.validation;
+package com.nortal.efafhb.eforms.validator.enums;
 
 import java.util.stream.Stream;
 import lombok.Getter;

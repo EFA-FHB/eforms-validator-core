@@ -12,7 +12,8 @@ plugins {
 apply from: rootProject.file('gradle/install-git-hooks.gradle')
 
 allprojects {
-    group 'com.nortal.efafhb.eforms.validator'
+    group = project.group
+    version = project.version
 }
 
 publishing {

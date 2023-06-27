@@ -1,8 +1,10 @@
 package com.nortal.efafhb.eforms.validator.validation;
 
-import com.nortal.efafhb.eforms.validator.validation.output.ValidationResult;
+import com.nortal.efafhb.eforms.validator.enums.SupportedType;
+import com.nortal.efafhb.eforms.validator.enums.SupportedVersion;
+import com.nortal.efafhb.eforms.validator.validation.util.ValidationResult;
 
-interface Validator {
+public interface FormsValidator {
 
   /**
    * Validates EForms against schematron rules

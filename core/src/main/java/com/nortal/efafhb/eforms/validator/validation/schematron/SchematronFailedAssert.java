@@ -1,4 +1,4 @@
-package com.nortal.efafhb.eforms.validator.validation;
+package com.nortal.efafhb.eforms.validator.validation.schematron;
 
 import com.helger.schematron.svrl.AbstractSVRLMessage;
 import com.helger.schematron.svrl.jaxb.FailedAssert;

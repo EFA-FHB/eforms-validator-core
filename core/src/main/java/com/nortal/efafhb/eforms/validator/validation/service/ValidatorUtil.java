@@ -1,9 +1,12 @@
-package com.nortal.efafhb.eforms.validator.validation;
+package com.nortal.efafhb.eforms.validator.validation.service;
 
 import com.nortal.efafhb.eforms.validator.common.Constants;
-import com.nortal.efafhb.eforms.validator.validation.output.InfoLevel;
-import com.nortal.efafhb.eforms.validator.validation.output.ReportType;
-import com.nortal.efafhb.eforms.validator.validation.output.ValidationEntry;
+import com.nortal.efafhb.eforms.validator.enums.InfoLevel;
+import com.nortal.efafhb.eforms.validator.enums.ReportType;
+import com.nortal.efafhb.eforms.validator.enums.SupportedType;
+import com.nortal.efafhb.eforms.validator.enums.SupportedVersion;
+import com.nortal.efafhb.eforms.validator.validation.entry.ValidationEntry;
+import com.nortal.efafhb.eforms.validator.validation.util.Translate;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -23,22 +26,22 @@ import org.apache.commons.lang3.StringUtils;
 
 @Singleton
 @JBossLog
-class ValidatorUtil {
+public class ValidatorUtil {
 
   @Inject Translate translate;
 
-  static final String RESOURCE_PATH = "schematron/%s/";
-  static final String EFORMS_SDK_VERSION_DELIMITER = "-";
+  public static final String RESOURCE_PATH = "schematron/%s/";
+  public static final String EFORMS_SDK_VERSION_DELIMITER = "-";
 
   private static final String MESSAGE_PATTERN_SCHEMATRON = "Rule: %s ; Test: %s ; Location: %s";
 
   static final String VALIDATION_ENTRY_SCHEMATRON_TYPE = "SCHEMATRON";
-  static final String VALIDATION_ENTRY_XSD_TYPE = "XSD";
-  static final String XSD_VALIDATION_FAILED_CODE = "XSD_VALIDATION_FAILED_CODE";
+  public static final String VALIDATION_ENTRY_XSD_TYPE = "XSD";
+  public static final String XSD_VALIDATION_FAILED_CODE = "XSD_VALIDATION_FAILED_CODE";
   static final String VALIDATION_ENTRY_T015_SCHEMATRON_TYPE = "BUSINESS_DOCUMENT_VALIDATION_FAILED";
   private static final String EXCLUDED_SCHEMATRON_RULES_DE_RESOURCE_PATH =
       RESOURCE_PATH + "excluded_rules.txt";
-  static final List<String> EXCLUDED_SCHEMATRON_RULES_DE =
+  public static final List<String> EXCLUDED_SCHEMATRON_RULES_DE =
       readExcludedSchematronRules(EXCLUDED_SCHEMATRON_RULES_DE_RESOURCE_PATH.formatted("de"));
 
   static final Map<String, InfoLevel> INFO_LEVEL_MAPPINGS = initInfoLevelMappings();
@@ -71,7 +74,7 @@ class ValidatorUtil {
    * @param location location in xsd
    * @return validation details
    */
-  ValidationEntry createValidationEntry(
+  public ValidationEntry createValidationEntry(
       SupportedVersion version,
       SupportedType supportedType,
       String content,
@@ -95,7 +98,7 @@ class ValidatorUtil {
    * @param flag additional information on level of error in string
    * @return level of error as enum
    */
-  InfoLevel getSchematronErrorLevel(String role, String flag) {
+  public InfoLevel getSchematronErrorLevel(String role, String flag) {
     String errorLevelIndicator = StringUtils.isBlank(role) ? flag : role;
     if (StringUtils.isBlank(errorLevelIndicator)) {
       log.warn("Unrecognized schematron assert log level: null");

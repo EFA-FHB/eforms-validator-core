@@ -1,21 +1,25 @@
-package com.nortal.efafhb.eforms.validator.validation;
+package com.nortal.efafhb.eforms.validator.validation.service;
 
-import static com.nortal.efafhb.eforms.validator.validation.ValidatorUtil.EFORMS_SDK_VERSION_DELIMITER;
-import static com.nortal.efafhb.eforms.validator.validation.ValidatorUtil.VALIDATION_ENTRY_XSD_TYPE;
-import static com.nortal.efafhb.eforms.validator.validation.ValidatorUtil.XSD_VALIDATION_FAILED_CODE;
+import static com.nortal.efafhb.eforms.validator.validation.service.ValidatorUtil.EFORMS_SDK_VERSION_DELIMITER;
+import static com.nortal.efafhb.eforms.validator.validation.service.ValidatorUtil.VALIDATION_ENTRY_XSD_TYPE;
+import static com.nortal.efafhb.eforms.validator.validation.service.ValidatorUtil.XSD_VALIDATION_FAILED_CODE;
 
-import com.nortal.efafhb.eforms.validator.ValidationConfig;
 import com.nortal.efafhb.eforms.validator.aspects.ExecutionTimeLogAspect;
 import com.nortal.efafhb.eforms.validator.common.Constants;
+import com.nortal.efafhb.eforms.validator.enums.NoticeSchema;
+import com.nortal.efafhb.eforms.validator.enums.SupportedType;
+import com.nortal.efafhb.eforms.validator.enums.SupportedVersion;
 import com.nortal.efafhb.eforms.validator.exception.ErrorCode;
 import com.nortal.efafhb.eforms.validator.exception.ValidatorApplicationException;
+import com.nortal.efafhb.eforms.validator.validation.ValidationConfig;
+import com.nortal.efafhb.eforms.validator.validation.ValidatorService;
 import com.nortal.efafhb.eforms.validator.validation.dto.BusinessDocumentValidationModelDTO;
 import com.nortal.efafhb.eforms.validator.validation.dto.BusinessDocumentValidationRequestDTO;
 import com.nortal.efafhb.eforms.validator.validation.dto.ValidationModelDTO;
 import com.nortal.efafhb.eforms.validator.validation.dto.ValidationModelEntryDTO;
 import com.nortal.efafhb.eforms.validator.validation.dto.ValidationRequestDTO;
-import com.nortal.efafhb.eforms.validator.validation.output.ValidationEntry;
-import com.nortal.efafhb.eforms.validator.validation.output.ValidationResult;
+import com.nortal.efafhb.eforms.validator.validation.entry.ValidationEntry;
+import com.nortal.efafhb.eforms.validator.validation.util.ValidationResult;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -31,7 +35,6 @@ import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.SchemaFactory;
 import lombok.extern.jbosslog.JBossLog;
@@ -41,9 +44,16 @@ import org.xml.sax.SAXException;
 @JBossLog
 @ApplicationScoped
 public class ValidatorServiceImpl implements ValidatorService {
-  @Inject Validator validator;
-  @Inject BusinessDocumentValidator businessDocumentValidator;
-  @Inject ValidationConfig validationConfig;
+
+  BusinessDocumentValidator businessDocumentValidator;
+  ValidationConfig validationConfig;
+
+  public ValidatorServiceImpl(
+      BusinessDocumentValidator businessDocumentValidator, ValidationConfig validationConfig) {
+
+    this.businessDocumentValidator = businessDocumentValidator;
+    this.validationConfig = validationConfig;
+  }
 
   @ExecutionTimeLogAspect
   public ValidationModelDTO validate(ValidationRequestDTO validationRequestDTO) {
@@ -58,7 +68,7 @@ public class ValidatorServiceImpl implements ValidatorService {
     }
 
     if (validationRequestDTO.isSchematronValidation()) {
-      validationModelDTO = validateSchematron(validationRequestDTO, sdkType);
+      //   validationModelDTO = validateSchematron(validationRequestDTO, sdkType);
     }
 
     return validationModelDTO;
@@ -84,7 +94,7 @@ public class ValidatorServiceImpl implements ValidatorService {
     }
   }
 
-  private ValidationModelDTO validateSchematron(
+  /*  private ValidationModelDTO validateSchematron(
       ValidationRequestDTO validationRequestDTO, SupportedType sdkType) {
     String requestedEformsVersion =
         StringUtils.joinWith(
@@ -92,11 +102,11 @@ public class ValidatorServiceImpl implements ValidatorService {
             sdkType.getStandardizedName(),
             validationRequestDTO.getVersion());
     return convertToValidationModel(
-        validator.validate(
+        formsValidator.validate(
             sdkType,
             new String(validationRequestDTO.getEforms(), StandardCharsets.UTF_8),
             SupportedVersion.versionFromSDK(requestedEformsVersion)));
-  }
+  }*/
 
   @ExecutionTimeLogAspect
   public BusinessDocumentValidationModelDTO validateBusinessDocument(

@@ -1,11 +1,11 @@
-package com.nortal.efafhb.eforms.validator.validation;
+package com.nortal.efafhb.eforms.validator.enums;
 
 import java.util.Arrays;
 import java.util.Map;
 import lombok.Getter;
 
 @Getter
-enum SupportedVersion {
+public enum SupportedVersion {
   V1_5_1("1.5.1"),
   V1_0_1("1.0.1"),
   V1_0_0("1.0.0"),
@@ -39,7 +39,9 @@ enum SupportedVersion {
                     String.format("Not supported version of sdk: %s", suportedVersion)));
   }
 
-  /** @return map of combinations of eForms gdk and corresponding sdk version */
+  /**
+   * @return map of combinations of eForms gdk and corresponding sdk version
+   */
   public static Map<SupportedVersion, SupportedVersion> sdkVersionsForGdk() {
     return sdkVersionsForGdk;
   }

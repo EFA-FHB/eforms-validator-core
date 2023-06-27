@@ -1,12 +1,12 @@
-package com.nortal.efafhb.eforms.validator.validation;
+package com.nortal.efafhb.eforms.validator.enums;
 
-import static com.nortal.efafhb.eforms.validator.validation.ValidatorUtil.EFORMS_SDK_VERSION_DELIMITER;
+import static com.nortal.efafhb.eforms.validator.validation.service.ValidatorUtil.EFORMS_SDK_VERSION_DELIMITER;
 
 import com.nortal.efafhb.eforms.validator.exception.ErrorCode;
 import com.nortal.efafhb.eforms.validator.exception.ValidatorApplicationException;
 import java.util.Arrays;
 
-enum SupportedType {
+public enum SupportedType {
   DE("eforms-de", "eforms-de"),
   EU("eforms-eu", "eforms-sdk");
 

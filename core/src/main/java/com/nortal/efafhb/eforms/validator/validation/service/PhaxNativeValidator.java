@@ -1,18 +1,22 @@
-package com.nortal.efafhb.eforms.validator.validation;
+package com.nortal.efafhb.eforms.validator.validation.service;
 
-import static com.nortal.efafhb.eforms.validator.validation.ValidatorUtil.EFORMS_SDK_VERSION_DELIMITER;
-import static com.nortal.efafhb.eforms.validator.validation.ValidatorUtil.EXCLUDED_SCHEMATRON_RULES_DE;
-import static com.nortal.efafhb.eforms.validator.validation.ValidatorUtil.RESOURCE_PATH;
+import static com.nortal.efafhb.eforms.validator.validation.service.ValidatorUtil.EFORMS_SDK_VERSION_DELIMITER;
+import static com.nortal.efafhb.eforms.validator.validation.service.ValidatorUtil.EXCLUDED_SCHEMATRON_RULES_DE;
+import static com.nortal.efafhb.eforms.validator.validation.service.ValidatorUtil.RESOURCE_PATH;
 
 import com.helger.schematron.ISchematronResource;
 import com.helger.schematron.pure.SchematronResourcePure;
 import com.helger.schematron.svrl.jaxb.SchematronOutputType;
 import com.helger.xml.transform.StringStreamSource;
-import com.nortal.efafhb.eforms.validator.ValidationConfig;
+import com.nortal.efafhb.eforms.validator.enums.ReportType;
+import com.nortal.efafhb.eforms.validator.enums.SupportedType;
+import com.nortal.efafhb.eforms.validator.enums.SupportedVersion;
 import com.nortal.efafhb.eforms.validator.exception.ErrorCode;
 import com.nortal.efafhb.eforms.validator.exception.ValidatorApplicationException;
-import com.nortal.efafhb.eforms.validator.validation.output.ReportType;
-import com.nortal.efafhb.eforms.validator.validation.output.ValidationResult;
+import com.nortal.efafhb.eforms.validator.validation.FormsValidator;
+import com.nortal.efafhb.eforms.validator.validation.ValidationConfig;
+import com.nortal.efafhb.eforms.validator.validation.schematron.SchematronHelper;
+import com.nortal.efafhb.eforms.validator.validation.util.ValidationResult;
 import io.quarkus.arc.properties.IfBuildProperty;
 import io.quarkus.runtime.Startup;
 import java.util.ArrayList;
@@ -27,7 +31,7 @@ import lombok.extern.jbosslog.JBossLog;
 @ApplicationScoped
 @Startup
 @IfBuildProperty(name = "eforms-validator.engine", stringValue = "phax")
-class PhaxNativeValidator implements Validator {
+class PhaxNativeValidator implements FormsValidator {
 
   private static final String SCHEMATRON_LOCATION = RESOURCE_PATH + "native-validation/%s/%s";
   private static final EnumMap<SupportedVersion, ISchematronResource> validatorsNativeEu =

@@ -1,4 +1,4 @@
-package com.nortal.efafhb.eforms.validator.validation.output;
+package com.nortal.efafhb.eforms.validator.enums;
 
 public enum InfoLevel {
   WARNING,
