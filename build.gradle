@@ -101,7 +101,7 @@ subprojects {
     }
 }
 
-static def getCheckedOutGitCommitHash() {
+def getCheckedOutGitCommitHash() {
     grgit.head().abbreviatedId
 }
 
