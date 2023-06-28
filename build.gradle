@@ -4,9 +4,12 @@ import java.time.temporal.ChronoUnit
 plugins {
     id 'java'
     id 'jacoco'
+    id 'io.quarkus'
+    id 'org.sonarqube'
     id 'maven-publish'
-    id "com.github.vlsi.jandex" version "1.86"
     id 'org.ajoberstar.grgit' version '5.0.0'
+    id "com.diffplug.spotless" version "6.19.0"
+    id "com.github.vlsi.jandex" version "1.86"
 }
 
 apply from: rootProject.file('gradle/install-git-hooks.gradle')
@@ -18,7 +21,7 @@ allprojects {
 
 publishing {
     publications {
-        maven(MavenPublication) {
+        mavenJava(MavenPublication) {
             from components.java
         }
     }
@@ -35,57 +38,79 @@ publishing {
     }
 }
 
-subprojects {
-    apply plugin: 'java'
-    apply plugin: 'com.github.vlsi.jandex'
+repositories {
+    mavenCentral()
+    mavenLocal()
 
-    repositories {
-        mavenCentral()
-        mavenLocal()
-
-        maven {
-            name = "GitHubPackages"
-            url = uri("https://maven.pkg.github.com/${property("github.packages.xray")}")
-            credentials {
-                username = findProperty("gpr.user") ?: findProperty("github.packages.username")
-                password = findProperty("gpr.key") ?: findProperty("github.packages.password")
-            }
+    maven {
+        name = "GitHubPackages"
+        url = uri("https://maven.pkg.github.com/${property("github.packages.xray")}")
+        credentials {
+            username = findProperty("gpr.user") ?: findProperty("github.packages.username")
+            password = findProperty("gpr.key") ?: findProperty("github.packages.password")
         }
     }
+}
 
-    dependencies {
-        compileOnly 'org.projectlombok:lombok:1.18.22'
-        annotationProcessor 'org.projectlombok:lombok:1.18.22'
+dependencies {
+    // Quarkus
+    implementation(platform("${quarkusPlatformGroupId}:${quarkusPlatformArtifactId}:${quarkusPlatformVersion}"))
+    implementation 'io.quarkus:quarkus-arc'
+    implementation 'io.quarkus:quarkus-resteasy'
+    implementation 'io.quarkus:quarkus-hibernate-validator'
+    implementation 'io.quarkus:quarkus-smallrye-openapi'
+    implementation 'io.quarkus:quarkus-resteasy-multipart'
 
-        testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
-        testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
-    }
+    // Utils
+    implementation 'commons-io:commons-io:2.11.0'
+    implementation 'org.apache.commons:commons-lang3:3.0'
+    implementation 'org.projectlombok:lombok:1.18.22'
 
-    java {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
-    }
+    implementation 'com.jcabi:jcabi-xml:0.21.3'
+    implementation 'com.helger.schematron:ph-schematron-pure:6.3.3'
+    implementation 'com.github.vladimir-bukhtoyarov:bucket4j-core:7.6.0'
 
-    compileJava {
-        options.encoding = 'UTF-8'
-        options.compilerArgs << '-parameters'
-    }
+    implementation files('libs/kosit-validator-patched.jar')
 
-    test {
-        systemProperty "java.util.logging.manager", "org.jboss.logmanager.LogManager"
-        reports.html.required = false
-    }
+    compileOnly 'org.projectlombok:lombok:1.18.22'
 
-    compileTestJava {
-        options.encoding = 'UTF-8'
-    }
 
-    tasks.register('buildInfo') {
-        doLast {
-            def commitId = System.getenv('GIT_SHA_REF') ?: grgit.head().getId()
+    annotationProcessor 'org.projectlombok:lombok:1.18.22'
 
-            new File(sourceSets.main.output.resourcesDir, "build_info.json").text =
-"""{
+    testImplementation 'app.getxray:xray-junit-extensions:0.6.1'
+    testImplementation 'io.quarkus:quarkus-junit5'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
+
+compileJava {
+    options.encoding = 'UTF-8'
+    options.compilerArgs << '-parameters'
+}
+
+test {
+    systemProperty "java.util.logging.manager", "org.jboss.logmanager.LogManager"
+    reports.html.required = false
+    minHeapSize = "1024m" // initial heap size
+    maxHeapSize = "7168m" // maximum heap size
+}
+
+compileTestJava {
+    options.encoding = 'UTF-8'
+}
+
+tasks.register('buildInfo') {
+    doLast {
+        def commitId = System.getenv('GIT_SHA_REF') ?: grgit.head().getId()
+
+        new File(sourceSets.main.output.resourcesDir, "build_info.json").text =
+                """{
     "name" : "${rootProject.name}-${project.name}",
     "build" : {
         "version" : "${project.version}",
@@ -97,14 +122,70 @@ subprojects {
     }
 }
 """
-        }
     }
 }
+
 
 def getCheckedOutGitCommitHash() {
     grgit.head().abbreviatedId
 }
 
+sonarqube {
+    String sonarHostUrl = System.getenv("SONAR_HOST_URL") ?: property("sonarHostUrl")
+    String sonarLogin = System.getenv("SONAR_TOKEN") ?: property("sonarLogin")
+    String sonarPassword = System.getenv("SONAR_TOKEN") ? "" : property("sonarPassword")
+    properties {
+        property 'sonar.host.url', sonarHostUrl
+        property 'sonar.login', sonarLogin
+        property 'sonar.password', sonarPassword
+        property "sonar.projectKey", "EFA-FHB_gdk-eforms-validator"
+        property "sonar.projectName", "gdk-eforms-validator"
+        property "sonar.organization", "efa-fhb"
+        property 'sonar.inclusions', "**/resource/**, **/efafhb/gdk/**"
+    }
+}
 
+test.finalizedBy jacocoTestReport
+
+jacocoTestReport {
+
+    reports {
+        xml.enabled true
+        csv.enabled false
+        html.enabled false
+    }
+
+    getExecutionData().setFrom(fileTree(buildDir).include("jacoco/*.exec"))
+
+    afterEvaluate {
+        classDirectories.setFrom(files(classDirectories.files.collect {
+            fileTree(dir: it, exclude: ["**/build/generated/*"])
+        }))
+    }
+    dependsOn processResources, quarkusGenerateCode, compileJava
+}
+
+tasks.named('sonarqube').configure {
+    dependsOn jacocoTestReport
+}
+
+task xrayTests(type: Test) {
+    useJUnitPlatform {
+        includeTags "xray-test"
+    }
+}
+
+spotless {
+    ratchetFrom 'origin/main'
+    java {
+        importOrder()
+        removeUnusedImports()
+        googleJavaFormat()
+    }
+}
+
+tasks.named('compileJava').configure {
+    dependsOn buildInfo
+}
 
 
