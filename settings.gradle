@@ -11,5 +11,4 @@ pluginManagement {
 }
 
 rootProject.name="${name}"
-include 'core'
 
