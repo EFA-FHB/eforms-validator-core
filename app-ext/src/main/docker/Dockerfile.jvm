@@ -1,5 +1,0 @@
-FROM efafhb.azurecr.io/efafhb-quarkus-java17:0.3.0-15
-
-COPY --chown=jboss build/quarkus-app/app-runner.jar /deployments/quarkus-run.jar
-
-CMD ["/opt/jboss/container/java/run/run-java.sh"]
