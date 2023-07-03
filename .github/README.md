@@ -2,19 +2,14 @@
 
 ## Purpose
 
-Providing validation for eForms-XML documents via HTTP validation endpoint.
+Providing validation for eForms-XML documents via service.
 
 ## Tech stack
 
 - [Java 17](https://openjdk.java.net/projects/jdk/17/)
 - [Quarkus Framework](https://quarkus.io/guides/)
 - [Gradle](https://gradle.org/)
-- [Docker](https://www.docker.com/)
 - [Kubernetes](https://kubernetes.io/)
-
-## Project Layout
-The project is organized as multi-module project:
-- `app`: contains the core business-logic
 
 ## Build
 The project is build the Gradle.
@@ -75,22 +70,3 @@ Lookup credentials to access the sonar dashboard can be found in `gradle.propert
 ## CI/CD
 The application is built on Github using [Github-Actions](https://github.com/EFA-FHB/gdk-eforms-validator/actions).
 Detailed information on available workflows and actions can be found in the [.github directory](README_GITHUB.md)
-
-## Container Images
-
-Container images using [Docker](https://www.docker.com/) are created as part of the `CI` workflow when the application is built on Github.
-
-To create a `app` container image manually, execute:
-
-```shell script
-./gradlew :app:clean :app:assemble && \
-docker build -t app:latest -f app/src/main/docker/Dockerfile.jvm --no-cache app
-```
-
-## Deployment
-
-see [here](https://github.com/EFA-FHB/k8s_workflows)
-
-## Environment Variables 
-
-see [here](https://github.com/EFA-FHB/ai-adapter/blob/main/config.md)

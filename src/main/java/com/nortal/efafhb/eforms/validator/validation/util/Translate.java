@@ -1,10 +1,11 @@
 package com.nortal.efafhb.eforms.validator.validation.util;
 
+import static org.apache.commons.lang3.ObjectUtils.isNotEmpty;
+
 import com.jcabi.xml.XMLDocument;
 import com.nortal.efafhb.eforms.validator.enums.SupportedType;
 import com.nortal.efafhb.eforms.validator.enums.SupportedVersion;
 import com.nortal.efafhb.eforms.validator.validation.ValidationConfig;
-import io.smallrye.openapi.runtime.util.StringUtil;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.EnumMap;
@@ -48,7 +49,7 @@ public class Translate {
               SupportedType supportedType = SupportedType.typeFromSDK(version);
               String supportedTypeName = supportedType.name().toLowerCase();
               String translationFile = readFile(supportedTypeName, supportedVersion.getValue());
-              if (StringUtil.isNotEmpty(translationFile)) {
+              if (isNotEmpty(translationFile)) {
                 getTranslations(supportedType)
                     .put(supportedVersion, new XMLDocument(translationFile));
                 getTranslationsCashed(supportedType).put(supportedVersion, new HashMap<>());
