@@ -18,6 +18,10 @@ import lombok.NoArgsConstructor;
 import lombok.extern.jbosslog.JBossLog;
 import org.apache.commons.io.IOUtils;
 
+
+/**
+ * Utility class for translating error/warning messages using eforms sdk translation files.
+ */
 @Singleton
 @NoArgsConstructor(access = AccessLevel.PACKAGE)
 @JBossLog
@@ -58,11 +62,12 @@ public class Translate {
   }
 
   /**
-   * Translate error/warning messages using eforms sdk translation files
+   * Translate error/warning messages using eforms sdk translation files.
    *
-   * @param version version of eforms
-   * @param content rule to be translated
-   * @return translated rule
+   * @param version the version of eforms
+   * @param supportedType the supported type of eforms
+   * @param content the rule to be translated
+   * @return the translated rule
    */
   public String translate(SupportedVersion version, SupportedType supportedType, String content) {
     assertTranslations();
@@ -89,6 +94,9 @@ public class Translate {
     return foundTranslate;
   }
 
+  /**
+   * Checks if translations are loaded and loads them if necessary.
+   */
   private void assertTranslations() {
     if (!translationsLoaded.get()) {
       loadTranslations();
@@ -96,6 +104,13 @@ public class Translate {
     }
   }
 
+  /**
+   * Reads the translation file for the given SDK type name and version.
+   *
+   * @param sdkTypeName the SDK type name
+   * @param version the version of the translation file
+   * @return the contents of the translation file as a string, or {@code null} if the file could not be read
+   */
   private String readFile(String sdkTypeName, String version) {
     String location = String.format(SCHEMATRON_TRANSLATIONS_LOC, sdkTypeName, version);
     InputStream inputStream = null;
@@ -110,6 +125,12 @@ public class Translate {
     }
   }
 
+  /**
+   * Retrieves the translations map for the given supported type.
+   *
+   * @param supportedType the supported type
+   * @return the translations map for the supported type
+   */
   private EnumMap<SupportedVersion, XMLDocument> getTranslations(SupportedType supportedType) {
     return switch (supportedType) {
       case DE -> translationsDe;
@@ -117,6 +138,12 @@ public class Translate {
     };
   }
 
+  /**
+   * Retrieves the cached translations map for the given supported type.
+   *
+   * @param supportedType the supported type
+   * @return the cached translations map for the supported type
+   */
   private EnumMap<SupportedVersion, HashMap<String, String>> getTranslationsCashed(
       SupportedType supportedType) {
     return switch (supportedType) {

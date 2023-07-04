@@ -12,6 +12,12 @@ import javax.ws.rs.ext.Provider;
 @Provider
 public class WebExceptionMapper implements ExceptionMapper<WebApplicationException> {
 
+  /**
+   * Maps the provided WebApplicationException to a Response object.
+   *
+   * @param exception the WebApplicationException to be mapped
+   * @return a Response object representing the mapped exception
+   */
   @Override
   public Response toResponse(WebApplicationException exception) {
     ResourceBundle resourceBundle =

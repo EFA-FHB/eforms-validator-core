@@ -40,7 +40,9 @@ public enum SupportedVersion {
   }
 
   /**
-   * @return map of combinations of eForms gdk and corresponding sdk version
+   * Retrieves the map of combinations of eForms gdk and corresponding SDK versions.
+   *
+   * @return the map of combinations of eForms gdk and corresponding SDK versions
    */
   public static Map<SupportedVersion, SupportedVersion> sdkVersionsForGdk() {
     return sdkVersionsForGdk;

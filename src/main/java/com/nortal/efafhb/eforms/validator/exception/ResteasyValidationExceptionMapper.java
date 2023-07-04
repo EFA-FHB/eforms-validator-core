@@ -9,10 +9,19 @@ import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
+/**
+ * Exception mapper for handling ResteasyViolationExceptionImpl.
+ */
 @Provider
 public class ResteasyValidationExceptionMapper
     implements ExceptionMapper<ResteasyViolationExceptionImpl> {
 
+  /**
+   * Maps the provided ResteasyViolationExceptionImpl to a Response object.
+   *
+   * @param exception the ResteasyViolationExceptionImpl to be mapped
+   * @return a Response object representing the mapped exception
+   */
   @Override
   public Response toResponse(ResteasyViolationExceptionImpl exception) {
     ResourceBundle resourceBundle =

@@ -35,11 +35,11 @@ public class ValidationResult {
   }
 
   /**
-   * Method used to add validation details
+   * Adds a validation entry to the validation report.
    *
-   * @param reportType source of validation
-   * @param infoLevel level of validation
-   * @param validationEntry validation details
+   * @param reportType the source of the validation
+   * @param infoLevel the level of the validation
+   * @param validationEntry the validation details
    */
   public void addValidationToReport(
       ReportType reportType, InfoLevel infoLevel, ValidationEntry validationEntry) {
@@ -47,9 +47,9 @@ public class ValidationResult {
   }
 
   /**
-   * Returns all errors and unknown statuses found during validations
+   * Returns all errors and unknown statuses found during validations.
    *
-   * @return errors
+   * @return a set of errors
    */
   public Set<ValidationEntry> getErrors() {
     Set<ValidationEntry> errors = new HashSet<>();
@@ -62,9 +62,9 @@ public class ValidationResult {
   }
 
   /**
-   * Returns all warnings found during validation
+   * Returns all warnings found during validation.
    *
-   * @return warnings
+   * @return a set of warnings
    */
   public Set<ValidationEntry> getWarnings() {
     Set<ValidationEntry> warnings = new HashSet<>();

@@ -11,6 +11,12 @@ import javax.ws.rs.ext.Provider;
 public class ValidatorApplicationExceptionMapper
     implements ExceptionMapper<ValidatorApplicationException> {
 
+  /**
+   * Maps the provided ValidatorApplicationException to a Response object.
+   *
+   * @param exception the ValidatorApplicationException to be mapped
+   * @return a Response object representing the mapped exception
+   */
   @Override
   public Response toResponse(ValidatorApplicationException exception) {
     ResourceBundle resourceBundle =
