@@ -25,6 +25,12 @@ public final class SchematronHelper {
 
   private SchematronHelper() {}
 
+  /**
+   * Retrieves all failed assertions from the Schematron output.
+   *
+   * @param schematronOutputType the Schematron output containing the validation results
+   * @return a list of {@link SchematronFailedAssert} instances representing the failed assertions
+   */
   @Nonnull
   @ReturnsMutableCopy
   public static ICommonsList<SchematronFailedAssert> getAllFailedAssertions(
@@ -42,11 +48,24 @@ public final class SchematronHelper {
     return failedAsserts;
   }
 
+  /**
+   * Gets the beautified location for a given location string.
+   *
+   * @param location the location string
+   * @return the beautified location string
+   */
   @Nonnull
-  public static String getBeautifiedLocation(@Nonnull String var0) {
-    return getBeautifiedLocation(var0, SVRLLocationBeautifierRegistry::getBeautifiedLocation);
+  public static String getBeautifiedLocation(@Nonnull String location) {
+    return getBeautifiedLocation(location, SVRLLocationBeautifierRegistry::getBeautifiedLocation);
   }
 
+  /**
+   * Gets the beautified location for a given location string using a custom location beautifier.
+   *
+   * @param location the location string
+   * @param locationBeautifier the location beautifier implementation
+   * @return the beautified location string
+   */
   @Nonnull
   public static String getBeautifiedLocation(
       @Nonnull String location, @Nonnull ISVRLLocationBeautifier locationBeautifier) {

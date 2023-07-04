@@ -9,6 +9,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 import javax.interceptor.InterceptorBinding;
 
+/** Annotation for enabling execution time logging aspect on methods or classes. */
 @Inherited
 @InterceptorBinding
 @Retention(RUNTIME)

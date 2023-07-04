@@ -18,14 +18,31 @@ public enum SupportedType {
     this.standardizedName = standardizedName;
   }
 
+  /**
+   * Gets the value of the supported type.
+   *
+   * @return the value of the supported type
+   */
   public String getValue() {
     return value;
   }
 
+  /**
+   * Gets the standardized name of the supported type.
+   *
+   * @return the standardized name of the supported type
+   */
   public String getStandardizedName() {
     return standardizedName;
   }
 
+  /**
+   * Finds the SupportedType enum matching the provided value (case-insensitive).
+   *
+   * @param value the value to match
+   * @return the SupportedType enum matching the provided value
+   * @throws ValidatorApplicationException if no matching SupportedType is found
+   */
   public static SupportedType findByValueIgnoreCase(String value) {
     return Arrays.stream(SupportedType.values())
         .filter(v -> v.getValue().equalsIgnoreCase(value))
@@ -34,9 +51,12 @@ public enum SupportedType {
   }
 
   /**
-   * @param sdkVersion - eForms version in format used in 'CustomizationID' element
-   * @return the {@link SupportedType} matching the provided sdkVersion given in format
-   *     'eforms-[sg]dk-X.X'
+   * Retrieves the SupportedType matching the provided eForms SDK version.
+   *
+   * @param sdkVersion the eForms version in the format used in the 'CustomizationID' element (e.g.,
+   *     'eforms-sdk-X.X')
+   * @return the SupportedType matching the provided eForms SDK version
+   * @throws IllegalArgumentException if the provided sdkVersion is not supported
    */
   public static SupportedType typeFromSDK(String sdkVersion) {
     String standardizedSdkType =

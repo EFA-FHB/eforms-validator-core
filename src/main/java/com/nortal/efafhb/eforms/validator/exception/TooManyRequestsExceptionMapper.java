@@ -8,9 +8,16 @@ import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
+/** Exception mapper for handling TooManyRequestsException. */
 @Provider
 public class TooManyRequestsExceptionMapper implements ExceptionMapper<TooManyRequestsException> {
 
+  /**
+   * Maps the provided TooManyRequestsException to a Response object.
+   *
+   * @param exception the TooManyRequestsException to be mapped
+   * @return a Response object representing the mapped exception
+   */
   @Override
   public Response toResponse(TooManyRequestsException exception) {
     ResourceBundle resourceBundle =
