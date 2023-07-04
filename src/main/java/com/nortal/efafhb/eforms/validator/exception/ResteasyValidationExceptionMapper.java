@@ -9,9 +9,7 @@ import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
-/**
- * Exception mapper for handling ResteasyViolationExceptionImpl.
- */
+/** Exception mapper for handling ResteasyViolationExceptionImpl. */
 @Provider
 public class ResteasyValidationExceptionMapper
     implements ExceptionMapper<ResteasyViolationExceptionImpl> {

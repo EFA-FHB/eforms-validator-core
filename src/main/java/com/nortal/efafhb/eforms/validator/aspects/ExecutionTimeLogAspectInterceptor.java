@@ -6,9 +6,7 @@ import javax.interceptor.Interceptor;
 import javax.interceptor.InvocationContext;
 import lombok.extern.jbosslog.JBossLog;
 
-/**
- * Interceptor for logging the execution time of methods.
- */
+/** Interceptor for logging the execution time of methods. */
 @ExecutionTimeLogAspect
 @Interceptor
 @Priority(Interceptor.Priority.APPLICATION)

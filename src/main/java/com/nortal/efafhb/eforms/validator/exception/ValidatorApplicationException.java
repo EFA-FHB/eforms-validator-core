@@ -12,7 +12,7 @@ public class ValidatorApplicationException extends RuntimeException {
    * Constructs a new ValidatorApplicationException with the specified error code and message
    * arguments.
    *
-   * @param errorCode        the error code associated with the exception
+   * @param errorCode the error code associated with the exception
    * @param messageArguments the message arguments used to format the error message
    */
   public ValidatorApplicationException(ErrorCode errorCode, Object... messageArguments) {

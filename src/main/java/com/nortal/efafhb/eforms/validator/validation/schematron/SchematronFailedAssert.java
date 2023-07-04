@@ -7,9 +7,7 @@ import java.util.function.Function;
 import javax.annotation.Nonnull;
 import javax.annotation.concurrent.Immutable;
 
-/**
- * Represents a failed assertion in a Schematron validation result.
- */
+/** Represents a failed assertion in a Schematron validation result. */
 @Immutable
 public class SchematronFailedAssert extends AbstractSVRLMessage {
 
@@ -27,11 +25,12 @@ public class SchematronFailedAssert extends AbstractSVRLMessage {
   }
 
   /**
-   * Constructs a SchematronFailedAssert instance from a FailedAssert object and a function for obtaining
-   * the beautified location of the failed assertion.
+   * Constructs a SchematronFailedAssert instance from a FailedAssert object and a function for
+   * obtaining the beautified location of the failed assertion.
    *
    * @param failedAssert the FailedAssert object representing the failed assertion
-   * @param getBeautifiedLocation the function for obtaining the beautified location of the failed assertion
+   * @param getBeautifiedLocation the function for obtaining the beautified location of the failed
+   *     assertion
    */
   public SchematronFailedAssert(
       @Nonnull FailedAssert failedAssert,

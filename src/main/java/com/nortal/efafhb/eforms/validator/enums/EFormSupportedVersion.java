@@ -3,9 +3,7 @@ package com.nortal.efafhb.eforms.validator.enums;
 import java.util.stream.Stream;
 import lombok.Getter;
 
-/**
- * Enum representing the supported versions of eForms.
- */
+/** Enum representing the supported versions of eForms. */
 @Getter
 public enum EFormSupportedVersion {
   V01("eforms-sdk-0.1", "0.1.1"),
@@ -17,9 +15,10 @@ public enum EFormSupportedVersion {
   private final String supportedVersion;
 
   /**
-   * Constructs a new EFormSupportedVersion enum with the specified eForms version and supported version.
+   * Constructs a new EFormSupportedVersion enum with the specified eForms version and supported
+   * version.
    *
-   * @param eformsVersion    the eForms version
+   * @param eformsVersion the eForms version
    * @param supportedVersion the supported version
    */
   EFormSupportedVersion(String eformsVersion, String supportedVersion) {

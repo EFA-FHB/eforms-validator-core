@@ -18,10 +18,7 @@ import lombok.NoArgsConstructor;
 import lombok.extern.jbosslog.JBossLog;
 import org.apache.commons.io.IOUtils;
 
-
-/**
- * Utility class for translating error/warning messages using eforms sdk translation files.
- */
+/** Utility class for translating error/warning messages using eforms sdk translation files. */
 @Singleton
 @NoArgsConstructor(access = AccessLevel.PACKAGE)
 @JBossLog
@@ -94,9 +91,7 @@ public class Translate {
     return foundTranslate;
   }
 
-  /**
-   * Checks if translations are loaded and loads them if necessary.
-   */
+  /** Checks if translations are loaded and loads them if necessary. */
   private void assertTranslations() {
     if (!translationsLoaded.get()) {
       loadTranslations();
@@ -109,7 +104,8 @@ public class Translate {
    *
    * @param sdkTypeName the SDK type name
    * @param version the version of the translation file
-   * @return the contents of the translation file as a string, or {@code null} if the file could not be read
+   * @return the contents of the translation file as a string, or {@code null} if the file could not
+   *     be read
    */
   private String readFile(String sdkTypeName, String version) {
     String location = String.format(SCHEMATRON_TRANSLATIONS_LOC, sdkTypeName, version);

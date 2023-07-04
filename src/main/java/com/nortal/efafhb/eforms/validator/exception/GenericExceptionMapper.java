@@ -8,9 +8,7 @@ import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 import lombok.extern.jbosslog.JBossLog;
 
-/**
- * Exception mapper for handling generic exceptions.
- */
+/** Exception mapper for handling generic exceptions. */
 @Provider
 @JBossLog
 public class GenericExceptionMapper implements ExceptionMapper<Exception> {

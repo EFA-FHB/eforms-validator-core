@@ -53,7 +53,8 @@ public enum SupportedType {
   /**
    * Retrieves the SupportedType matching the provided eForms SDK version.
    *
-   * @param sdkVersion the eForms version in the format used in the 'CustomizationID' element (e.g., 'eforms-sdk-X.X')
+   * @param sdkVersion the eForms version in the format used in the 'CustomizationID' element (e.g.,
+   *     'eforms-sdk-X.X')
    * @return the SupportedType matching the provided eForms SDK version
    * @throws IllegalArgumentException if the provided sdkVersion is not supported
    */

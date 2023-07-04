@@ -20,7 +20,7 @@ public enum NoticeSchema {
    * Constructs a new NoticeSchema enum with the given notice type name and schema name.
    *
    * @param noticeTypeName the name of the notice type
-   * @param schemaName     the name of the XSD schema file
+   * @param schemaName the name of the XSD schema file
    */
   NoticeSchema(String noticeTypeName, String schemaName) {
     this.noticeTypeName = noticeTypeName;
@@ -31,8 +31,8 @@ public enum NoticeSchema {
    * Retrieves the schema name from the notice type name.
    *
    * @param noticeTypeName the name of the notice type (e.g., "ContractNotice")
-   * @return the name of the XSD schema file for the given notice type name (as in the root tag of the eForms.xml),
-   *         or null if not found
+   * @return the name of the XSD schema file for the given notice type name (as in the root tag of
+   *     the eForms.xml), or null if not found
    */
   public static String getSchemaNameFromNoticeTypeName(String noticeTypeName) {
     if (StringUtils.isBlank(noticeTypeName)) {
@@ -46,14 +46,14 @@ public enum NoticeSchema {
   }
 
   /**
-   * Calculates the path to the XSD schema file in the resources, based on the specified SDK type, eForms version,
-   * and notice type name.
+   * Calculates the path to the XSD schema file in the resources, based on the specified SDK type,
+   * eForms version, and notice type name.
    *
    * @param requestedEformsVersion the SDK/DE version of the eForms (e.g., "1.5.1")
-   * @param sdkType                the type of SDK for eForms (national/european)
-   * @param noticeTypeName         the name of the notice type
-   * @return the path to the XSD schema file in the resources, based on the given SDK type, eForms version,
-   *         and notice type name
+   * @param sdkType the type of SDK for eForms (national/european)
+   * @param noticeTypeName the name of the notice type
+   * @return the path to the XSD schema file in the resources, based on the given SDK type, eForms
+   *     version, and notice type name
    */
   public static String calculateSchemaPath(
       String requestedEformsVersion, SupportedType sdkType, String noticeTypeName) {

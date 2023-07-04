@@ -8,9 +8,7 @@ import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
-/**
- * Exception mapper for handling TooManyRequestsException.
- */
+/** Exception mapper for handling TooManyRequestsException. */
 @Provider
 public class TooManyRequestsExceptionMapper implements ExceptionMapper<TooManyRequestsException> {
 
