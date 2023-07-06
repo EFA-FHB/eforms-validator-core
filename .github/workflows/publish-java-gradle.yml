@@ -30,7 +30,7 @@ jobs:
         with:
           arguments: test --info
       - name: Run Sonar scan        
-        if: ${{ vars.SONAR_SCAN_ENABLED == 'true' }}        
+        if: ${{ github.actor != 'dependabot[bot]' && vars.SONAR_SCAN_ENABLED == 'true' }}        
         env: 
           GITHUB_TOKEN: ${{ secrets.EFA_CICD_REPO_ACCESS_TOKEN }}  # Needed to get PR information, if any          
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}          
