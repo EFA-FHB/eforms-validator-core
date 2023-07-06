@@ -15,7 +15,7 @@ jobs:
       - name: Validate Gradle wrapper
         uses: gradle/wrapper-validation-action@e6e38bacfdf1a337459f332974bb2327a31aaf4b
       - name: Run Trivy vulnerability scanner         
-        uses: aquasecurity/trivy-action@v0.11.2         
+        uses: aquasecurity/trivy-action@0.11.2         
         with:           
           scan-type: 'rootfs'           
           scan-ref: 'build/libs'      
