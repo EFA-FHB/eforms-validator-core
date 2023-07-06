@@ -57,7 +57,7 @@ dependencies {
     implementation 'org.projectlombok:lombok:1.18.22'
 
     implementation 'com.jcabi:jcabi-xml:0.27.2'
-    implementation 'com.helger.schematron:ph-schematron-pure:6.3.3'
+    implementation 'com.helger.schematron:ph-schematron-pure:6.3.4'
     implementation 'com.github.vladimir-bukhtoyarov:bucket4j-core:7.6.0'
 
     implementation files('libs/kosit-validator-patched.jar')
