@@ -39,6 +39,7 @@ jobs:
         with:          
           arguments: sonarqube --info    
   publish:
+    if: ${{ github.actor != 'dependabot[bot]' }}      
     needs: [test]      
     runs-on: ubuntu-latest
     permissions:
