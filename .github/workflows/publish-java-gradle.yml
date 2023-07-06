@@ -20,14 +20,9 @@ jobs:
         with:
           arguments: assemble
       - name: Run Trivy vulnerability scanner         
-        uses: aquasecurity/trivy-action@0.11.2         
-        with:           
-          scan-type: 'rootfs'           
-          scan-ref: 'build/libs'      
-          scanners: 'vuln'      
-          ignore-unfixed: true 
-          exit-code: '1' 
-          severity: 'CRITICAL,HIGH'
+        shell: bash
+        run: |
+           docker run --pull always --rm -v $(pwd)/build/libs:/root aquasec/trivy rootfs / --ignore-unfixed --exit-code 1 --scanners vuln --debug --severity CRITICAL,HIGH
    
    
       - name: execute tests
