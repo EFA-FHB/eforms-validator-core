@@ -18,7 +18,7 @@ jobs:
       - name: build
         uses: gradle/gradle-build-action@v2.5.1
         with:
-          arguments: build -x test
+          arguments: assemble
       - name: Run Trivy vulnerability scanner         
         uses: aquasecurity/trivy-action@0.11.2         
         with:           
