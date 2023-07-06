@@ -6,7 +6,7 @@
 version: 2
 updates:
   - package-ecosystem: "gradle" # See documentation for possible values
-    directory: "/app" # Location of package manifests
+    directory: "/" # Location of package manifests
     schedule:
       interval: "daily"
     allow:
@@ -22,10 +22,14 @@ updates:
         update-types: ["version-update:semver-major"]
         # Ignore test dependencies
       - dependency-name: "app.getxray:xray-junit-extensions"
+      - dependency-name: "com.diffplug.spotless"
+      - dependency-name: "org.ajoberstar.grgit"
+      - dependency-name: "org.junit.jupiter:junit-jupiter-engine"
+      - dependency-name: "org.junit.jupiter:junit-jupiter-api"
     labels:
       - "dependencies"
     # limit on open pull requests
-    open-pull-requests-limit: 5
+    open-pull-requests-limit: 10
     pull-request-branch-name:
       separator: "/"
     target-branch: "development"
