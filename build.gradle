@@ -126,10 +126,10 @@ sonarqube {
         property 'sonar.host.url', sonarHostUrl
         property 'sonar.login', sonarLogin
         property 'sonar.password', sonarPassword
-        property "sonar.projectKey", "EFA-FHB_gdk-eforms-validator"
-        property "sonar.projectName", "gdk-eforms-validator"
+        property "sonar.projectKey", "EFA-FHB_eforms-validator-core"
+        property "sonar.projectName", "eforms-validator-core"
         property "sonar.organization", "efa-fhb"
-        property 'sonar.inclusions', "**/resource/**, **/efafhb/gdk/**"
+        property 'sonar.inclusions',  "**/efafhb/**"
     }
 }
 
