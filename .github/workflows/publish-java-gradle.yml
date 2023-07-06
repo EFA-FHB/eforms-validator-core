@@ -18,6 +18,15 @@ jobs:
         uses: gradle/gradle-build-action@v2.5.1
         with:
           arguments: test
+      - name: Run Sonar scan        
+        if: ${{ vars.SONAR_SCAN_ENABLED == 'true' }}        
+        env: 
+          GITHUB_TOKEN: ${{ secrets.EFA_CICD_REPO_ACCESS_TOKEN }}  # Needed to get PR information, if any          
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}          
+          SONAR_HOST_URL: https://sonarcloud.io        
+        uses: gradle/gradle-build-action@v2        
+        with:          
+          arguments: sonarqube --info    
   publish:
     
     needs: [test]      
