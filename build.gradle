@@ -54,7 +54,7 @@ dependencies {
     implementation 'commons-io:commons-io:2.11.0'
     implementation 'org.apache.commons:commons-lang3:3.12.0'
 
-    implementation 'org.projectlombok:lombok:1.18.22'
+    implementation 'org.projectlombok:lombok:1.18.28'
 
     implementation 'com.jcabi:jcabi-xml:0.21.3'
     implementation 'com.helger.schematron:ph-schematron-pure:6.3.3'
@@ -62,9 +62,9 @@ dependencies {
 
     implementation files('libs/kosit-validator-patched.jar')
 
-    compileOnly 'org.projectlombok:lombok:1.18.22'
+    compileOnly 'org.projectlombok:lombok:1.18.28'
 
-    annotationProcessor 'org.projectlombok:lombok:1.18.22'
+    annotationProcessor 'org.projectlombok:lombok:1.18.28'
 
     testImplementation 'io.quarkus:quarkus-junit5'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
