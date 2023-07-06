@@ -1,7 +1,7 @@
 name: Publish package to GitHub Packages
 on: push
 
-concurrency: eforms-validator-core
+concurrency: eforms-validator-core-${{github.ref_name}}
 
 jobs:
   test:
