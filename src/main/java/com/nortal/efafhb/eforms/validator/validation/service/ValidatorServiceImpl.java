@@ -39,7 +39,6 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
-
 import lombok.extern.jbosslog.JBossLog;
 import org.apache.commons.lang3.StringUtils;
 import org.xml.sax.SAXException;
@@ -195,8 +194,10 @@ public class ValidatorServiceImpl implements ValidatorService {
     }
   }
 
-  private Validator getXSDValidator(String requestedEformsVersion, SupportedType sdkType, String noticeTypeName) {
-    String schemaPath = NoticeSchema.calculateSchemaPath(requestedEformsVersion, sdkType, noticeTypeName);
+  private Validator getXSDValidator(
+      String requestedEformsVersion, SupportedType sdkType, String noticeTypeName) {
+    String schemaPath =
+        NoticeSchema.calculateSchemaPath(requestedEformsVersion, sdkType, noticeTypeName);
     log.debug(
         String.format(
             "Validating eForms xml document based on schema stored in location: %s", schemaPath));

@@ -1,6 +1,5 @@
 package com.nortal.efafhb.eforms.validator.validation.service;
 
-import com.nortal.efafhb.eforms.validator.common.Constants;
 import com.nortal.efafhb.eforms.validator.enums.InfoLevel;
 import com.nortal.efafhb.eforms.validator.enums.ReportType;
 import com.nortal.efafhb.eforms.validator.enums.SupportedType;
@@ -15,10 +14,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
-import java.util.ResourceBundle;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import lombok.extern.jbosslog.JBossLog;
