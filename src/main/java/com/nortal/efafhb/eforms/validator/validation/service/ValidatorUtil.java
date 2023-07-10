@@ -41,29 +41,10 @@ public class ValidatorUtil {
   static final String VALIDATION_ENTRY_T015_SCHEMATRON_TYPE = "BUSINESS_DOCUMENT_VALIDATION_FAILED";
   private static final String EXCLUDED_SCHEMATRON_RULES_DE_RESOURCE_PATH =
       RESOURCE_PATH + "excluded_rules.txt";
-  public static final List<String> EXCLUDED_SCHEMATRON_RULES_DE =
+  protected static final List<String> EXCLUDED_SCHEMATRON_RULES_DE =
       readExcludedSchematronRules(EXCLUDED_SCHEMATRON_RULES_DE_RESOURCE_PATH.formatted("de"));
 
   static final Map<String, InfoLevel> INFO_LEVEL_MAPPINGS = initInfoLevelMappings();
-
-  /**
-   * Creates validation entry from content
-   *
-   * @param content message content
-   * @return validation details
-   */
-  ValidationEntry createValidationEntryWithMessageOnly(String content) {
-    return ValidationEntry.builder().formattedMessage(content).build();
-  }
-
-  ValidationEntry createXsdValidationEntry(String content) {
-    ResourceBundle resourceBundle =
-        ResourceBundle.getBundle(Constants.ERRORS, new Locale(Constants.LOCALE_DE));
-    ValidationEntry validationEntry = createValidationEntryWithMessageOnly(content);
-    return validationEntry
-        .withType(getType(ReportType.XSD))
-        .withDescription(resourceBundle.getString(XSD_VALIDATION_FAILED_CODE));
-  }
 
   /**
    * Creates message from content, test and location of schematron assert

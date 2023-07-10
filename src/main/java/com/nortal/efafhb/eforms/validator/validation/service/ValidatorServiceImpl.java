@@ -38,6 +38,8 @@ import java.util.stream.Collectors;
 import javax.enterprise.context.ApplicationScoped;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.SchemaFactory;
+import javax.xml.validation.Validator;
+
 import lombok.extern.jbosslog.JBossLog;
 import org.apache.commons.lang3.StringUtils;
 import org.xml.sax.SAXException;
@@ -193,12 +195,8 @@ public class ValidatorServiceImpl implements ValidatorService {
     }
   }
 
-  private javax.xml.validation.Validator getXSDValidator(
-      String requestedEformsVersion, SupportedType sdkType, String noticeTypeName)
-      throws SAXException {
-    SchemaFactory factory = SchemaFactory.newDefaultInstance();
-    String schemaPath =
-        NoticeSchema.calculateSchemaPath(requestedEformsVersion, sdkType, noticeTypeName);
+  private Validator getXSDValidator(String requestedEformsVersion, SupportedType sdkType, String noticeTypeName) {
+    String schemaPath = NoticeSchema.calculateSchemaPath(requestedEformsVersion, sdkType, noticeTypeName);
     log.debug(
         String.format(
             "Validating eForms xml document based on schema stored in location: %s", schemaPath));
@@ -207,7 +205,7 @@ public class ValidatorServiceImpl implements ValidatorService {
       throw new ValidatorApplicationException(ErrorCode.UNSUPPORTED_EFORM_VERSION_SDK_TYPE);
     }
     try {
-      return factory.newSchema(resource).newValidator();
+      return SchemaFactory.newDefaultInstance().newSchema(resource).newValidator();
     } catch (SAXException e) {
       throw new IllegalArgumentException("Exception while parsing schema resource.");
     }
