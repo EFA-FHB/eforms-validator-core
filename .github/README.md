@@ -29,6 +29,14 @@ The application can be built using:
 ./gradlew build
 ```
 
+## Build Fat Jar
+The project can be build using gradle shadow plugin.
+
+The application can be built using:
+```shell script
+./gradlew shadowJar
+```
+
 ## Development
 
 If you run the application in dev mode, you edit the source code and

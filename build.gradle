@@ -10,6 +10,7 @@ plugins {
     id 'org.ajoberstar.grgit' version '5.0.0'
     id "com.diffplug.spotless" version "6.19.0"
     id "com.github.vlsi.jandex" version "1.90"
+    id 'com.github.johnrengelman.shadow' version '7.1.2'
 }
 
 apply from: rootProject.file('gradle/install-git-hooks.gradle')
@@ -170,4 +171,7 @@ tasks.named('compileJava').configure {
     dependsOn buildInfo
 }
 
-
+shadowJar {
+    archiveClassifier.set('fat')
+    configurations = [project.configurations.runtimeClasspath]
+}
