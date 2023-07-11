@@ -17,7 +17,6 @@ Providing validation for eForms-XML documents via service.
 - [Java 17](https://openjdk.java.net/projects/jdk/17/)
 - [Quarkus Framework](https://quarkus.io/guides/)
 - [Gradle](https://gradle.org/)
-- [Kubernetes](https://kubernetes.io/)
 
 ## Build
 The project is build the Gradle.
@@ -69,10 +68,6 @@ You can trigger the unit test suite using:
 ## Code Coverage
 Code coverage is measured with [Jacoco](https://github.com/jacoco/jacoco) and sent to [Sonar](https://www.sonarqube.org/).
 To keep track of code coverage while developing you can spin up a local sonar instance.
-
-```shell script
-docker-compose up -d sonar
-```
 
 After you ran any tests, run a sonar check using:
 ```shell script

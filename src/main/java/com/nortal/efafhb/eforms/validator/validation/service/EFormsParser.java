@@ -23,7 +23,6 @@ class EFormsParser {
    */
   public static EFormsParser init(InputStream eforms) {
     try {
-
       XML xml = new XMLDocument(eforms);
       return new EFormsParser(xml);
     } catch (IllegalArgumentException | IOException e) {
