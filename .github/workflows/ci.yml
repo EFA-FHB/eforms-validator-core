@@ -112,11 +112,12 @@ jobs:
           arguments: sonarqube --info
 
   publish:
-    if: ${{ github.actor != 'dependabot[bot]' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/development') }}
     needs: [test]
     runs-on: ubuntu-latest
 
     name: "🚀 publish"
+
+    if: ${{ github.actor != 'dependabot[bot]' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/development') }}
 
     steps:
       - uses: actions/checkout@v3
