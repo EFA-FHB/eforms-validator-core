@@ -92,13 +92,15 @@ jobs:
           report_paths: '**/build/test-results/test/TEST-*.xml'
           annotate_only: true
 
-      - name: Set test status
-        uses: github/set-status-action@v2
+      - name: Run Sonar scan
+        if: ${{ github.actor != 'dependabot[bot]' && vars.SONAR_SCAN_ENABLED == 'true' }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.EFA_CICD_REPO_ACCESS_TOKEN }}  # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: https://sonarcloud.io
+        uses: gradle/gradle-build-action@v2
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          state: success
-          description: 'Tests completed successfully'
-          context: 'ci/test'
+          arguments: sonarqube --info
 
   publish:
     if: ${{ github.actor != 'dependabot[bot]' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/development') }}
