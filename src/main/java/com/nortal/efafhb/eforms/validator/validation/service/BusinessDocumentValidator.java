@@ -46,10 +46,10 @@ public class BusinessDocumentValidator {
   public ValidationResult validate(String businessDocument) {
     List<SchematronOutputType> schematronOutputs = new ArrayList<>();
     try {
-      var v =
+      SchematronOutputType schematronOutputType =
           schematronResource.applySchematronValidationToSVRL(
               new StringStreamSource(businessDocument));
-      schematronOutputs.add(v);
+      schematronOutputs.add(schematronOutputType);
       return createValidationResult(schematronOutputs);
     } catch (Exception e) {
       log.warn("Exception occurred while reading source ", e);
@@ -67,8 +67,8 @@ public class BusinessDocumentValidator {
       List<SchematronOutputType> schematronOutputs, ValidationResult validationResult) {
 
     schematronOutputs.forEach(
-        so ->
-            SchematronHelper.getAllFailedAssertions(so)
+        schematronOutputType ->
+            SchematronHelper.getAllFailedAssertions(schematronOutputType)
                 .forEach(
                     schematronFailedAssert ->
                         validationResult.addValidationToReport(
