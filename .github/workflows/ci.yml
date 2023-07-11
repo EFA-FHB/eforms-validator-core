@@ -1,0 +1,140 @@
+name: "🏗️ CI/CD Pipeline"
+
+on:
+  push:
+    branches:
+      - main
+      - development
+      - '!feature/**'
+    paths:
+      - '**'
+      - '!gradle.properties'
+      - '!.github/**/*.yaml'
+    tags:
+      - '*'
+  pull_request:
+    branches:
+      - main
+      - development
+      - 'feature/**'
+
+jobs:
+
+  build:
+    runs-on: ubuntu-latest
+
+    name: "🛠️ Build"
+
+    steps:
+      - uses: actions/checkout@v3
+        name: Checkout project
+        with:
+          fetch-depth: 0 #spotless fix
+
+      - name: debug
+        shell: bash
+        env:
+          JSON: ${{ toJSON(github) }}
+        run: echo $JSON
+
+      - name: install_shared_actions
+        uses: ./.github/actions/install_shared_actions
+        with:
+          token: ${{secrets.EFA_CICD_REPO_ACCESS_TOKEN}}
+          tag: v2.4.0
+
+      - name: ensure branch strategy compliance
+        id: check_branch_strategy
+        uses: ./.github/actions/shared/check_branch_name
+
+      - name: Project setup
+        uses: ./.github/actions/shared/setup_jdk_17
+
+      - name: Build without tests
+        uses: gradle/gradle-build-action@v2
+        with:
+          arguments: build -x test
+
+      - name: Scan dependencies for vulnerabilities
+        if: ${{ vars.TRIVY_ROOTFS_SCAN_ENABLED == 'true' }}
+        uses: docker://docker.io/aquasec/trivy
+        with:
+          args: rootfs --skip-dirs=.sonar --ignore-unfixed --severity "HIGH,CRITICAL" --scanners "vuln" --exit-code 1 --debug .
+
+  test:
+    needs: [build]
+    runs-on: ubuntu-latest-8-cores
+
+    name: "📝 Run Tests"
+
+    steps:
+      - uses: actions/checkout@v3
+        name: Checkout project
+
+      - name: install_shared_actions
+        uses: ./.github/actions/install_shared_actions
+        with:
+          token: ${{secrets.EFA_CICD_REPO_ACCESS_TOKEN}}
+          tag: v2.4.0
+
+      - name: Project setup
+        uses: ./.github/actions/shared/setup_jdk_17
+
+      - name: Run Unit Tests
+        id: run_tests
+        uses: gradle/gradle-build-action@v2.3.3
+        with:
+          arguments: test --info -Pgpr.key=${{ inputs.xray-ghp-token }}
+
+      - name: Publish Test Report
+        uses: mikepenz/action-junit-report@v3.6.2
+        if: always() # always run even if the previous step fails
+        with:
+          report_paths: '**/build/test-results/test/TEST-*.xml'
+          annotate_only: true
+
+      - name: check sonarcloud.io
+        id: sonarcloud_probe
+        shell: bash +e {0}
+        run: |
+          curl -kv https://sonarcloud.io
+          echo "exit=$?" >> $GITHUB_OUTPUT
+          exit 0
+
+      - name: Run Sonar Scan
+        if: ${{ github.actor != 'dependabot[bot]' && vars.SONAR_SCAN_ENABLED == 'true' && steps.sonarcloud_probe.outputs.exit == '0' }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: https://sonarcloud.io
+        uses: gradle/gradle-build-action@v2
+        with:
+          arguments: sonarqube --info
+
+  publish:
+    if: ${{ github.actor != 'dependabot[bot]' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/development') }}
+    needs: [test]
+    runs-on: ubuntu-latest
+
+    name: "🚀 Publish"
+
+    steps:
+      - uses: actions/checkout@v3
+        name: Checkout project
+
+      - name: install_shared_actions
+        uses: ./.github/actions/install_shared_actions
+        with:
+          token: ${{secrets.EFA_CICD_REPO_ACCESS_TOKEN}}
+          tag: v2.4.0
+
+      - name: Project setup
+        uses: ./.github/actions/shared/setup_jdk_17
+
+      - name: Publish package
+        uses: gradle/gradle-build-action@v2.5.1
+        with:
+          arguments: publish
+        env:
+          GITHUB_TOKEN: ${{ secrets.JAVA_TOKEN }}
+          GITHUB_ACTOR: ${{ secrets.JAVA_ACTOR }}
