@@ -36,6 +36,40 @@ The application can be built using:
 ./gradlew shadowJar
 ```
 
+## Use as dependency
+Add necessary repository to build.gradle
+```shell script
+    repositories {
+        mavenCentral()
+        mavenLocal()
+
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/${property("github.validator.path")}")
+            credentials {
+                username = findProperty("gpr.user") ?: findProperty("github.validator.username")
+                password = findProperty("efa-fhb.github.token") ?: System.getenv("GH_PACKAGES_TOKEN")
+            }
+        }
+    }
+    
+    dependencies {
+        implementation 'com.nortal.efafhb.eforms.validator:eforms-validator-core:1.0.0'
+    }
+
+```
+
+Configure missing gradle.properties
+```shell script
+github.validator.username=validator-repo
+github.validator.path=EFA-FHB/*
+```
+
+Generate github token and add it to gradle.properties
+https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens#creating-a-personal-access-token-classic
+
+
+
 ## Development
 
 If you run the application in dev mode, you edit the source code and
