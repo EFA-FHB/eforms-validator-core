@@ -85,6 +85,51 @@ You can run the application in dev mode that enables live coding using:
 In Dev-Mode, Quarkus will apply the Liquibase changelog authored in the `schema`-Module
 automatically, giving you a bootstrapped database ready to use.
 
+## Add ValidationService as a service
+```
+import com.nortal.efafhb.eforms.validator.validation.ValidatorService;
+ 
+  @POST
+  @Consumes(MediaType.MULTIPART_FORM_DATA)
+  @Produces(MediaType.APPLICATION_JSON)
+  public Response validate(@MultipartForm @Valid ValidatorRequestDTO validatorRequestDTO) {
+    ValidationRequestDTO validationRequestDTO = convertToValidationRequestDTO(validatorRequestDTO);
+    return Response.ok(validatorService.validate(validationRequestDTO)).build();
+  }
+```
+DTO usage
+```
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.ws.rs.FormParam;
+import javax.ws.rs.core.MediaType;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.jboss.resteasy.annotations.providers.multipart.PartType;
+ 
+@Builder
+@Getter
+@Setter
+@NoArgsConstructor
+public class ValidatorRequestDTO {
+ 
+  @NotNull(message = "Version must not be null")
+  @FormParam("eformsVersion")
+  private @Pattern(regexp = "^[\\d]\\.[\\d]$", message = "BAD_EFORM_VERSION_FORMAT") String version;
+ 
+  @NotNull(message = "Sdk type must not be null.")
+  @FormParam("sdkType")
+  private String sdkType;
+ 
+  @NotNull(message = "EForms must not be null")
+  @FormParam("eforms")
+  @PartType(MediaType.APPLICATION_OCTET_STREAM)
+  private byte[] eforms;
+}
+```
+
 ## Unit-Tests
 Please write Unit-Tests using *Junit 5*.
 API-Tests are asserted using *RestAssured*
