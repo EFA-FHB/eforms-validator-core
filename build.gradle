@@ -17,7 +17,7 @@ apply from: rootProject.file('gradle/install-git-hooks.gradle')
 
 allprojects {
     group = project.group
-    version = project.version
+    version = project.version + "-" + getCheckedOutGitCommitHash()
 }
 
 repositories {
