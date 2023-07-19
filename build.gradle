@@ -70,10 +70,9 @@ dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
 
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
-
     constraints {
-        implementation('org.yaml:snakeyaml:2.0') {
-            because 'version 2.0 is vulnerable to CVE-2022-1471'
+        implementation('org.yaml:snakeyaml:1.33') {
+            because 'version 1.33 is vulnerable to CVE-2022-1471'
         }
     }
 }
