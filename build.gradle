@@ -136,7 +136,7 @@ sonarqube {
         property "sonar.projectKey", "EFA-FHB_eforms-validator-core"
         property "sonar.projectName", "eforms-validator-core"
         property "sonar.organization", "efa-fhb"
-        property 'sonar.inclusions', "**/efafhb/**"
+        property 'sonar.inclusions', "**/service/**"
     }
 }
 

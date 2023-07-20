@@ -12,11 +12,20 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import org.jboss.resteasy.annotations.providers.multipart.MultipartForm;
 
+/**
+ * REST endpoint for validating e-forms using the ValidatorService.
+ */
 @Path("v1/validation")
 public class ValidationEndpoint {
 
   @Inject ValidatorService validatorService;
 
+  /**
+   * Endpoint for validating e-forms.
+   *
+   * @param validatorRequestDTO The request DTO containing e-forms data to be validated.
+   * @return A JSON response containing the validation results.
+   */
   @POST
   @Consumes(MediaType.MULTIPART_FORM_DATA)
   @Produces(MediaType.APPLICATION_JSON)
@@ -25,6 +34,12 @@ public class ValidationEndpoint {
     return Response.ok(validatorService.validate(validationRequestDTO)).build();
   }
 
+  /**
+   * Converts the ValidatorRequestDTO to a ValidationRequestDTO.
+   *
+   * @param validatorRequestDTO The ValidatorRequestDTO to convert.
+   * @return The converted ValidationRequestDTO.
+   */
   private ValidationRequestDTO convertToValidationRequestDTO(
       ValidatorRequestDTO validatorRequestDTO) {
     return ValidationRequestDTO.builder()
