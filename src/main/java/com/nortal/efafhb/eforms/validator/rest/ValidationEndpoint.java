@@ -12,9 +12,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import org.jboss.resteasy.annotations.providers.multipart.MultipartForm;
 
-/**
- * REST endpoint for validating e-forms using the ValidatorService.
- */
+/** REST endpoint for validating e-forms using the ValidatorService. */
 @Path("v1/validation")
 public class ValidationEndpoint {
 
