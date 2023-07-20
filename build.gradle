@@ -49,8 +49,10 @@ dependencies {
     implementation(platform("${quarkusPlatformGroupId}:${quarkusPlatformArtifactId}:${quarkusPlatformVersion}"))
     implementation 'io.quarkus:quarkus-arc'
     implementation 'io.quarkus:quarkus-resteasy'
+    implementation 'io.quarkus:quarkus-resteasy-jackson'
     implementation 'io.quarkus:quarkus-hibernate-validator'
     implementation 'io.quarkus:quarkus-resteasy-multipart'
+    implementation 'io.quarkus:quarkus-smallrye-openapi'
     // Utils
     implementation 'commons-io:commons-io:2.11.0'
     implementation 'org.apache.commons:commons-lang3:3.12.0'
@@ -69,6 +71,12 @@ dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
 
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+    implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.15.2'
+    constraints {
+        implementation('org.yaml:snakeyaml:2.0') {
+            because 'version 1.33 is vulnerable to CVE-2022-1471'
+        }
+    }
 }
 
 java {
@@ -128,7 +136,7 @@ sonarqube {
         property "sonar.projectKey", "EFA-FHB_eforms-validator-core"
         property "sonar.projectName", "eforms-validator-core"
         property "sonar.organization", "efa-fhb"
-        property 'sonar.inclusions',  "**/efafhb/**"
+        property 'sonar.inclusions', "**/service/**"
     }
 }
 
@@ -172,4 +180,12 @@ tasks.named('compileJava').configure {
 shadowJar {
     archiveClassifier.set('fat')
     configurations = [project.configurations.runtimeClasspath]
+}
+
+jar {
+    manifest {
+        attributes 'Implementation-Title': 'Notice Validator',
+                'Implementation-Version': project.version,
+                'Main-Class': 'com.nortal.efafhb.eforms.validator.Main'
+    }
 }

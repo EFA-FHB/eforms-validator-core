@@ -69,22 +69,6 @@ Generate github token and add it to gradle.properties
 https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens#creating-a-personal-access-token-classic
 
 
-
-## Development
-
-If you run the application in dev mode, you edit the source code and
-any changes made will immediately be reflected in the running instance,
-means you don't have to restart it.
-
-```
-You can run the application in dev mode that enables live coding using:
-```shell script
-./gradlew quarkusDev
-```
-
-In Dev-Mode, Quarkus will apply the Liquibase changelog authored in the `schema`-Module
-automatically, giving you a bootstrapped database ready to use.
-
 ## Add ValidationService as a service
 ```
 import com.nortal.efafhb.eforms.validator.validation.ValidatorService;
@@ -129,6 +113,96 @@ public class ValidatorRequestDTO {
   private byte[] eforms;
 }
 ```
+# EForms Validator - Core use as a RESTful API
+
+## Service Description
+
+EForms Validator - Core is a service that provides a RESTful API endpoint for validating e-forms using a validator service. It accepts input in the form of a multipart form data with necessary parameters and returns validation results in JSON format.
+
+
+## Installation and Setup
+
+To get started with EForms Validator - Core, follow these steps:
+
+1. Clone the repository.
+2. Build the project and package it into a deployable format (e.g., WAR file).
+```
+./gradlew build
+./gradlew shadowJar
+```
+3. Deploy the built package to your preferred application server.
+
+## Running the Service
+
+Ensure that the service is correctly deployed on your application server. The service should be accessible via the specified endpoint URL.
+```agsl
+java -jar eforms-validator-core-1.0.0-runner.jar
+```
+## Endpoints
+
+### Validate E-Forms
+
+Endpoint URL: `/v1/validation`
+
+Method: `POST`
+
+Consumes: `multipart/form-data`
+
+Produces: `application/json`
+
+#### Request Parameters
+
+The request should be a multipart form data containing the following parameters:
+
+- `sdkType`: The type of the SDK used for e-forms (String).
+- `version`: The version of the SDK used (String).
+- `eforms`: The e-forms data to be validated (e.g., JSON representation) (String).
+
+#### Response
+
+Upon successful validation, the service will respond with a JSON object containing the validation results. The response will have an HTTP status code of 200 (OK). The format of the response will be specified by the `ValidatorService` used.
+
+#### Example Usage
+
+```http
+POST /v1/validation HTTP/1.1
+Host: example.com
+Content-Type: multipart/form-data; boundary=--------------------------1234567890
+Content-Length: <length>
+
+--------------------------1234567890
+Content-Disposition: form-data; name="eforms"
+
+{"field1": "value1", "field2": "value2", ...}
+--------------------------1234567890--
+```
+
+```json
+{
+  "result": "success",
+  "message": "Validation successful.",
+  "data": {
+    "field1": "value1",
+    "field2": "value2",
+    ...
+  }
+}
+```
+
+## Development
+
+If you run the application in dev mode, you edit the source code and
+any changes made will immediately be reflected in the running instance,
+means you don't have to restart it.
+
+```
+You can run the application in dev mode that enables live coding using:
+```shell script
+./gradlew quarkusDev
+```
+
+In Dev-Mode, Quarkus will apply the Liquibase changelog authored in the `schema`-Module
+automatically, giving you a bootstrapped database ready to use.
 
 ## Unit-Tests
 Please write Unit-Tests using *Junit 5*.
@@ -160,3 +234,11 @@ Lookup credentials to access the sonar dashboard can be found in `gradle.propert
 ## CI/CD
 The application is built on Github using [Github-Actions](https://github.com/EFA-FHB/gdk-eforms-validator/actions).
 Detailed information on available workflows and actions can be found in the [.github directory](README_GITHUB.md)
+
+## Contributing
+
+We welcome contributions to improve and enhance the functionality of EForms Validator - Core. If you encounter any issues or have suggestions for improvement, please feel free to create a pull request or raise an issue.
+
+## License
+
+EForms Validator - Core is licensed under the MIT License. You are free to use, modify, and distribute the code, subject to the terms of the license.
