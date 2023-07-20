@@ -49,6 +49,7 @@ dependencies {
     implementation(platform("${quarkusPlatformGroupId}:${quarkusPlatformArtifactId}:${quarkusPlatformVersion}"))
     implementation 'io.quarkus:quarkus-arc'
     implementation 'io.quarkus:quarkus-resteasy'
+    implementation 'io.quarkus:quarkus-resteasy-jackson'
     implementation 'io.quarkus:quarkus-hibernate-validator'
     implementation 'io.quarkus:quarkus-resteasy-multipart'
     implementation 'io.quarkus:quarkus-smallrye-openapi'
@@ -178,4 +179,12 @@ tasks.named('compileJava').configure {
 shadowJar {
     archiveClassifier.set('fat')
     configurations = [project.configurations.runtimeClasspath]
+}
+
+jar {
+    manifest {
+        attributes 'Implementation-Title': 'Notice Validator',
+                'Implementation-Version': project.version,
+                'Main-Class': 'com.nortal.efafhb.eforms.validator.Main'
+    }
 }
