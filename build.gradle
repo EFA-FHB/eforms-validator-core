@@ -59,7 +59,7 @@ dependencies {
 
     implementation 'org.projectlombok:lombok:1.18.22'
 
-    implementation 'com.jcabi:jcabi-xml:0.21.3'
+    implementation 'com.jcabi:jcabi-xml:0.28.0'
     implementation 'com.helger.schematron:ph-schematron-pure:6.3.4'
     implementation 'com.github.vladimir-bukhtoyarov:bucket4j-core:7.6.0'
 
