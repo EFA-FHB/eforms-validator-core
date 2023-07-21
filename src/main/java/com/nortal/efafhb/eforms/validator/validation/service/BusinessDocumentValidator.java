@@ -22,11 +22,14 @@ import org.eclipse.microprofile.config.inject.ConfigProperty;
 public class BusinessDocumentValidator {
 
   private static final String SCHEMATRON_LOCATION = "schematron/peppol/PEPPOL-T015.sch";
-  private static final String SCHEMATRON_EXCLUDED_RULE_LOCATION = "schematron/peppol/PEPPOL-T015-notice_naming_rule_excluded.sch";
+  private static final String SCHEMATRON_EXCLUDED_RULE_LOCATION =
+      "schematron/peppol/PEPPOL-T015-notice_naming_rule_excluded.sch";
 
   private ISchematronResource schematronResource;
 
-  @ConfigProperty(name = "eforms-validator.business_document_notice_file_naming_rule_included", defaultValue = "true")
+  @ConfigProperty(
+      name = "eforms-validator.business_document_notice_file_naming_rule_included",
+      defaultValue = "true")
   boolean isNoticeFileNamingRuleIncluded;
 
   @Inject ValidatorUtil validatorUtil;
@@ -45,7 +48,8 @@ public class BusinessDocumentValidator {
     }
     log.debugf("loading schematron resource: %s", schematronFileLocation);
     schematronResource =
-        SchematronResourcePure.fromClassPath(schematronFileLocation, this.getClass().getClassLoader());
+        SchematronResourcePure.fromClassPath(
+            schematronFileLocation, this.getClass().getClassLoader());
     if (!schematronResource.isValidSchematron()) {
       throw new IllegalArgumentException("Invalid Schematron!");
     }
