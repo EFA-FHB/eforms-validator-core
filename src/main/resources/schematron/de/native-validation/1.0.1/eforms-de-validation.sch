@@ -87,58 +87,49 @@
     value="$ROOT-NODE/ext:UBLExtensions/ext:UBLExtension/ext:ExtensionContent/efext:EformsExtension/efac:Organizations/efac:Organization" />
 
 
+  <!--
+    Rules to check sanity aspects on technical level e.g. is CustomizationID correct
+    SR = Sanitycheck Rule
+     -->
   <pattern id="technical-sanity-pattern">
-    <!-- Rules to check sanity aspects on technical level e.g. is CustomizationID correct  -->
 
+    <!-- Verifying the correct CustomizationID is used, e.g. eforms-de-1.0 instead of eforms-sdk-1.5 -->
     <rule context="$ROOT-NODE/cbc:CustomizationID">
-      <assert id="SR-DE-1" test="text() = $EFORMS-DE-ID" role="error"
-          >[SR-DE-1 ]The value <value-of select="."
-           /> of <name /> must be equal to the current version (<value-of
-          select="$EFORMS-DE-ID" />) of Standards eForms-DE. </assert>
+      <assert id="SR-DE-1" test="text() = $EFORMS-DE-ID" role="error">[SR-DE-1 ]The value <value-of select="." /> of <name /> must be equal to the current version (<value-of select="$EFORMS-DE-ID" />) of the eForms-DE Standard. </assert>
     </rule>
 
-
+    <!-- Verifying that SubTypeCode (notice subtype identifier e.g. 1-40 or E2-E4) is present to be used in following rules  -->
     <rule context="$EXTENSION-NODE">
-      <assert id="SR-DE-2" test="efac:NoticeSubType/cbc:SubTypeCode"
-        role="error"
-        >[SR-DE-2] The element efac:NoticeSubType/cbc:SubTypeCode must exist as child of <name />.</assert>
+      <assert id="SR-DE-2" test="efac:NoticeSubType/cbc:SubTypeCode" role="error">[SR-DE-2] The element efac:NoticeSubType/cbc:SubTypeCode must exist as child of <name />.</assert>
     </rule>
 
-
+    <!-- Verifying that SubTypeCode is in list of expected SubTypeCodes, as seen in SUBTYPES-ALL variable  -->
     <rule context="$SUBTYPE-CODE-NODE">
-      <assert id="SR-DE-3" test="($SUBTYPE = $SUBTYPES-ALL)" role="error"
-          >[SR-DE-3] SubTypeCode <value-of select="."
-           /> is not valid. It must be a value from this list <value-of
-          select="$SUBTYPES-ALL" />.</assert>
+      <assert id="SR-DE-3" test="($SUBTYPE = $SUBTYPES-ALL)" role="error">[SR-DE-3] SubTypeCode <value-of select="." /> is not valid. It must be a value from this list <value-of select="$SUBTYPES-ALL" />.</assert>
     </rule>
 
   </pattern>
 
 
+  <!--
+  Rules are roughly sorted by typical order of appearance in an instance
+  CR = Cardinalitycheck Rule
+  -->
   <pattern id="cardinality-pattern">
-    <!-- Rules are roughly sorted by typical order of appearance in an instance -->
     <rule context="$ROOT-NODE">
 
-      <assert id="CR-DE-BT-738"
-        test="boolean(normalize-space(cbc:RequestedPublicationDate))"
-        role="error"
-        >[CR-DE-BT-738] cbc:RequestedPublicationDate is mandatory.</assert>
+      <assert id="CR-DE-BT-738" test="boolean(normalize-space(cbc:RequestedPublicationDate))" role="error">[CR-DE-BT-738] cbc:RequestedPublicationDate must exist in <name/></assert>
 
-      <assert test="cac:TenderingTerms" id="SR-DE-01"
-        >[SR-DE-01] TenderingTerms must exist in all Notice Types</assert>
+      <assert id="SR-DE-01" test="cac:TenderingTerms" role="error">[SR-DE-01] TenderingTerms must exist in all Notice Types</assert>
 
-      <assert id="CR-BT-01-Germany"
-        test="exists(cac:TenderingTerms/cac:ProcurementLegislationDocumentReference/cbc:ID)"
-        role="error"
-        >[CR-BT-01-Germany] cac:ProcurementLegislationDocumentReference/cbc:ID must exist.</assert>
+      <assert id="CR-BT-01-Germany" test="exists(cac:TenderingTerms/cac:ProcurementLegislationDocumentReference/cbc:ID)" role="error">[CR-BT-01-Germany] cac:TenderingTerms/cac:ProcurementLegislationDocumentReference/cbc:ID must exist in <name />.</assert>
     </rule>
 
+<!-- Be aware that it is about UBO as child of  efac:Organizations https://github.com/OP-TED/eForms-SDK/discussions/440 -->
     <rule
       context="$EXTENSION-NODE/efac:Organizations/efac:UltimateBeneficialOwner">
 
-      <assert id="CR-DE-BT-706-UBO"
-        test="count(efac:Nationality/cbc:NationalityID) = 1" role="error"
-        >[CR-DE-BT-706-UBO] An efac:UltimateBeneficialOwner has to have on efac:Nationality/cbc:NationalityID</assert>
+      <assert id="CR-DE-BT-706-UBO" test="count(efac:Nationality/cbc:NationalityID) = 1" role="error">[CR-DE-BT-706-UBO]  efac:Nationality/cbc:NationalityID must exist in <name/>.</assert>
     </rule>
 
     <!-- rules common to Company and Touchpoint -->
@@ -147,114 +138,87 @@
       <let name="ADDRESS-NODE" value="cac:PostalAddress" />
       <let name="CONTACT-NODE" value="cac:Contact" />
 
-      <assert id="SR-DE-4" test="count($ADDRESS-NODE) = 1" role="error"
-        >[SR-DE-4] Every <name /> has to have one cac:PostalAddress</assert>
+      <assert id="SR-DE-4" test="count($ADDRESS-NODE) = 1" role="error">[SR-DE-4] Every <name /> must have one cac:PostalAddress</assert>
 
-      <assert id="SR-DE-7" test="count($ADDRESS-NODE/cac:Country) = 1"
-        role="error"
-        >[SR-DE-7] Every <name /> has to have one cac:Country</assert>
+      <assert id="SR-DE-7" test="count($ADDRESS-NODE/cac:Country) = 1" role="error">[SR-DE-7] Every <name /> must have one cac:Country</assert>
 
-      <assert id="SR-DE-9" test="count($CONTACT-NODE) = 1" role="error"
-        >[SR-DE-9] Every <name /> has to have one cac:Contact</assert>
+      <assert id="SR-DE-9" test="count($CONTACT-NODE) = 1" role="error">[SR-DE-9] Every <name /> must have one cac:Contact</assert>
 
-      <assert id="CR-DE-BT-500"
-        test="boolean(normalize-space(cac:PartyName/cbc:Name))" role="error"
-        >[CR-DE-BT-5] Every <name /> must have a Name.</assert>
+      <assert id="CR-DE-BT-500" test="boolean(normalize-space(cac:PartyName/cbc:Name))" role="error">[CR-DE-BT-5] Every <name /> must have a Name.</assert>
 
-      <assert id="CR-DE-BT-513"
-        test="boolean(normalize-space($ADDRESS-NODE/cbc:CityName))" role="error"
-        >[CR-DE-BT-513] Every <name /> must have a cbc:CityName.</assert>
+      <assert id="CR-DE-BT-513" test="boolean(normalize-space($ADDRESS-NODE/cbc:CityName))" role="error">[CR-DE-BT-513] Every <name /> must have a cbc:CityName.</assert>
 
-      <assert id="CR-DE-BT-512"
-        test="boolean(normalize-space($ADDRESS-NODE/cbc:PostalZone))"
-        role="error" see="cac:PostalAddress"
-        >[CR-DE-BT-512] <name /> Must have a PostalZone.</assert>
+      <assert id="CR-DE-BT-512" test="boolean(normalize-space($ADDRESS-NODE/cbc:PostalZone))" role="error" see="cac:PostalAddress">[CR-DE-BT-512] Every <name /> must have a PostalZone.</assert>
 
-      <assert id="CR-DE-BT-507"
-        test="boolean(normalize-space($ADDRESS-NODE/cbc:CountrySubentityCode))"
-        role="error"
-        >[CR-DE-BT-507] Every <name /> must have CountrySubentityCode.</assert>
+      <assert id="CR-DE-BT-507" test="boolean(normalize-space($ADDRESS-NODE/cbc:CountrySubentityCode))" role="error">[CR-DE-BT-507] Every <name /> must have CountrySubentityCode.</assert>
 
-      <assert id="CR-DE-BT-514"
-        test="boolean(normalize-space($ADDRESS-NODE/cac:Country/cbc:IdentificationCode))"
-        role="error"
-        >[CR-DE-BT-514] Every <name />must have a  cac:Country/cbc:IdentificationCode.</assert>
+      <assert id="CR-DE-BT-514" test="boolean(normalize-space($ADDRESS-NODE/cac:Country/cbc:IdentificationCode))" role="error">[CR-DE-BT-514] Every <name /> must have a cac:Country/cbc:IdentificationCode.</assert>
 
-      <assert id="CR-DE-BT-739" test="count($CONTACT-NODE/cbc:Telefax) le 1"
-        role="error"
-        >[CR-DE-BT-739]In every <name /> cac:Contact/cbc:Telefax may only occure ones.</assert>
+      <assert id="CR-DE-BT-739" test="count($CONTACT-NODE/cbc:Telefax) le 1" role="error">[CR-DE-BT-739]In every <name /> cac:Contact/cbc:Telefax may only occure ones.</assert>
 
     </rule>
+
     <!-- Specific rules for Company -->
     <rule context="$EXTENSION-ORG-NODE/efac:Company">
 
       <let name="PARTY-LEGAL-ENTITY-NODE" value="cac:PartyLegalEntity" />
 
-      <assert id="SR-DE-10" test="count($PARTY-LEGAL-ENTITY-NODE) = 1"
-        role="error"
-        >[SR-DE-10] Every <name /> has to have one cac:PartyLegalEntity</assert>
+      <assert id="SR-DE-10" test="count($PARTY-LEGAL-ENTITY-NODE) = 1" role="error">[SR-DE-10] Every <name /> has to have one cac:PartyLegalEntity</assert>
 
-      <assert id="CR-DE-BT-506"
-        test="boolean(normalize-space(cac:Contact/cbc:ElectronicMail))"
-        role="error"
-        >[CR-DE-BT-506] Every Buyer (<name />) must have a cac:Contact/cbc:ElectronicMail.</assert>
+      <assert id="CR-DE-BT-506" test="boolean(normalize-space(cac:Contact/cbc:ElectronicMail))" role="error">[CR-DE-BT-506] Every Buyer (<name />) must have a cac:Contact/cbc:ElectronicMail.</assert>
 
       <extends rule="general-org-rules" />
     </rule>
+
     <!--  rules for TouchPoint -->
     <rule context="$EXTENSION-ORG-NODE/efac:TouchPoint">
       <extends rule="general-org-rules" />
     </rule>
 
-
     <rule context="$EXTENSION-ORG-NODE/efac:Company/cac:PartyLegalEntity">
-      <assert id="CR-DE-BT-501" test="boolean(normalize-space(cbc:CompanyID))"
-        role="error" see="cac:PartyLegalEntity"
-        >[CR-DE-BT-501] Every <name /> must have a cbc:CompanyID.</assert>
+      <assert id="CR-DE-BT-501" test="boolean(normalize-space(cbc:CompanyID))" role="error" see="cac:PartyLegalEntity">[CR-DE-BT-501] Every <name /> must have a cbc:CompanyID.</assert>
     </rule>
-
 
     <rule
       context="($EXTENSION-ORG-NODE/efac:TouchPoint union $EXTENSION-ORG-NODE/efac:Company)/cbc:EndpointID">
-      <assert id="CR-DE-BT-509" test="false()" role="error" see="cbc:EndpointID"
-        >[CR-DE-BT-509] forbidden.</assert>
+      <assert id="CR-DE-BT-509" test="false()" role="error" see="cbc:EndpointID">[CR-DE-BT-509] cbc:EndpointID is forbidden in Company and Touchpoint.</assert>
     </rule>
 
 
     <rule context="$NOTICE_RESULT/efac:SettledContract">
-      <assert id="CR-DE-BT-151-Contract" test="count(cbc:URI) = 0" role="error"
-        >[CR-DE-BT-151-Contract] cbc:URI forbidden in <name /></assert>
+      <assert id="CR-DE-BT-151-Contract" test="count(cbc:URI) = 0" role="error">[CR-DE-BT-151-Contract] cbc:URI forbidden in <name /></assert>
     </rule>
 
 
+    <!-- sanity rule to check for existence of parent node of BT-760 -->
+    <rule context="$EXTENSION-NODE/efac:NoticeResult/efac:LotResult">
+      <assert id="SR-DE-22" test="
+          if ($SUBTYPE = $SUBTYPES-BT-760) then
+            (count(efac:ReceivedSubmissionsStatistics) >= 1)
+          else
+            true()" role="error">[SE-DE-22] efac:ReceivedSubmissionsStatistics must exist in <name /> at least once</assert>
+    </rule>
+
     <rule
       context="$EXTENSION-NODE/efac:NoticeResult/efac:LotResult/efac:ReceivedSubmissionsStatistics">
-
       <assert id="CR-DE-BT-760-LotResult" test="
           if ($SUBTYPE = $SUBTYPES-BT-760) then
             boolean(normalize-space(efbc:StatisticsCode))
           else
-            true()" role="error">efbc:StatisticsCode must exists.</assert>
+            true()" role="error">[CR-DE-BT-760-LotResult] efbc:StatisticsCode must exist in <name />.</assert>
 
     </rule>
 
 
     <rule context="$ROOT-NODE/cac:ProcurementProject">
 
-      <assert id="SR-DE-11" test="count(cac:RealizedLocation/cac:Address) = 1"
-        role="error">Every <name /> has to have cac:Address</assert>
+      <assert id="SR-DE-11" test="count(cac:RealizedLocation/cac:Address) = 1" role="error">[SR-DE-11] Every <name /> must have cac:Address</assert>
 
-      <assert id="SR-DE-14"
-        test="count(cac:RealizedLocation/cac:Address/cac:Country) = 1"
-        role="error">Every <name /> has to have cac:Country</assert>
+      <assert id="SR-DE-14" test="count(cac:RealizedLocation/cac:Address/cac:Country) = 1" role="error">[SR-DE-14] Every <name /> must have cac:Country</assert>
 
-      <assert id="CR-DE-BT-23"
-        test="boolean(normalize-space(cbc:ProcurementTypeCode))" role="error"
-        >[CR-DE-BT-23] cbc:ProcurementTypeCode must exist as child of <name />.</assert>
+      <assert id="CR-DE-BT-23" test="boolean(normalize-space(cbc:ProcurementTypeCode))" role="error">[CR-DE-BT-23] <name /> must have cbc:ProcurementTypeCode.</assert>
 
-      <assert id="CR-DE-BT-21" test="boolean(normalize-space(cbc:Name))"
-        role="error"
-        >[CR-DE-BT-21] cbc:Name must exist as child of <name />.</assert>
+      <assert id="CR-DE-BT-21" test="boolean(normalize-space(cbc:Name))" role="error">[CR-DE-BT-21] <name /> must have cbc:Name.</assert>
 
       <!-- commented-out because EU rules contradict the CELEX. In clarification.
       <assert id="CR-DE-BT-24-Procedure"
@@ -262,15 +226,9 @@
         >cbc:Description must exists.</assert>
       -->
 
-      <assert id="CR-DE-BT-5071-Procedure"
-        test="boolean(normalize-space(cac:RealizedLocation/cac:Address/cbc:CountrySubentityCode))"
-        role="error"
-        >[CR-DE-BT-5071-Procedure] cac:RealizedLocation/cac:Address/cbc:CountrySubentityCode must exist as child of <name />.</assert>
+      <assert id="CR-DE-BT-5071-Procedure" test="boolean(normalize-space(cac:RealizedLocation/cac:Address/cbc:CountrySubentityCode))" role="error">[CR-DE-BT-5071-Procedure] /cac:RealizedLocation/cac:Address/cbc:CountrySubentityCode must exist as child of <name />.</assert>
 
-      <assert id="CR-DE-BT-5141-Procedure"
-        test="boolean(normalize-space(cac:RealizedLocation/cac:Address/cac:Country/cbc:IdentificationCode))"
-        role="error"
-        >[CR-DE-BT-5141-Procedure] cac:RealizedLocation/cac:Address/cac:Country/cbc:IdentificationCode must exist as child of <name />.</assert>
+      <assert id="CR-DE-BT-5141-Procedure" test="boolean(normalize-space(cac:RealizedLocation/cac:Address/cac:Country/cbc:IdentificationCode))" role="error">[CR-DE-BT-5141-Procedure] /cac:RealizedLocation/cac:Address/cac:Country/cbc:IdentificationCode must exist as child of <name />.</assert>
 
     </rule>
 
@@ -278,28 +236,21 @@
     <rule
       context="$ROOT-NODE/cac:ProcurementProjectLot[cbc:ID/@schemeName = 'Lot']/cac:ProcurementProject">
 
-      <assert id="CR-DE-BT-23-Lot"
-        test="boolean(normalize-space(cbc:ProcurementTypeCode[@listName = 'contract-nature']))"
-        role="error"
-        >[CR-DE-BT-23-Lot] cbc:ProcurementTypeCode must exist as child of <name />.</assert>
+      <assert id="CR-DE-BT-23-Lot" test="boolean(normalize-space(cbc:ProcurementTypeCode[@listName = 'contract-nature']))" role="error">[CR-DE-BT-23-Lot] cbc:ProcurementTypeCode must exist as child of <name />.</assert>
 
-      <assert id="CR-DE-BT-21-Lot" test="boolean(normalize-space(cbc:Name))"
-        role="error"
-        >[CR-DE-BT-21-Lot] cbc:Name must exist as child of <name />.</assert>
+      <assert id="CR-DE-BT-21-Lot" test="boolean(normalize-space(cbc:Name))" role="error">[CR-DE-BT-21-Lot] cbc:Name must exist as child of <name />.</assert>
 
       <assert id="CR-DE-BT-06-Lot-1" test="
           if ($SUBTYPE = $SUBTYPES-BT-06) then
             exists(cac:ProcurementAdditionalType)
           else
-            true()" role="error"
-        >[CR-DE-BT-06-Lot-1] The 'cac:ProcurementAdditionalType' must exist.</assert>
+            true()" role="error">[CR-DE-BT-06-Lot-1] The 'cac:ProcurementAdditionalType' must exist.</assert>
 
       <assert id="CR-DE-BT-06-Lot" test="
           if ($SUBTYPE = $SUBTYPES-BT-06) then
             (count(cac:ProcurementAdditionalType/cbc:ProcurementTypeCode[@listName = 'strategic-procurement']) ge 1)
           else
-            true()" role="error"
-        >[CR-DE-BT-06-Lot] The 'cbc:ProcurementTypeCode' element with a 'listName' attribute value of 'strategic-procurement' must exist within the 'cac:ProcurementAdditionalType'.
+            true()" role="error">[CR-DE-BT-06-Lot] The 'cbc:ProcurementTypeCode' element with a 'listName' attribute value of 'strategic-procurement' must exist within the 'cac:ProcurementAdditionalType'.
       </assert>
     </rule>
 
@@ -307,125 +258,124 @@
     <rule
       context="$ROOT-NODE/cac:ProcurementProjectLot[cbc:ID/@schemeName = 'Part']/cac:ProcurementProject">
 
-      <assert id="CR-DE-BT-23-Part"
-        test="boolean(normalize-space(cbc:ProcurementTypeCode[@listName = 'contract-nature']))"
-        role="error"
-        >[CR-DE-BT-23-Part] cbc:ProcurementTypeCode must exist as child of <name />.</assert>
+      <assert id="CR-DE-BT-23-Part" test="boolean(normalize-space(cbc:ProcurementTypeCode[@listName = 'contract-nature']))" role="error">[CR-DE-BT-23-Part] cbc:ProcurementTypeCode must exist as child of <name />.</assert>
 
-      <assert id="CR-DE-BT-21-Part" test="boolean(normalize-space(cbc:Name))"
-        role="error"
-        >[CR-DE-BT-23-Part] cbc:Name must exist as child of <name />.</assert>
+      <assert id="CR-DE-BT-21-Part" test="boolean(normalize-space(cbc:Name))" role="error">[CR-DE-BT-23-Part] cbc:Name must exist as child of <name />.</assert>
     </rule>
 
 
-    <!-- following two rules CR-DE-BT-708-Part and CR-DE-BT-708-Lot may be combined into single one -->
     <rule
-      context="$ROOT-NODE/cac:ProcurementProjectLot[cbc:ID/@schemeName = 'Part']/cac:TenderingTerms/cac:CallForTendersDocumentReference">
-      <assert id="CR-DE-BT-708-Part" test="
-          if ($SUBTYPE = $SUBTYPES-BT-708) then
-            (count(cbc:LanguageID) ge 1)
-          else
-            true()" role="error"
-        >[CR-DE-BT-708-Part] cbc:LanguageID must exist.</assert>
+      context="$ROOT-NODE/cac:ProcurementProjectLot[cbc:ID/@schemeName = 'Lot' or cbc:ID/@schemeName = 'Part']/cac:ProcurementProject/cac:RealizedLocation/cac:Address">
+      <assert id="SR-DE-15" test="count(cac:Country) = 1" role="error">[SR-DE-15] Every <name /> has to have cac:Country</assert>
+
+      <assert id="CR-DE-BT-5141" test="boolean(normalize-space(cac:Country/cbc:IdentificationCode))" role="error">[CR-DE-BT-5141] cbc:IdentificationCode must exist.</assert>
+
+      <assert id="CR-DE-BT-5071" test="boolean(normalize-space(cbc:CountrySubentityCode))" role="error">[CR-DE-BT-5071] cbc:CountrySubentityCode must exist.</assert>
     </rule>
 
+
+    <rule
+      context="$EXTENSION-NODE/efac:NoticeResult/efac:GroupFramework/efbc:GroupFrameworkMaximumValueAmount">
+      <assert id="CR-DE-BT-156-NoticeResult" test="false()" role="error">[CR-DE-BT-156-NoticeResult] efbc:GroupFrameworkMaximumValueAmount forbidden.</assert>
+    </rule>
+
+    <rule
+      context="$ROOT-NODE/cac:ProcurementProjectLot[cbc:ID/@schemeName = 'LotsGroup']/cac:TenderingProcess/cac:FrameworkAgreement/cbc:EstimatedMaximumValueAmount">
+      <assert id="CR-DE-BT-157" test="false()" role="error">[CR-DE-BT-157] <name /> is forbidden.</assert>
+    </rule>
+
+    <rule
+      context="$ROOT-NODE/cac:ProcurementProjectLot[cbc:ID/@schemeName = 'Lot']/cac:TenderingTerms">
+
+      <assert id="CR-DE-BT-771-Lot" test="
+          if ($SUBTYPE = $SUBTYPES-BT-771-772) then
+            (count(cac:TendererQualificationRequest[not(cbc:CompanyLegalFormCode)]/cac:SpecificTendererRequirement[(cbc:TendererRequirementTypeCode[@listName = 'missing-info-submission'])]) = 1)
+          else
+            true()" role="error">[CR-DE-BT-771-Lot] Exactly one cac:TendererQualificationRequest has to exist with /cac:SpecificTendererRequirement/cbc:TendererRequirementTypeCode listname 'missing-info-submission'</assert>
+
+      <assert id="CR-DE-BT-772-Lot" test="
+          if ($SUBTYPE = $SUBTYPES-BT-771-772) then
+            (count(cac:TendererQualificationRequest[not(cbc:CompanyLegalFormCode)]/cac:SpecificTendererRequirement[(cbc:TendererRequirementTypeCode[@listName = 'missing-info-submission'])]/cbc:Description) = 1)
+
+          else
+            true()" role="error">[CR-DE-BT-772-Lot] cbc:Description must exist in <name />.</assert>
+
+      <!-- I think it is superflous now: sanity checks to make sure parent path for CR-DE-BT-771-Lot and CR-DE-BT-772-Lot exists -->
+      <assert id="SR-DE-21" test="
+          if ($SUBTYPE = $SUBTYPES-BT-771-772) then
+            (count(cac:TendererQualificationRequest) >= 1)
+          else
+            true()" role="error">[SR-DE-21] Every <name /> has to have at least one cac:TendererQualificationRequest</assert>
+
+      <assert id="CR-DE-BT-97-Lot" test="
+          if ($SUBTYPE = $SUBTYPES-BT-97) then
+            exists(cac:Language/cbc:ID)
+          else
+            true()" role="error">[CR-DE-BT-97-Lot] /cac:Language/cbc:ID must exist in <name /> for subtypes <value-of select="$SUBTYPES-BT-97" />.</assert>
+
+      <!-- sanityrule for bt-15 lot-->
+      <assert id="SR-DE-23" test="
+          if ($SUBTYPE = $SUBTYPES-BT-15) then
+            (count(cac:CallForTendersDocumentReference) >= 1)
+          else
+            true()" role="error">[SR-DE-23] cac:CallForTendersDocumentReference must exist at least once in <name />. </assert>
+
+    </rule>
+
+    <rule
+      context="$ROOT-NODE/cac:ProcurementProjectLot[cbc:ID/@schemeName = 'Part']/cac:TenderingTerms">
+      <!-- sanityrule for bt-15 part -->
+      <assert id="SR-DE-24" test="
+          if ($SUBTYPE = $SUBTYPES-BT-15) then
+            (count(cac:CallForTendersDocumentReference) >= 1)
+          else
+            true()" role="error">[SR-DE-24] cac:CallForTendersDocumentReference must exist at least once in <name />. </assert>
+
+    </rule>
+
+
+    <!-- following  rules CR-DE-BT-708-Part and CR-DE-BT-708-Lot may be combined into single one -->
     <rule
       context="$ROOT-NODE/cac:ProcurementProjectLot[cbc:ID/@schemeName = 'Lot']/cac:TenderingTerms/cac:CallForTendersDocumentReference">
       <assert id="CR-DE-BT-708-Lot" test="
           if ($SUBTYPE = $SUBTYPES-BT-708) then
             (count(cbc:LanguageID) ge 1)
           else
-            true()" role="error"
-        >[CR-DE-BT-708-Lot] cbc:LanguageID must exist.</assert>
-    </rule>
+            true()" role="error">[CR-DE-BT-708-Lot] cbc:LanguageID must exist.</assert>
 
-    <rule
-      context="$ROOT-NODE/cac:ProcurementProjectLot[cbc:ID/@schemeName = 'Lot' or cbc:ID/@schemeName = 'Part']/cac:ProcurementProject/cac:RealizedLocation/cac:Address">
-      <assert id="SR-DE-15" test="count(cac:Country) = 1" role="error"
-        >Every <name /> has to have cac:Country</assert>
-
-      <assert id="CR-DE-BT-5141"
-        test="boolean(normalize-space(cac:Country/cbc:IdentificationCode))"
-        role="error">[CR-DE-BT-5141] cbc:IdentificationCode must exist.</assert>
-
-      <assert id="CR-DE-BT-5071"
-        test="boolean(normalize-space(cbc:CountrySubentityCode))" role="error"
-        >[CR-DE-BT-5071] cbc:CountrySubentityCode must exist.</assert>
-    </rule>
-
-
-    <rule
-      context="$EXTENSION-NODE/efac:NoticeResult/efac:GroupFramework/efbc:GroupFrameworkMaximumValueAmount">
-      <assert id="CR-DE-BT-156-NoticeResult" test="false()" role="error"
-        >[CR-DE-BT-156-NoticeResult] efbc:GroupFrameworkMaximumValueAmount forbidden.</assert>
-    </rule>
-
-    <rule
-      context="$ROOT-NODE/cac:ProcurementProjectLot[cbc:ID/@schemeName = 'LotsGroup']/cac:TenderingProcess/cac:FrameworkAgreement/cbc:EstimatedMaximumValueAmount">
-      <assert id="CR-DE-BT-157" test="false()" role="error"
-        >[CR-DE-BT-157] <name /> is forbidden.</assert>
-    </rule>
-
-
-
-    <rule
-      context="$ROOT-NODE/cac:ProcurementProjectLot[cbc:ID/@schemeName = 'Lot']/cac:TenderingTerms/cac:TendererQualificationRequest[not(cbc:CompanyLegalFormCode)]">
-      <assert id="SR-DE-20" test="
-          if ($SUBTYPE = $SUBTYPES-BT-771-772) then
-            (count(cac:SpecificTendererRequirement[not(cbc:TendererRequirementTypeCode[@listName = 'reserved-procurement'])]) = 1)
-          else
-            true()" role="error"
-        >Every <name /> has to have one cac:SpecificTendererRequirement</assert>
-    </rule>
-
-
-    <rule
-      context="$ROOT-NODE/cac:ProcurementProjectLot[cbc:ID/@schemeName = 'Lot']/cac:TenderingTerms/cac:TendererQualificationRequest[not(cbc:CompanyLegalFormCode)]/cac:SpecificTendererRequirement[not(cbc:TendererRequirementTypeCode[@listName = 'reserved-procurement'])]">
-      <assert id="CR-DE-BT-771-Lot" test="
-          if ($SUBTYPE = $SUBTYPES-BT-771-772) then
-            boolean(normalize-space(cbc:TendererRequirementTypeCode[@listName = 'missing-info-submission']))
-          else
-            true()" role="error"
-        >[CR-DE-BT-771-Lot] cbc:TendererRequirementTypeCode must exist.</assert>
-
-      <assert id="CR-DE-BT-772-Lot" test="
-          if ($SUBTYPE = $SUBTYPES-BT-771-772) then
-            boolean(normalize-space(cbc:Description))
-          else
-            true()" flag="fatal"
-        >[CR-DE-BT-772-Lot] cbc:Description must exist.</assert>
-    </rule>
-
-
-    <rule
-      context="$ROOT-NODE/cac:ProcurementProjectLot[cbc:ID/@schemeName = 'Lot']/cac:TenderingTerms">
-
-      <assert id="CR-DE-BT-97-Lot" test="
-          if ($SUBTYPE = $SUBTYPES-BT-97) then
-            exists(cac:Language/cbc:ID)
-          else
-            true()" role="error"
-          >[CR-DE-BT-97-Lot] cac:Language/cbc:ID must exist for subtypes <value-of
-          select="$SUBTYPES-BT-97" />.</assert>
-
+      <!-- bt-15 now only mandatory for non-restricted-document, BT-615 is restricted-document,but same xml field, and not mandatory-->
       <assert id="CR-DE-BT-15-Lot" test="
           if ($SUBTYPE = $SUBTYPES-BT-15) then
-            (count(cac:CallForTendersDocumentReference[not(cbc:DocumentType/text() = 'restricted-document')]/cac:Attachment/cac:ExternalReference/cbc:URI) ge 1)
+            if (cbc:DocumentType/text() = 'non-restricted-document') then
+              (count(cac:Attachment/cac:ExternalReference/cbc:URI) ge 1)
+            else
+              true()
           else
-            true()" role="error"
-        >[CR-DE-BT-15-Lot] cbc:URI must exist.</assert>
+            true()" role="error">[CR-DE-BT-15-Lot] /cac:Attachment/cac:ExternalReference/cbc:URI must exist in cac:CallForTendersDocumentReference for DocumentType non-restricted-document.</assert>
     </rule>
-
 
     <rule
-      context="$ROOT-NODE/cac:ProcurementProjectLot[cbc:ID/@schemeName = 'Part']/cac:TenderingTerms">
+      context="$ROOT-NODE/cac:ProcurementProjectLot[cbc:ID/@schemeName = 'Part']/cac:TenderingTerms/cac:CallForTendersDocumentReference">
+      <assert id="CR-DE-BT-708-Part" test="
+          if ($SUBTYPE = $SUBTYPES-BT-708) then
+            (count(cbc:LanguageID) ge 1)
+          else
+            true()" role="error">[CR-DE-BT-708-Part] cbc:LanguageID must exist.</assert>
+
+      <!--  bt-15 now only mandatory for non-restricted-document, BT-615 is restricted-document,but same xml field, and not mandatory-->
       <assert id="CR-DE-BT-15-Part" test="
           if ($SUBTYPE = $SUBTYPES-BT-15) then
-            (count(cac:CallForTendersDocumentReference[not(cbc:DocumentType/text() = 'restricted-document')]/cac:Attachment/cac:ExternalReference/cbc:URI) ge 1)
+            if (cbc:DocumentType/text() = 'non-restricted-document') then
+              (count(cac:Attachment/cac:ExternalReference/cbc:URI) ge 1)
+            else
+              true()
           else
-            true()" role="error"
-        >[CR-DE-BT-15-Part] cbc:URI must exist.</assert>
+            true()" role="error">[CR-DE-BT-15-Part] /cac:Attachment/cac:ExternalReference/cbc:URI must exist in cac:CallForTendersDocumentReference for DocumentType non-restricted-document.</assert>
+
     </rule>
+
+
+
 
     <rule
       context="$ROOT-NODE/cac:ProcurementProjectLot[cbc:ID/@schemeName = 'Part']">
@@ -434,8 +384,7 @@
           if ($SUBTYPE-CODE-NODE = $SUBTYPES-BT-726) then
             (boolean(normalize-space(cac:ProcurementProject/cbc:SMESuitableIndicator)))
           else
-            true()" role="error"
-        >[CR-DE-BT-726-Part] cbc:SMESuitableIndicator must exist.</assert>
+            true()" role="error">[CR-DE-BT-726-Part] cbc:SMESuitableIndicator must exist in <name />.</assert>
 
     </rule>
 
@@ -443,10 +392,7 @@
     <rule
       context="$ROOT-NODE/cac:ProcurementProjectLot[cbc:ID/@schemeName = 'LotsGroup']">
 
-      <assert id="CR-DE-BT-21-LotsGroup"
-        test="boolean(normalize-space(cac:ProcurementProject/cbc:Name))"
-        role="error"
-        >[CR-DE-BT-21-LotsGroup] cac:ProcurementProject/cbc:Name must exist.</assert>
+      <assert id="CR-DE-BT-21-LotsGroup" test="boolean(normalize-space(cac:ProcurementProject/cbc:Name))" role="error">[CR-DE-BT-21-LotsGroup] /cac:ProcurementProject/cbc:Name must exist in <name />.</assert>
 
       <!-- commented-out because EU rules contradict the CELEX. In clarification.
       <assert id="CR-DE-BT-24-LotsGroup"
@@ -458,8 +404,7 @@
           if ($SUBTYPE-CODE-NODE = $SUBTYPES-BT-726) then
             (boolean(normalize-space(cac:ProcurementProject/cbc:SMESuitableIndicator)))
           else
-            true()" role="error"
-        >[CR-DE-BT-726-LotsGroup] cac:ProcurementProject/cbc:SMESuitableIndicator must exist.</assert>
+            true()" role="error">[CR-DE-BT-726-LotsGroup] cbc:SMESuitableIndicator must exist in <name />.</assert>
 
     </rule>
 
@@ -471,62 +416,48 @@
           if ($SUBTYPE = $SUBTYPES-BT-63) then
             boolean(normalize-space(cac:TenderingTerms/cbc:VariantConstraintCode))
           else
-            true()" flag="fatal">[CR-DE-BT-63-Lot](<value-of
-          select="$SUBTYPE"
-           />) cbc:VariantConstraintCode must exist in subtypes <value-of
-          select="$SUBTYPES-BT-63" /></assert>
+            true()" role="error">[CR-DE-BT-63-Lot](<value-of select="$SUBTYPE" />) /cac:TenderingTerms/cbc:VariantConstraintCode must exist in <name /> in subtypes <value-of select="$SUBTYPES-BT-63" /></assert>
 
       <assert id="CR-DE-BT-17-Lot" test="
           if ($SUBTYPE = $SUBTYPES-BT-17) then
             boolean(normalize-space(cac:TenderingProcess/cbc:SubmissionMethodCode[@listName = 'esubmission']))
           else
-            true()" flag="fatal">[CR-DE-BT-17-Lot](<value-of
-          select="$SUBTYPE"
-           />) cbc:SubmissionMethodCode must exist in subtypes <value-of
-          select="$SUBTYPES-BT-17" />.</assert>
+            true()" role="error">[CR-DE-BT-17-Lot](<value-of select="$SUBTYPE" />) /cac:TenderingProcess/cbc:SubmissionMethodCode must exist in <name /> in subtypes <value-of select="$SUBTYPES-BT-17" />.</assert>
 
       <assert id="CR-DE-BT-769-Lot" test="
           if ($SUBTYPE = $SUBTYPES-BT-769) then
             boolean(normalize-space(cac:TenderingTerms/cbc:MultipleTendersCode))
           else
-            true()" role="error">[CR-DE-BT-769-Lot](<value-of
-          select="$SUBTYPE"
-           />)cbc:MultipleTendrersCode must exist in subtypes <value-of
-          select="$SUBTYPES-BT-769" /></assert>
+            true()" role="error">[CR-DE-BT-769-Lot] (<value-of select="$SUBTYPE" />) /cac:TenderingTerms/cbc:MultipleTendrersCode must exist in <name /> in subtypes <value-of select="$SUBTYPES-BT-769" /></assert>
 
       <assert id="CR-DE-BT-726-Lot" test="
           if ($SUBTYPE-CODE-NODE = $SUBTYPES-BT-726) then
             (boolean(normalize-space(cac:ProcurementProject/cbc:SMESuitableIndicator)))
           else
-            true()" role="error"
-        >[CR-DE-BT-726-Lot] cbc:SMESuitableIndicator must exist.</assert>
+            true()" role="error">[CR-DE-BT-726-Lot] cbc:SMESuitableIndicator must exist in <name />.</assert>
 
     </rule>
 
     <!-- seems to be redundant to EU SDK e.g rule|text|BR-BT-00191-0036">BT-191-Tender is forbidden for a notice with subtype 29</entry> -->
     <rule context="$NOTICE_RESULT/efac:LotTender/efac:Origin/efbc:AreaCode">
-      <assert id="CR-DE-BT-191" test="false()" role="error"
-        >[CR-DE-BT-191 ]efbc:AreaCode forbidden.</assert>
+      <assert id="CR-DE-BT-191" test="false()" role="error">[CR-DE-BT-191] efbc:AreaCode is forbidden .</assert>
     </rule>
 
     <rule
       context="$ROOT-NODE/cac:TenderingTerms/cac:LotDistribution/cac:LotsGroup/cbc:LotsGroupID">
-      <assert id="CR-DE-BT-330-Procedure" test="false()" role="error"
-        >[CR-DE-BT-330-Procedure] cbc:LotsGroupID forbidden.</assert>
+      <assert id="CR-DE-BT-330-Procedure" test="false()" role="error">[CR-DE-BT-330-Procedure] cbc:LotsGroupID is forbidden .</assert>
     </rule>
 
 
     <rule
       context="$ROOT-NODE/cac:TenderingTerms/cac:LotDistribution/cac:LotsGroup/cac:ProcurementProjectLotReference/cbc:ID[@schemeName = 'Lot']">
-      <assert id="CR-DE-BT-1375-Procedure" test="false()" role="error"
-        >[CR-DE-BT-1375-Procedure] cbc:ID forbidden.</assert>
+      <assert id="CR-DE-BT-1375-Procedure" test="false()" role="error">[CR-DE-BT-1375-Procedure] cbc:ID is forbidden .</assert>
     </rule>
 
 
     <rule
       context="$EXTENSION-NODE/efac:NoticeResult/efac:GroupFramework/efac:TenderLot/cbc:ID">
-      <assert id="CR-DE-BT-556-NoticeResult" test="false()" role="error"
-        >[CR-DE-BT-556-NoticeResult] cbc:ID forbidden.</assert>
+      <assert id="CR-DE-BT-556-NoticeResult" test="false()" role="error">[CR-DE-BT-556-NoticeResult] cbc:ID is forbidden.</assert>
     </rule>
 
   </pattern>
