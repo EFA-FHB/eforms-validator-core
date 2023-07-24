@@ -1,4 +1,4 @@
-# EForms Validator - Core
+# EForms Validator - Core: use as dependency or service
 
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=EFA-FHB_eforms-validator-core&metric=coverage&token=b0d391e76c7ec6ffe551f1f7cd57a960fa0a17d5)](https://sonarcloud.io/summary/new_code?id=EFA-FHB_eforms-validator-core)
 [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=EFA-FHB_eforms-validator-core&metric=bugs&token=b0d391e76c7ec6ffe551f1f7cd57a960fa0a17d5)](https://sonarcloud.io/summary/new_code?id=EFA-FHB_eforms-validator-core)
@@ -113,7 +113,7 @@ public class ValidatorRequestDTO {
   private byte[] eforms;
 }
 ```
-# EForms Validator - Core use as a RESTful API
+# EForms Validator - Core: use as a RESTful API
 
 ## Service Description
 
