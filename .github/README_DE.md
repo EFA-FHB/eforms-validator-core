@@ -168,14 +168,12 @@ Bei erfolgreicher Validierung antwortet der Service mit einem JSON-Objekt, das d
 ```http
 POST /v1/validation HTTP/1.1
 Host: example.com
-Content-Type: multipart/form-data; boundary=--------------------------1234567890
+Content-Type: multipart/form-data; 
 Content-Length: <length>
 
---------------------------1234567890
 Content-Disposition: form-data; name="eforms"
 
 {"field1": "value1", "field2": "value2", ...}
---------------------------1234567890--
 ```
 
 ```json
