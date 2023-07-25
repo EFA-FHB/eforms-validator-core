@@ -13,7 +13,7 @@ import javax.ws.rs.core.Response;
 import org.jboss.resteasy.annotations.providers.multipart.MultipartForm;
 
 /** REST endpoint for validating e-forms using the ValidatorService. */
-@Path("v1/validation")
+@Path("v1/eforms-validation")
 public class ValidationEndpoint {
 
   @Inject ValidatorService validatorService;
