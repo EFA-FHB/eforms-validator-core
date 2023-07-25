@@ -1,12 +1,17 @@
 <pattern xmlns="http://purl.oclc.org/dsdl/schematron" id="codelists">
 
-  <!-- Check for the codelists values as definded by eforms-DE in https://projekte.kosit.org/eforms/eforms-de-codelist -->
+  <!--
+  Check for the codelists values as definded by eforms-DE in https://projekte.kosit.org/eforms/eforms-de-codelist
+  CL = Codeliste Rule
+  -->
 
   <!-- buyer-contracting-type -->
   <rule
     context="$ROOT-NODE/cac:ContractingParty/cac:ContractingPartyType/cbc:PartyTypeCode[@listName = 'buyer-contracting-type']">
     <!--Codes from urn:xeinkauf:eforms-de:codelist:buyer-contracting-type in version 1.0.0 derived from  https://github.com/OP-TED/eForms-SDK/blob/1.5.1/codelists/buyer-contracting-type.gc-->
-    <assert id="CL-DE-BT-740" test=". = ('cont-ent','not-cont-ent')" role="error"
+    <assert id="CL-DE-BT-740"
+      test=". = ('cont-ent','not-cont-ent')"
+      role="error"
       >[CL-DE-BT-740] Value must be one from codelist urn:xeinkauf:eforms-de:codelist:buyer-contracting-type.</assert>
   </rule>
 
@@ -15,10 +20,9 @@
   <rule
     context="$ROOT-NODE/cac:ContractingParty/cac:ContractingPartyType/cbc:PartyTypeCode[@listName = 'buyer-legal-type']">
 
-
     <!--Codes from urn:xeinkauf:eforms-de:codelist:eforms-buyer-legal-type in version 1.0.0 derived from  https://github.com/OP-TED/eForms-SDK/blob/1.5.1/codelists/buyer-legal-type_eforms-buyer-legal-type.gc-->
     <assert id="CL-DE-BT-11"
-      test=". = ('koerp-oer-bund','anst-oer-bund','stift-oer-bund','koerp-oer-kommun','anst-oer-kommun','stift-oer-kommun','koerp-oer-land','anst-oer-land','stift-oer-land','oberst-bbeh','omu-bbeh-niedrig','omu-bbeh','def-cont','eu-ins-bod-ag','grp-p-aut','int-org','kbeh','org-sub','pub-undert','pub-undert-cga','pub-undert-la','pub-undert-ra','oberst-lbeh','omu-lbeh','spec-rights-entity')"
+      test=". = ('koerp-oer-bund','anst-oer-bund','stift-oer-bund','koerp-oer-kommun','anst-oer-kommun','stift-oer-kommun','koerp-oer-land','anst-oer-land','stift-oer-land','oberst-bbeh','omu-bbeh-niedrig','omu-bbeh','def-cont','eu-ins-bod-ag','grp-p-aut','int-org','kommun-beh','org-sub','pub-undert','pub-undert-cga','pub-undert-la','pub-undert-ra','oberst-lbeh','omu-lbeh','spec-rights-entity')"
       role="error"
       >[CL-DE-BT-11] Value must be one from codelist urn:xeinkauf:eforms-de:codelist:eforms-buyer-legal-type.</assert>
 
@@ -41,7 +45,8 @@
     context="$EXTENSION-ORG-NODE/efac:Company[(cac:PartyIdentification/cbc:ID/text() = //efac:TenderingParty/efac:Tenderer/cbc:ID/text()) or (cac:PartyIdentification/cbc:ID/text() = //efac:TenderingParty/efac:Subcontractor/cbc:ID/text())]/efbc:CompanySizeCode">
 
     <!--Codes from urn:xeinkauf:eforms-de:codelist:economic-operator-size:v1.0 in version 1.0.0 derived from  https://github.com/OP-TED/eForms-SDK/blob/1.5.1/codelists/economic-operator-size.gc-->
-    <assert id="CL-DE-BT-165" test=". = ('large','medium','micro','small')"
+    <assert id="CL-DE-BT-165"
+      test=". = ('large','medium','micro','small')"
       role="error"
       >[CL-DE-BT-165] Value must be one from codelist urn:xeinkauf:eforms-de:codelist:economic-operator-size:v1.0.</assert>
 
@@ -56,7 +61,8 @@
 
 
     <!--Codes from urn:xeinkauf:eforms-de:codelist:missing-info-submission in version 1.0.0 derived from  https://github.com/OP-TED/eForms-SDK/blob/1.5.1/codelists/missing-info-submission.gc-->
-    <assert id="CL-DE-BT-771" test=". = ('late-all','late-some','late-none')"
+    <assert id="CL-DE-BT-771"
+      test=". = ('late-all','late-some','late-none')"
       role="error"
       >[CL-DE-BT-771] Value must be one from codelist urn:xeinkauf:eforms-de:codelist:missing-info-submission.</assert>
 
@@ -87,14 +93,14 @@
 
   </rule>
 
+  <!-- Rule for BT-01(c), added CrossBorderLaw to allow use of BT-09(a), which uses the same xml field. -->
   <rule context="$ROOT-NODE/cac:TenderingTerms/cac:ProcurementLegislationDocumentReference/cbc:ID">
 
     <!--Codes from urn:xeinkauf:eforms-de:codelist:eforms-legal-basis in version 1.0.0 derived from  https://github.com/OP-TED/eForms-SDK/blob/1.5.1/codelists/legal-basis_eforms-legal-basis.gc-->
     <assert id="CL-DE-BT-01"
-      test=". = ('vsvgv','vob-a-vs','konzvgv','vgv','vob-a-eu','sektvo','other','sgb-vi','vob-a','uvgo','vol-a','sl-other','svhv')"
+      test=". = ('vsvgv','vob-a-vs','konzvgv','vgv','vob-a-eu','sektvo','other','sgb-vi','vob-a','uvgo','vol-a','sl-other','svhv','CrossBorderLaw')"
       role="error"
       >[CL-DE-BT-01] Value must be one from codelist urn:xeinkauf:eforms-de:codelist:eforms-legal-basis.</assert>
-
 
   </rule>
 
@@ -129,12 +135,12 @@
     context="$ROOT-NODE/cac:ProcurementProjectLot/cac:ProcurementProject/cbc:SMESuitableIndicator">
   -->
     <!--Codes from urn:xeinkauf:eforms-de:codelist:suitable-business-type in version 1.0 derived from  -->
-  <!--    
+  <!--
   <assert id="CL-DE-BT-726"
       test=". = ('freelance','selbst','startup','not-suitable')" role="error"
       >[CL-DE-BT-726] Value must be one from codelist urn:xeinkauf:eforms-de:codelist:suitable-business-type.</assert>
   </rule>
-  -->  
+  -->
 
 
 </pattern>

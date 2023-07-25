@@ -59,7 +59,7 @@ dependencies {
 
     implementation 'org.projectlombok:lombok:1.18.22'
 
-    implementation 'com.jcabi:jcabi-xml:0.28.0'
+    implementation 'com.jcabi:jcabi-xml:0.29.0'
     implementation 'com.helger.schematron:ph-schematron-pure:6.3.4'
     implementation 'com.github.vladimir-bukhtoyarov:bucket4j-core:7.6.0'
 
@@ -68,9 +68,9 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok:1.18.22'
 
     testImplementation 'io.quarkus:quarkus-junit5'
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.10.0'
 
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.10.0'
     implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.15.2'
     constraints {
         implementation('org.yaml:snakeyaml:2.0') {
