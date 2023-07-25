@@ -141,7 +141,7 @@ java -jar eforms-validator-core-1.0.0-runner.jar
 
 ### E-Forms validieren
 
-Endpunkt-URL: `/v1/validation`
+Endpunkt-URL: `/v1/eforms-validation`
 
 Methode: `POST`
 
@@ -166,7 +166,7 @@ Bei erfolgreicher Validierung antwortet der Service mit einem JSON-Objekt, das d
 #### Beispielverwendung
 
 ```http
-POST /v1/validation HTTP/1.1
+POST /v1/eforms-validation HTTP/1.1
 Host: example.com
 Content-Type: multipart/form-data; boundary=--------------------------1234567890
 Content-Length: <length>
