@@ -1,16 +1,28 @@
-# EForms Validator - Core: use as dependency or service
+# eForms Validator - Core
 
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=EFA-FHB_eforms-validator-core&metric=coverage&token=b0d391e76c7ec6ffe551f1f7cd57a960fa0a17d5)](https://sonarcloud.io/summary/new_code?id=EFA-FHB_eforms-validator-core)
 [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=EFA-FHB_eforms-validator-core&metric=bugs&token=b0d391e76c7ec6ffe551f1f7cd57a960fa0a17d5)](https://sonarcloud.io/summary/new_code?id=EFA-FHB_eforms-validator-core)
 [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=EFA-FHB_eforms-validator-core&metric=security_rating&token=b0d391e76c7ec6ffe551f1f7cd57a960fa0a17d5)](https://sonarcloud.io/summary/new_code?id=EFA-FHB_eforms-validator-core)
 [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=EFA-FHB_eforms-validator-core&metric=sqale_rating&token=b0d391e76c7ec6ffe551f1f7cd57a960fa0a17d5)](https://sonarcloud.io/summary/new_code?id=EFA-FHB_eforms-validator-core)
 [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=EFA-FHB_eforms-validator-core&metric=code_smells&token=b0d391e76c7ec6ffe551f1f7cd57a960fa0a17d5)](https://sonarcloud.io/summary/new_code?id=EFA-FHB_eforms-validator-core)
-
 [![CI/CD](https://github.com/EFA-FHB/eforms-validator-core/actions/workflows/publish-java-gradle.yml/badge.svg)](https://github.com/EFA-FHB/eforms-validator-core/actions/workflows/publish-java-gradle.yml)
+
+[![en](https://img.shields.io/badge/lang-en-blue.svg)](./README.md)
+[![de](https://img.shields.io/badge/lang-de-green.svg)](./README.de.md)
+
 
 ## Purpose
 
-Providing validation for eForms-XML documents via service.
+Providing combined offline validation of eforms-EU and eForms-DE schematron (.sch) rules. Additionally schema (.xsd) validation is included and some eForms-EU rule errors are left out via blacklist.
+
+General process of validation:
+
+ 1. eForms-EU schematron of matching version are validated 
+ 2. Triggered errors from blacklisted rules are left out
+ 3. eForms-DE schematron of matchinng version are validated
+ 4. Combined validation result (valid / not-valid) including eforms-EU and eforms-DE errors and warnings is returned
+
+The current Blacklist can be found here: [excluded_rules.txt](../src/main/resources/schematron/de/excluded_rules.txt)
 
 ## Tech stack
 
@@ -18,25 +30,30 @@ Providing validation for eForms-XML documents via service.
 - [Quarkus Framework](https://quarkus.io/guides/)
 - [Gradle](https://gradle.org/)
 
-## Build
-The project is build the Gradle.
-A gradle wrapper is part of this project you do not need to install it
-locally on your machine.
+## Hardware
 
-The application can be built using:
+Hardware requirements are heavily dependend on how many schematron versions are loaded concurrently. The below mentioned numbers are only valid for only eforms-de 1.0.1.
+
+RAM:
+
+- usual usage: 1.5GB
+- recommended: 2GB
+
+## Building
+The project is built by gradle and a gradle wrapper is part of this project, you do not need to install it locally on your machine.
+### Build Thin Jar
+This includes the application itself and all direct dependencies of the application. To run it locally, Java still needs to be installed in your environment. The build command is the following:
 ```shell script
 ./gradlew build
 ```
 
-## Build Fat Jar
-The project can be build using gradle shadow plugin.
-
-The application can be built using:
+### Build Fat Jar
+The fat jar includes the application itself and  **all** needet dependencies. Java does not need to be installed in your local environment to run it. The build command is the following:
 ```shell script
 ./gradlew shadowJar
 ```
 
-## Use as dependency
+# Use as dependency
 Add necessary repository to build.gradle
 ```shell script
     repositories {
@@ -69,7 +86,7 @@ Generate github token and add it to gradle.properties
 https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens#creating-a-personal-access-token-classic
 
 
-## Add ValidationService as a service
+# Add ValidationService as a service
 ```
 import com.nortal.efafhb.eforms.validator.validation.ValidatorService;
  
@@ -113,34 +130,19 @@ public class ValidatorRequestDTO {
   private byte[] eforms;
 }
 ```
-# EForms Validator - Core: use as a RESTful API
+# Use RESTful API
 
-## Service Description
-
-EForms Validator - Core is a service that provides a RESTful API endpoint for validating e-forms using a validator service. It accepts input in the form of a multipart form data with necessary parameters and returns validation results in JSON format.
-
-
-## Installation and Setup
-
-To get started with EForms Validator - Core, follow these steps:
-
-1. Clone the repository.
-2. Build the project and package it into a deployable format (e.g., WAR file).
-```
-./gradlew build
-./gradlew shadowJar
-```
-3. Deploy the built package to your preferred application server.
+Additionally to service or dependency, this eForms Validator also provides a RESTful API endpointe. It accepts input in the form of a multipart form data with necessary parameters and returns validation results in JSON format.
 
 ## Running the Service
 
 Ensure that the service is correctly deployed on your application server. The service should be accessible via the specified endpoint URL.
 ```agsl
-java -jar eforms-validator-core-1.0.0-runner.jar
+java -jar eforms-validator-core-********.jar
 ```
 ## Endpoints
 
-### Validate E-Forms
+### Validate eForms
 
 Endpoint URL: `/v1/eforms-validation`
 
@@ -154,39 +156,36 @@ Produces: `application/json`
 
 The request should be a multipart form data containing the following parameters:
 
-- `sdkType`: The type of the SDK used for e-forms (String).
-- `version`: The version of the SDK used (String).
-- `eforms`: The e-forms data to be validated (e.g., JSON representation) (String).
+- `sdkType`: The type of the SDK used for eForms (String). 
+  - possible values: `eforms-de`
+- `version`: The version of the eForms Standard used (String).
+  - possible values: `1.0`, in the future: `1.1`, `1.2`, ...
+- `eforms`: The eForms data to be validated (XML file) (String($binary)).
 
 #### Response
 
 Upon successful validation, the service will respond with a JSON object containing the validation results. The response will have an HTTP status code of 200 (OK). The format of the response will be specified by the `ValidatorService` used.
 
-#### Example Usage
-
-```http
-POST /v1/eforms-validation HTTP/1.1
-Host: example.com
-Content-Type: multipart/form-data;
-Content-Length: <length>
-
-Content-Disposition: form-data; name="eforms"
-
-{"field1": "value1", "field2": "value2", ...}
-```
+#### Example
 
 ```json
 {
-  "result": "success",
-  "message": "Validation successful.",
-  "data": {
-    "field1": "value1",
-    "field2": "value2"
-  }
+  "valid": false,
+  "validatedEformsVersion": "eforms-de-1.0.1",
+  "warnings": [],
+  "errors": [
+    {
+      "type": "SCHEMATRON",
+      "description": null,
+      "rule": "[SR-DE-1 ]The value eforms-de-1.1 of cbc:CustomizationID must be equal to the current version (eforms-de-1.0) of the eForms-DE Standard.",
+      "ruleContent": "text() = concat('eforms-de-', '1.0')",
+      "path": "/can:ContractAwardNotice/cbc:CustomizationID"
+    }
+  ]
 }
 ```
 
-## Development
+# Development
 
 If you run the application in dev mode, you edit the source code and
 any changes made will immediately be reflected in the running instance,
@@ -234,8 +233,8 @@ Detailed information on available workflows and actions can be found in the [.gi
 
 ## Contributing
 
-We welcome contributions to improve and enhance the functionality of EForms Validator - Core. If you encounter any issues or have suggestions for improvement, please feel free to create a pull request or raise an issue.
+We welcome contributions to improve and enhance the functionality of eForms Validator - Core. If you encounter any issues or have suggestions for improvement, please feel free to create a pull request or raise an issue.
 
 ## License
 
-EForms Validator - Core is licensed under the MIT License. You are free to use, modify, and distribute the code, subject to the terms of the license.
+eForms Validator - Core is licensed under the Apache License, Version 2.0. You are free to use, modify, and distribute the code, subject to the terms of the license.
