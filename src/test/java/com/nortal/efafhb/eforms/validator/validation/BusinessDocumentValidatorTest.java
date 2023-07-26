@@ -25,10 +25,8 @@ import org.mockito.MockitoAnnotations;
 
 class BusinessDocumentValidatorTest {
 
-  @Mock
-  private ISchematronResource schematronResource;
-  @InjectMocks
-  private BusinessDocumentValidator businessDocumentValidator;
+  @Mock private ISchematronResource schematronResource;
+  @InjectMocks private BusinessDocumentValidator businessDocumentValidator;
 
   @BeforeEach
   void setUp() {
@@ -40,8 +38,10 @@ class BusinessDocumentValidatorTest {
     String validDocument = "valid.xml";
 
     SchematronOutputType schematronOutputType = mock(SchematronOutputType.class);
-    when(schematronResource.applySchematronValidationToSVRL(any(StringStreamSource.class))).thenReturn(schematronOutputType);
-    when(SchematronHelper.getAllFailedAssertions(schematronOutputType)).thenReturn(new CommonsArrayList<>());
+    when(schematronResource.applySchematronValidationToSVRL(any(StringStreamSource.class)))
+        .thenReturn(schematronOutputType);
+    when(SchematronHelper.getAllFailedAssertions(schematronOutputType))
+        .thenReturn(new CommonsArrayList<>());
 
     ValidationResult result = businessDocumentValidator.validate(validDocument);
 
@@ -54,16 +54,18 @@ class BusinessDocumentValidatorTest {
     String validDocument = "valid.xml";
 
     SchematronOutputType schematronOutputType = mock(SchematronOutputType.class);
-    when(schematronResource.applySchematronValidationToSVRL(any(StringStreamSource.class))).thenReturn(schematronOutputType);
-    when(SchematronHelper.getAllFailedAssertions(schematronOutputType)).thenReturn(new CommonsArrayList<>());
+    when(schematronResource.applySchematronValidationToSVRL(any(StringStreamSource.class)))
+        .thenReturn(schematronOutputType);
+    when(SchematronHelper.getAllFailedAssertions(schematronOutputType))
+        .thenReturn(new CommonsArrayList<>());
 
     businessDocumentValidator.loadNative();
 
-    ValidatorApplicationException thrown = assertThrows(
-        ValidatorApplicationException.class,
-        () -> businessDocumentValidator.validate(validDocument),
-        "Expected doThing() to throw, but it didn't"
-    );
+    ValidatorApplicationException thrown =
+        assertThrows(
+            ValidatorApplicationException.class,
+            () -> businessDocumentValidator.validate(validDocument),
+            "Expected doThing() to throw, but it didn't");
 
     assertEquals(ErrorCode.MALFORMED_XML, thrown.getErrorCode());
   }
