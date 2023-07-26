@@ -1,4 +1,4 @@
-# EForms Validator - Core: use as dependency or service
+# eForms Validator - Core
 
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=EFA-FHB_eforms-validator-core&metric=coverage&token=b0d391e76c7ec6ffe551f1f7cd57a960fa0a17d5)](https://sonarcloud.io/summary/new_code?id=EFA-FHB_eforms-validator-core)
 [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=EFA-FHB_eforms-validator-core&metric=bugs&token=b0d391e76c7ec6ffe551f1f7cd57a960fa0a17d5)](https://sonarcloud.io/summary/new_code?id=EFA-FHB_eforms-validator-core)
@@ -10,7 +10,7 @@
 
 ## Purpose
 
-Providing validation for eForms-XML documents via service.
+Providing combined offline validation of eforms-EU and eForms-DE schematron (.sch) rules. Additionally schema (.xsd) validation is included and some eForms-EU rule errors are left out via blacklist. 
 
 ## Tech stack
 
@@ -18,25 +18,29 @@ Providing validation for eForms-XML documents via service.
 - [Quarkus Framework](https://quarkus.io/guides/)
 - [Gradle](https://gradle.org/)
 
-## Build
-The project is build the Gradle.
-A gradle wrapper is part of this project you do not need to install it
-locally on your machine.
+## Hardware 
 
-The application can be built using:
+Hardware requirements are heavily dependend on how many schematron versions are loaded concurrently. The below mentioned numbers are only valid for only eforms-de 1.0.1.
+
+RAM: 
+- usual usage: 1.5GB
+- recommended: 2GB 
+
+## Building
+The project is built by gradle and a gradle wrapper is part of this project, you do not need to install it locally on your machine.
+### Build Thin Jar
+This includes the application itself and all direct dependencies of the application. To run it locally, Java still needs to be installed in your environment. The build command is the following:
 ```shell script
 ./gradlew build
 ```
 
-## Build Fat Jar
-The project can be build using gradle shadow plugin.
-
-The application can be built using:
+### Build Fat Jar
+The fat jar includes the application itself and  **all** needet dependencies. Java does not need to be installed in your local environment to run it. The build command is the following:
 ```shell script
 ./gradlew shadowJar
 ```
 
-## Use as dependency
+# Use as dependency
 Add necessary repository to build.gradle
 ```shell script
     repositories {
@@ -69,7 +73,7 @@ Generate github token and add it to gradle.properties
 https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens#creating-a-personal-access-token-classic
 
 
-## Add ValidationService as a service
+# Add ValidationService as a service
 ```
 import com.nortal.efafhb.eforms.validator.validation.ValidatorService;
  
@@ -113,30 +117,15 @@ public class ValidatorRequestDTO {
   private byte[] eforms;
 }
 ```
-# EForms Validator - Core: use as a RESTful API
+# Use RESTful API
 
-## Service Description
-
-EForms Validator - Core is a service that provides a RESTful API endpoint for validating e-forms using a validator service. It accepts input in the form of a multipart form data with necessary parameters and returns validation results in JSON format.
-
-
-## Installation and Setup
-
-To get started with EForms Validator - Core, follow these steps:
-
-1. Clone the repository.
-2. Build the project and package it into a deployable format (e.g., WAR file).
-```
-./gradlew build
-./gradlew shadowJar
-```
-3. Deploy the built package to your preferred application server.
+Additionally to service or dependency, this eForms Validator also provides a RESTful API endpointe. It accepts input in the form of a multipart form data with necessary parameters and returns validation results in JSON format.
 
 ## Running the Service
 
 Ensure that the service is correctly deployed on your application server. The service should be accessible via the specified endpoint URL.
 ```agsl
-java -jar eforms-validator-core-1.0.0-runner.jar
+java -jar eforms-validator-core-********.jar
 ```
 ## Endpoints
 
@@ -154,9 +143,11 @@ Produces: `application/json`
 
 The request should be a multipart form data containing the following parameters:
 
-- `sdkType`: The type of the SDK used for e-forms (String).
+- `sdkType`: The type of the SDK used for e-forms (String). 
+  - possible values: `eforms-de`
 - `version`: The version of the SDK used (String).
-- `eforms`: The e-forms data to be validated (e.g., JSON representation) (String).
+  - possible values: `1.0`, in the future: `1.1`, `1.2`, ...
+- `eforms`: The e-forms data to be validated (XML file) (String($binary)).
 
 #### Response
 
@@ -177,16 +168,22 @@ Content-Disposition: form-data; name="eforms"
 
 ```json
 {
-  "result": "success",
-  "message": "Validation successful.",
-  "data": {
-    "field1": "value1",
-    "field2": "value2"
-  }
+  "valid": false,
+  "validatedEformsVersion": "eforms-de-1.0.1",
+  "warnings": [],
+  "errors": [
+    {
+      "type": "SCHEMATRON",
+      "description": null,
+      "rule": "[SR-DE-1 ]The value eforms-de-1.1 of cbc:CustomizationID must be equal to the current version (eforms-de-1.0) of the eForms-DE Standard.",
+      "ruleContent": "text() = concat('eforms-de-', '1.0')",
+      "path": "/can:ContractAwardNotice/cbc:CustomizationID"
+    }
+  ]
 }
 ```
 
-## Development
+# Development
 
 If you run the application in dev mode, you edit the source code and
 any changes made will immediately be reflected in the running instance,
@@ -238,4 +235,4 @@ We welcome contributions to improve and enhance the functionality of EForms Vali
 
 ## License
 
-EForms Validator - Core is licensed under the MIT License. You are free to use, modify, and distribute the code, subject to the terms of the license.
+EForms Validator - Core is licensed under the Apache License, Version 2.0. You are free to use, modify, and distribute the code, subject to the terms of the license.
