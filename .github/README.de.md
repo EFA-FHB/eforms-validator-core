@@ -14,7 +14,14 @@
 
 Der eForms Validator - Core bietet eine kombinierte Offline-Validierung von eforms-EU- und eForms-DE-Schematron (.sch)-Regeln. Zusätzlich wird die Schema (.xsd)-Validierung durchgeführt, und einige eForms-EU-Regelfehler werden über eine Blacklist ausgeschlossen.
 
-![Alt-Text](image.png)
+Allgemeiner Ablauf der Validierung:
+
+1. Die eForms-EU-Schematron der entsprechenden Version wird validiert.
+2. Ausgelöste Fehler von den Regeln der Schwarzen Liste werden ausgeschlossen.
+3. Die eForms-DE-Schematron der entsprechenden Version wird validiert.
+4. Das kombinierte Validierungsergebnis (gültig / ungültig) einschließlich der eForms-EU- und eForms-DE-Fehler und Warnungen wird zurückgegeben.
+
+Die aktuelle Schwarze Liste kann hier gefunden werden: [excluded_rules.txt](../src/main/resources/schematron/de/excluded_rules.txt).
 
 ## Technologie-Stack
 
@@ -27,6 +34,7 @@ Der eForms Validator - Core bietet eine kombinierte Offline-Validierung von efor
 Die Hardware-Anforderungen hängen stark davon ab, wie viele Schematron-Versionen gleichzeitig geladen werden. Die unten genannten Zahlen gelten nur für eforms-de 1.0.1.
 
 RAM:
+
 - Normaler Gebrauch: 1,5 GB
 - Empfohlen: 2 GB
 

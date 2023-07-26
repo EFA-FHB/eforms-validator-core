@@ -15,7 +15,14 @@
 
 Providing combined offline validation of eforms-EU and eForms-DE schematron (.sch) rules. Additionally schema (.xsd) validation is included and some eForms-EU rule errors are left out via blacklist.
 
-![Alt text](image.png)
+General process of validation:
+
+ 1. eForms-EU schematron of matching version are validated 
+ 2. Triggered errors from blacklisted rules are left out
+ 3. eForms-DE schematron of matchinng version are validated
+ 4. Combined validation result (valid / not-valid) including eforms-EU and eforms-DE errors and warnings is returned
+
+The current Blacklist can be found here: [excluded_rules.txt](../src/main/resources/schematron/de/excluded_rules.txt)
 
 ## Tech stack
 
@@ -23,13 +30,14 @@ Providing combined offline validation of eforms-EU and eForms-DE schematron (.sc
 - [Quarkus Framework](https://quarkus.io/guides/)
 - [Gradle](https://gradle.org/)
 
-## Hardware 
+## Hardware
 
 Hardware requirements are heavily dependend on how many schematron versions are loaded concurrently. The below mentioned numbers are only valid for only eforms-de 1.0.1.
 
-RAM: 
+RAM:
+
 - usual usage: 1.5GB
-- recommended: 2GB 
+- recommended: 2GB
 
 ## Building
 The project is built by gradle and a gradle wrapper is part of this project, you do not need to install it locally on your machine.
