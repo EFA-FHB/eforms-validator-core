@@ -156,11 +156,11 @@ Produces: `application/json`
 
 The request should be a multipart form data containing the following parameters:
 
-- `sdkType`: The type of the SDK used for e-forms (String). 
+- `sdkType`: The type of the SDK used for eForms (String). 
   - possible values: `eforms-de`
-- `version`: The version of the SDK used (String).
+- `version`: The version of the eForms Standard used (String).
   - possible values: `1.0`, in the future: `1.1`, `1.2`, ...
-- `eforms`: The e-forms data to be validated (XML file) (String($binary)).
+- `eforms`: The eForms data to be validated (XML file) (String($binary)).
 
 #### Response
 
