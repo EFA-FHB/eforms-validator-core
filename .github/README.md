@@ -170,15 +170,6 @@ Upon successful validation, the service will respond with a JSON object containi
 
 ```json
 {
-<<<<<<< HEAD
-  "result": "success",
-  "message": "Validation successful.",
-  "data": {
-    "field1": "value1",
-    "field2": "value2",
-    ...
-  }
-=======
   "valid": false,
   "validatedEformsVersion": "eforms-de-1.0.1",
   "warnings": [],
@@ -191,7 +182,6 @@ Upon successful validation, the service will respond with a JSON object containi
       "path": "/can:ContractAwardNotice/cbc:CustomizationID"
     }
   ]
->>>>>>> update_readme
 }
 ```
 
