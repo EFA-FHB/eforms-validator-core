@@ -10,7 +10,9 @@
 
 ## Purpose
 
-Providing combined offline validation of eforms-EU and eForms-DE schematron (.sch) rules. Additionally schema (.xsd) validation is included and some eForms-EU rule errors are left out via blacklist. 
+Providing combined offline validation of eforms-EU and eForms-DE schematron (.sch) rules. Additionally schema (.xsd) validation is included and some eForms-EU rule errors are left out via blacklist.
+
+![Alt text](image.png)
 
 ## Tech stack
 
@@ -129,7 +131,7 @@ java -jar eforms-validator-core-********.jar
 ```
 ## Endpoints
 
-### Validate E-Forms
+### Validate eForms
 
 Endpoint URL: `/v1/eforms-validation`
 
@@ -153,18 +155,7 @@ The request should be a multipart form data containing the following parameters:
 
 Upon successful validation, the service will respond with a JSON object containing the validation results. The response will have an HTTP status code of 200 (OK). The format of the response will be specified by the `ValidatorService` used.
 
-#### Example Usage
-
-```http
-POST /v1/eforms-validation HTTP/1.1
-Host: example.com
-Content-Type: multipart/form-data;
-Content-Length: <length>
-
-Content-Disposition: form-data; name="eforms"
-
-{"field1": "value1", "field2": "value2", ...}
-```
+#### Example
 
 ```json
 {
@@ -231,8 +222,8 @@ Detailed information on available workflows and actions can be found in the [.gi
 
 ## Contributing
 
-We welcome contributions to improve and enhance the functionality of EForms Validator - Core. If you encounter any issues or have suggestions for improvement, please feel free to create a pull request or raise an issue.
+We welcome contributions to improve and enhance the functionality of eForms Validator - Core. If you encounter any issues or have suggestions for improvement, please feel free to create a pull request or raise an issue.
 
 ## License
 
-EForms Validator - Core is licensed under the Apache License, Version 2.0. You are free to use, modify, and distribute the code, subject to the terms of the license.
+eForms Validator - Core is licensed under the Apache License, Version 2.0. You are free to use, modify, and distribute the code, subject to the terms of the license.
