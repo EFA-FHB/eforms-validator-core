@@ -15,14 +15,22 @@ import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import lombok.extern.jbosslog.JBossLog;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 @JBossLog
 @ApplicationScoped
 public class BusinessDocumentValidator {
 
   private static final String SCHEMATRON_LOCATION = "schematron/peppol/PEPPOL-T015.sch";
+  private static final String SCHEMATRON_EXCLUDED_RULE_LOCATION =
+      "schematron/peppol/PEPPOL-T015-notice_naming_rule_excluded.sch";
 
   private ISchematronResource schematronResource;
+
+  @ConfigProperty(
+      name = "eforms-validator.business_document_notice_file_naming_rule_included",
+      defaultValue = "true")
+  boolean isNoticeFileNamingRuleIncluded;
 
   @Inject ValidatorUtil validatorUtil;
 
@@ -31,12 +39,17 @@ public class BusinessDocumentValidator {
     loadNative();
   }
 
-  void loadNative() {
+  public void loadNative() {
     log.info("loading phax native schematron validator for business document...");
 
-    log.debugf("loading schematron resource: %s", SCHEMATRON_LOCATION);
+    String schematronFileLocation = SCHEMATRON_LOCATION;
+    if (!isNoticeFileNamingRuleIncluded) {
+      schematronFileLocation = SCHEMATRON_EXCLUDED_RULE_LOCATION;
+    }
+    log.debugf("loading schematron resource: %s", schematronFileLocation);
     schematronResource =
-        SchematronResourcePure.fromClassPath(SCHEMATRON_LOCATION, this.getClass().getClassLoader());
+        SchematronResourcePure.fromClassPath(
+            schematronFileLocation, this.getClass().getClassLoader());
     if (!schematronResource.isValidSchematron()) {
       throw new IllegalArgumentException("Invalid Schematron!");
     }
@@ -46,10 +59,10 @@ public class BusinessDocumentValidator {
   public ValidationResult validate(String businessDocument) {
     List<SchematronOutputType> schematronOutputs = new ArrayList<>();
     try {
-      var v =
+      SchematronOutputType schematronOutputType =
           schematronResource.applySchematronValidationToSVRL(
               new StringStreamSource(businessDocument));
-      schematronOutputs.add(v);
+      schematronOutputs.add(schematronOutputType);
       return createValidationResult(schematronOutputs);
     } catch (Exception e) {
       log.warn("Exception occurred while reading source ", e);
@@ -67,8 +80,8 @@ public class BusinessDocumentValidator {
       List<SchematronOutputType> schematronOutputs, ValidationResult validationResult) {
 
     schematronOutputs.forEach(
-        so ->
-            SchematronHelper.getAllFailedAssertions(so)
+        schematronOutputType ->
+            SchematronHelper.getAllFailedAssertions(schematronOutputType)
                 .forEach(
                     schematronFailedAssert ->
                         validationResult.addValidationToReport(

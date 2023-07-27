@@ -1,0 +1,193 @@
+openapi: 3.0.3
+
+info:
+  title: eForm-DE validation service REST-API
+  description: >
+    Über diesen Endpunkt können Bekanntmachungen im eForms Format validiert werden. 
+    Für die eForms-DE Validierung in Version 1.0. wird aktuell eine Kombination aus folgenden Schema und Schematron Regeln genutzt:
+      * eForms-EU 1.5.1 [https://github.com/OP-TED/eForms-SDK/tree/1.5.1](https://github.com/OP-TED/eForms-SDK/tree/1.5.1)
+      * eForms-DE 1.0.1 (eforms-de-schematron v0.5.1) [https://projekte.kosit.org/eforms/eforms-de-schematron/-/tags/v0.5.1](https://projekte.kosit.org/eforms/eforms-de-schematron/-/tags/v0.5.0)
+
+  contact:
+    name: oeffentliche-vergabe-support@nortal.com
+    email: oeffentliche-vergabe-support@nortal.com
+
+  version: 1.0.0
+
+paths:
+  /v1/eforms-validation:
+    post:
+      tags:
+        - Validation Endpoint
+      summary: Eine Bekanntmachung validieren
+      description: >
+        Über diesen Endpunkt können Bekanntmachungen im eForms Format validiert werden. Die Anfrage gibt das Ergebnis der Validierung inklusive möglicher Fehler und Warnungen zurück.
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              required:
+                - eformsVersion
+                - sdkType
+                - eforms
+              type: object
+              properties:
+                eformsVersion:
+                  pattern: "^[\\d]\\.[\\d]$"
+                  type: string
+                  example: "1.0"
+                sdkType:
+                  type: string
+                  example: eforms-de
+                eforms:
+                  type: string
+                  format: binary
+                  description: Eine Bekanntmachung im eForms Format
+            encoding:
+              eforms:
+                contentType: application/octet-stream
+      responses:
+        "200":
+          description: >
+            OK
+          content:
+            "application/json":
+              schema:
+                "$ref": "#/components/schemas/Validation"
+        "400":
+          description: >
+            BAD REQUEST
+          content:
+            "application/json":
+              schema:
+                "$ref": "#/components/schemas/400ApiError"
+        "415":
+          description: >
+            NO VALID CONTENT TYPE
+          content:
+            "application/json":
+              schema:
+                "$ref": "#/components/schemas/415ApiError"
+        "429":
+          description: >
+            TOO MANY REQUESTS
+          content:
+            "application/json":
+              schema:
+                "$ref": "#/components/schemas/429ApiError"
+        "500":
+          description: >
+            INTERNAL SERVER ERROR
+          content:
+            "application/json":
+              schema:
+                "$ref": "#/components/schemas/500ApiError"
+
+components:
+  schemas:
+    Validation:
+      xml:
+        name: "validation"
+      type: object
+      properties:
+        warnings:
+          type: array
+          items:
+            "$ref": "#/components/schemas/ValidationWarning"
+        errors:
+          type: array
+          items:
+            "$ref": "#/components/schemas/ValidationError"
+        validatedEformsVersion:
+          type: string
+          example: eforms-sdk-1.0.0
+        valid:
+          type: boolean
+          example: true
+    400ApiError:
+      xml:
+        name: "400 Api Error"
+      type: object
+      properties:
+        reason:
+          type: string
+          example: MALFORMED_XML
+        description:
+          type: string
+          example: Die Anfrage wurde vom Server zurückgewiesen, da die gesendeten Daten im Request-Body nicht akzeptiert wurden.
+    415ApiError:
+      xml:
+        name: "415 Api Error"
+      type: object
+      properties:
+        reason:
+          type: string
+          example: NO_VALID_CONTENT_TYPE
+        description:
+          type: string
+          example: Die zugelieferten Bekanntmachungsdaten wurden in einem nicht akzeptablen Format gesendet. Nur `text/xml` wird akzeptiert
+    429ApiError:
+      xml:
+        name: "429 Api Error"
+      type: object
+      properties:
+        reason:
+          type: string
+          example: TOO_MANY_REQUESTS
+        description:
+          type: string
+          example: Bitte versuche es später noch einmal.
+    500ApiError:
+      xml:
+        name: "500 Api Error"
+      type: object
+      properties:
+        reason:
+          type: string
+          example: UNKNOWN_ERROR
+        description:
+          type: string
+          example: Wenden Sie sich bitte an unser Support-Team.
+    ValidationWarning:
+      xml:
+        name: "validation Warning"
+      type: object
+      properties:
+        rule:
+          type: string
+          example: rule|text|BR-OPT-00301-1180
+        ruleContent:
+          type: string
+          example: count(cac:MediationParty/cac:PartyIdentification/cbc:ID) > 0
+        description:
+          type: string
+          example: OPT-301-Lot-Mediator is mandatory for a notice with subtype 16
+        path:
+          type: string
+          example:  /ContractNotice/cac:ProcurementProjectLot/cac:TenderingTerms/cac:AppealTerms
+        type:
+          type: string
+          example: SCHEMATRON
+    ValidationError:
+      xml:
+        name: "validation Error"
+      type: object
+      properties:
+        rule:
+          type: string
+          example: rule|text|BR-BT-00747-0052
+        ruleContent:
+          type: string
+          example: normalize-space(.) = ('ef-stand', 'other', 'sui-act', 'tp-abil')
+        description:
+          type: string
+          example: BT-747-Lot must contain one of the values of the code list selection-criterion
+        path:
+          type: string
+          example: /ContractNotice/cac:ProcurementProjectLot/cac:TenderingTerms/ext:UBLExtensions/ext:UBLExtension/ext:ExtensionContent/efext:EformsExtension/efac:SelectionCriteria/cbc:CriterionTypeCode
+        type:
+          type: string
+          enum:
+            - XSD
+            - SCHEMATRON
+          example: SCHEMATRON
