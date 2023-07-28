@@ -8,7 +8,7 @@
 [![CI/CD](https://github.com/EFA-FHB/eforms-validator-core/actions/workflows/publish-java-gradle.yml/badge.svg)](https://github.com/EFA-FHB/eforms-validator-core/actions/workflows/publish-java-gradle.yml)
 
 [![en](https://img.shields.io/badge/lang-en-blue.svg)](./README.md)
-[![de](https://img.shields.io/badge/lang-de-green.svg)](./README.de.md)
+[![de](https://img.shields.io/badge/lang-de-green.svg)](README.de.md)
 
 
 ## Purpose
@@ -22,7 +22,7 @@ General process of validation:
  3. eForms-DE schematron of matchinng version are validated
  4. Combined validation result (valid / not-valid) including eforms-EU and eforms-DE errors and warnings is returned
 
-The current Blacklist can be found here: [excluded_rules.txt](../src/main/resources/schematron/de/excluded_rules.txt)
+The current Blacklist can be found here: [excluded_rules.txt](src/main/resources/schematron/de/excluded_rules.txt)
 
 ## Tech stack
 
@@ -229,7 +229,7 @@ Lookup credentials to access the sonar dashboard can be found in `gradle.propert
 
 ## CI/CD
 The application is built on Github using [Github-Actions](https://github.com/EFA-FHB/gdk-eforms-validator/actions).
-Detailed information on available workflows and actions can be found in the [.github directory](README_GITHUB.md)
+Detailed information on available workflows and actions can be found in the [.github directory](.github/README_GITHUB.md)
 
 ## Contributing
 
