@@ -30,6 +30,16 @@ The current Blacklist can be found here: [excluded_rules.txt](src/main/resources
 - [Quarkus Framework](https://quarkus.io/guides/)
 - [Gradle](https://gradle.org/)
 
+## Supported Versions
+
+- eForms-DE
+  - 1.0.1
+
+- eForms-SDK
+  - 0.0.1
+  - 1.0.0
+  - 1.5.1
+
 ## Hardware
 
 Hardware requirements are heavily dependend on how many schematron versions are loaded concurrently. The below mentioned numbers are only valid for only eforms-de 1.0.1.
