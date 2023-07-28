@@ -35,7 +35,7 @@ Die aktuelle Schwarze Liste kann hier gefunden werden: [excluded_rules.txt](src/
   - 1.0.1
 
 - eForms-SDK
-  - 0,0,1
+  - 0.0.1
   - 1.0.0
   - 1.5.1
   
