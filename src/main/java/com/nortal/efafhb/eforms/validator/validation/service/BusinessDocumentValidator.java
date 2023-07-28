@@ -39,7 +39,7 @@ public class BusinessDocumentValidator {
     loadNative();
   }
 
-  void loadNative() {
+  public void loadNative() {
     log.info("loading phax native schematron validator for business document...");
 
     String schematronFileLocation = SCHEMATRON_LOCATION;

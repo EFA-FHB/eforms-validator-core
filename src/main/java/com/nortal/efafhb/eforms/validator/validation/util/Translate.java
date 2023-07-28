@@ -42,20 +42,19 @@ public class Translate {
   @Inject ValidationConfig validationConfig;
 
   private void loadTranslations() {
-    validationConfig
-        .supportedEFormsVersions()
-        .forEach(
-            version -> {
-              SupportedVersion supportedVersion = SupportedVersion.versionFromSDK(version);
-              SupportedType supportedType = SupportedType.typeFromSDK(version);
-              String supportedTypeName = supportedType.name().toLowerCase();
-              String translationFile = readFile(supportedTypeName, supportedVersion.getValue());
-              if (isNotEmpty(translationFile)) {
-                getTranslations(supportedType)
-                    .put(supportedVersion, new XMLDocument(translationFile));
-                getTranslationsCashed(supportedType).put(supportedVersion, new HashMap<>());
-              }
-            });
+    validationConfig.supportedEFormsVersions().forEach(this::processTranslation);
+  }
+
+  private void processTranslation(String version) {
+    SupportedVersion supportedVersion = SupportedVersion.versionFromSDK(version);
+    SupportedType supportedType = SupportedType.typeFromSDK(version);
+    String supportedTypeName = supportedType.name().toLowerCase();
+
+    String translationFile = readFile(supportedTypeName, supportedVersion.getValue());
+    if (isNotEmpty(translationFile)) {
+      getTranslations(supportedType).put(supportedVersion, new XMLDocument(translationFile));
+      getTranslationsCashed(supportedType).put(supportedVersion, new HashMap<>());
+    }
   }
 
   /**

@@ -7,7 +7,7 @@
 [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=EFA-FHB_eforms-validator-core&metric=code_smells&token=b0d391e76c7ec6ffe551f1f7cd57a960fa0a17d5)](https://sonarcloud.io/summary/new_code?id=EFA-FHB_eforms-validator-core)
 [![CI/CD](https://github.com/EFA-FHB/eforms-validator-core/actions/workflows/publish-java-gradle.yml/badge.svg)](https://github.com/EFA-FHB/eforms-validator-core/actions/workflows/publish-java-gradle.yml)
 
-[![en](https://img.shields.io/badge/lang-en-blue.svg)](./README.md)
+[![en](https://img.shields.io/badge/lang-en-blue.svg)](README.md)
 [![de](https://img.shields.io/badge/lang-de-green.svg)](./README.de.md)
 
 ## Zweck
@@ -21,7 +21,7 @@ Allgemeiner Ablauf der Validierung:
 3. Die eForms-DE-Schematron der entsprechenden Version wird validiert.
 4. Das kombinierte Validierungsergebnis (gültig / ungültig) einschließlich der eForms-EU- und eForms-DE-Fehler und Warnungen wird zurückgegeben.
 
-Die aktuelle Schwarze Liste kann hier gefunden werden: [excluded_rules.txt](../src/main/resources/schematron/de/excluded_rules.txt).
+Die aktuelle Schwarze Liste kann hier gefunden werden: [excluded_rules.txt](src/main/resources/schematron/de/excluded_rules.txt).
 
 ## Technologie-Stack
 
@@ -240,7 +240,7 @@ Anmeldeinformationen zum Zugriff auf das Sonar-Dashboard finden Sie in `gradle.p
 ## CI/CD
 
 Die Anwendung wird auf Github mit [Github-Actions](https://github.com/EFA-FHB/gdk-eforms-validator/actions) erstellt.
-Detaillierte Informationen zu verfügbaren Workflows und Aktionen finden Sie im [.github-Verzeichnis](README_GITHUB.md).
+Detaillierte Informationen zu verfügbaren Workflows und Aktionen finden Sie im [.github-Verzeichnis](.github/README_GITHUB.md).
 
 ## Mitwirken
 
