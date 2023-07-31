@@ -55,7 +55,7 @@ dependencies {
     implementation 'io.quarkus:quarkus-smallrye-openapi'
     // Utils
     implementation 'commons-io:commons-io:2.11.0'
-    implementation 'org.apache.commons:commons-lang3:3.12.0'
+    implementation 'org.apache.commons:commons-lang3:3.13.0'
 
     implementation 'org.projectlombok:lombok:1.18.22'
 
