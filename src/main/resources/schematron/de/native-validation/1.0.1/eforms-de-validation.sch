@@ -68,6 +68,9 @@
   <let name="SUBTYPES-BT-63"
     value="('7', '8', '9', '10', '11', '12', '13', '14', '16', '17', '18', '19', 'E3', '20', '21', '22', '23', '24')" />
 
+  <let name="SUBTYPES-BT-746-BT-706"
+    value="('25', '26', '27', '28', '29', '30', '31', '32', 'E4', '33', '34', '35', '36', '37')" />
+
   <!-- let us name each variable which contains an xpath with suffix NODE (XML lingo for general name XML parts like attribute, element, text, comment,...  -->
   <let name="ROOT-NODE"
     value="(/cn:ContractNotice | /pin:PriorInformationNotice | /can:ContractAwardNotice | /brin:BusinessRegistrationInformationNotice)" />
@@ -129,7 +132,10 @@
     <rule
       context="$EXTENSION-NODE/efac:Organizations/efac:UltimateBeneficialOwner">
 
-      <assert id="CR-DE-BT-706-UBO" test="count(efac:Nationality/cbc:NationalityID) = 1" role="error">[CR-DE-BT-706-UBO]  efac:Nationality/cbc:NationalityID must exist in <name/>.</assert>
+      <assert id="CR-DE-BT-706-UBO" test="
+        if($SUBTYPE = $SUBTYPES-BT-746-BT-706)
+        then (count(efac:Nationality/cbc:NationalityID) = 1)
+        else true()" role="error">[CR-DE-BT-706-UBO]  efac:Nationality/cbc:NationalityID must exist in <name/>.</assert>
     </rule>
 
     <!-- rules common to Company and Touchpoint -->
@@ -163,7 +169,7 @@
 
       <let name="PARTY-LEGAL-ENTITY-NODE" value="cac:PartyLegalEntity" />
 
-      <assert id="SR-DE-10" test="count($PARTY-LEGAL-ENTITY-NODE) = 1" role="error">[SR-DE-10] Every <name /> has to have one cac:PartyLegalEntity</assert>
+      <assert id="SR-DE-10" test="exists($PARTY-LEGAL-ENTITY-NODE)" role="error">[SR-DE-10] Every <name /> has to have one cac:PartyLegalEntity</assert>
 
       <assert id="CR-DE-BT-506" test="boolean(normalize-space(cac:Contact/cbc:ElectronicMail))" role="error">[CR-DE-BT-506] Every Buyer (<name />) must have a cac:Contact/cbc:ElectronicMail.</assert>
 
@@ -212,13 +218,12 @@
 
     <rule context="$ROOT-NODE/cac:ProcurementProject">
 
-      <assert id="SR-DE-11" test="count(cac:RealizedLocation/cac:Address) = 1" role="error">[SR-DE-11] Every <name /> must have cac:Address</assert>
 
-      <assert id="SR-DE-14" test="count(cac:RealizedLocation/cac:Address/cac:Country) = 1" role="error">[SR-DE-14] Every <name /> must have cac:Country</assert>
+      <assert id="CR-DE-BT-23" test="exists(cbc:ProcurementTypeCode)" role="error">[CR-DE-BT-23] <name /> must have cbc:ProcurementTypeCode.</assert>
 
-      <assert id="CR-DE-BT-23" test="boolean(normalize-space(cbc:ProcurementTypeCode))" role="error">[CR-DE-BT-23] <name /> must have cbc:ProcurementTypeCode.</assert>
+      <assert id="CR-DE-BT-21" test="exists(cbc:Name)" role="error">[CR-DE-BT-21] <name /> must have cbc:Name.</assert>
 
-      <assert id="CR-DE-BT-21" test="boolean(normalize-space(cbc:Name))" role="error">[CR-DE-BT-21] <name /> must have cbc:Name.</assert>
+      <assert id="SR-DE-11-2" test="exists(cac:RealizedLocation)" role="error">[SR-DE-11-2] Every <name /> must have cac:RealizedLocation</assert>
 
       <!-- commented-out because EU rules contradict the CELEX. In clarification.
       <assert id="CR-DE-BT-24-Procedure"
@@ -226,11 +231,18 @@
         >cbc:Description must exists.</assert>
       -->
 
-      <assert id="CR-DE-BT-5071-Procedure" test="boolean(normalize-space(cac:RealizedLocation/cac:Address/cbc:CountrySubentityCode))" role="error">[CR-DE-BT-5071-Procedure] /cac:RealizedLocation/cac:Address/cbc:CountrySubentityCode must exist as child of <name />.</assert>
-
-      <assert id="CR-DE-BT-5141-Procedure" test="boolean(normalize-space(cac:RealizedLocation/cac:Address/cac:Country/cbc:IdentificationCode))" role="error">[CR-DE-BT-5141-Procedure] /cac:RealizedLocation/cac:Address/cac:Country/cbc:IdentificationCode must exist as child of <name />.</assert>
-
     </rule>
+
+    <rule context="$ROOT-NODE/cac:ProcurementProject/cac:RealizedLocation">
+      <assert id="SR-DE-11" test="boolean(normalize-space(cac:Address))" role="error">[SR-DE-11] Every <name /> must have cac:Address</assert>
+
+      <assert id="SR-DE-14" test="boolean(normalize-space(cac:Address/cac:Country))" role="error">[SR-DE-14] Every <name /> must have cac:Country</assert>
+
+      <assert id="CR-DE-BT-5071-Procedure" test="boolean(normalize-space(cac:Address/cbc:CountrySubentityCode))" role="error">[CR-DE-BT-5071-Procedure] /cac:RealizedLocation/cac:Address/cbc:CountrySubentityCode must exist as child of <name />.</assert>
+
+      <assert id="CR-DE-BT-5141-Procedure" test="boolean(normalize-space(cac:Address/cac:Country/cbc:IdentificationCode))" role="error">[CR-DE-BT-5141-Procedure] /cac:RealizedLocation/cac:Address/cac:Country/cbc:IdentificationCode must exist as child of <name />.</assert>
+    </rule>
+
 
 
     <rule
