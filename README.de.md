@@ -29,6 +29,16 @@ Die aktuelle Schwarze Liste kann hier gefunden werden: [excluded_rules.txt](src/
 - [Quarkus Framework](https://quarkus.io/guides/)
 - [Gradle](https://gradle.org/)
 
+## Unterstützte Versionen
+
+- eForms-DE
+  - 1.0.1
+
+- eForms-SDK
+  - 0.0.1
+  - 1.0.0
+  - 1.5.1
+  
 ## Hardware-Anforderungen
 
 Die Hardware-Anforderungen hängen stark davon ab, wie viele Schematron-Versionen gleichzeitig geladen werden. Die unten genannten Zahlen gelten nur für eforms-de 1.0.1.
