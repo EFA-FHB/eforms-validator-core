@@ -155,8 +155,8 @@ class PhaxNativeValidator implements FormsValidator {
   private String getSchematronEntryFileName(SupportedVersion version) {
     return switch (version) {
       case V0_1_1 -> "entry.sch";
-      case V1_0_0, V1_5_1 -> "complete-validation.sch";
-      case V1_0_1 -> "eforms-de-validation.sch";
+      case V1_0_0, V1_5_1, V1_7_0 -> "complete-validation.sch";
+      case V1_0_1, V1_1_0 -> "eforms-de-validation.sch";
     };
   }
 

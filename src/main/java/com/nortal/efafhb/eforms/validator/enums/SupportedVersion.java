@@ -1,19 +1,25 @@
 package com.nortal.efafhb.eforms.validator.enums;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
 import lombok.Getter;
 
 @Getter
 public enum SupportedVersion {
   V1_5_1("1.5.1"),
-  V1_0_1("1.0.1"),
+  V1_7_0("1.7.0"),
   V1_0_0("1.0.0"),
-  V0_1_1("0.1.1");
+  V1_0_1("1.0.1"),
+  V0_1_1("0.1.1"),
+  V1_1_0("1.1.0");
   private final String value;
 
   private static final Map<SupportedVersion, SupportedVersion> sdkVersionsForGdk =
-      Map.of(SupportedVersion.V1_0_1, SupportedVersion.V1_5_1);
+      Map.of(
+          SupportedVersion.V1_0_1, SupportedVersion.V1_5_1,
+          SupportedVersion.V1_1_0, SupportedVersion.V1_7_0
+      );
 
   SupportedVersion(String value) {
     this.value = value;
@@ -26,7 +32,7 @@ public enum SupportedVersion {
    *
    * @param sdkVersion eforms sdk version string (pattern eforms-sdk-X.X.)
    * @return enum of supported version {@link IllegalArgumentException} will be thrown if version
-   *     from input is not recognized
+   * from input is not recognized
    */
   public static SupportedVersion versionFromSDK(String sdkVersion) {
     var suportedVersion = EFormSupportedVersion.getSupportedVersion(sdkVersion);
