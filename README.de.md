@@ -33,6 +33,7 @@ Die aktuelle Schwarze Liste kann hier gefunden werden: [excluded_rules.txt](src/
 
 - eForms-DE
   - 1.0.1
+  - 1.1.0
 
 - eForms-SDK
   - 0.0.1
