@@ -1,0 +1,3 @@
+All files in schema\de\1.1.0\common and schema\de\1.1.0\maindoc folders are from skd version 1.7.0 found
+on this location https://github.com/OP-TED/eForms-SDK/tree/1.7.0/schemas
+https://gitlab.opencode.de/OC000008125155/SDK-eforms-de/-/tree/main/sdk/schemas
