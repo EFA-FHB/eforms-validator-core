@@ -6,8 +6,8 @@ info:
     Über diesen Endpunkt können Bekanntmachungen im eForms Format validiert werden. 
     Für die eForms-DE Validierung in Version 1.0. wird aktuell eine Kombination aus folgenden Schema und Schematron Regeln genutzt:
       * eForms-EU 1.5.1 [https://github.com/OP-TED/eForms-SDK/tree/1.5.1](https://github.com/OP-TED/eForms-SDK/tree/1.5.1)
-      * eForms-DE 1.1.0 (eforms-de-schematron v0.6.0) [https://projekte.kosit.org/eforms/eforms-de-schematron/-/tags/v0.6.0](https://projekte.kosit.org/eforms/eforms-de-schematron/-/tags/v0.6.0)
-      * eForms-DE 1.0.1 (eforms-de-schematron v0.5.2) [https://projekte.kosit.org/eforms/eforms-de-schematron/-/tags/v0.5.2](https://projekte.kosit.org/eforms/eforms-de-schematron/-/tags/v0.5.2)
+      * eForms-DE 1.0.1 (eforms-de-schematron v0.5.2) [https://projekte.kosit.org/eforms/eforms-de-schematron/-/tags/v0.5.2](https://projekte.kosit.org/eforms/eforms-de-schematron/-/tags/v0.5.2) and eForms-EU 1.5.1 [https://github.com/OP-TED/eForms-SDK/tree/1.5.1](https://github.com/OP-TED/eForms-SDK/tree/1.5.1)
+      * eForms-DE 1.1.0 (eforms-de-schematron v0.6.0) [https://projekte.kosit.org/eforms/eforms-de-schematron/-/tags/v0.6.0](https://projekte.kosit.org/eforms/eforms-de-schematron/-/tags/v0.6.0) and eForms-EU 1.7.0 [https://github.com/OP-TED/eForms-SDK/tree/1.7.0](https://github.com/OP-TED/eForms-SDK/tree/1.7.0)
 
   contact:
     name: oeffentliche-vergabe-support@nortal.com
