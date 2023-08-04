@@ -8,10 +8,11 @@ import lombok.Getter;
 public enum SupportedVersion {
   V1_5_1("1.5.1"),
   V1_7_0("1.7.0"),
-  V1_0_0("1.0.0"),
   V1_0_1("1.0.1"),
+  V1_0_0("1.0.0"),
   V0_1_1("0.1.1"),
   V1_1_0("1.1.0");
+
   private final String value;
 
   private static final Map<SupportedVersion, SupportedVersion> sdkVersionsForGdk =
