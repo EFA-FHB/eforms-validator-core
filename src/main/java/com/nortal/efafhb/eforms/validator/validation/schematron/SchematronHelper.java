@@ -40,7 +40,8 @@ public final class SchematronHelper {
 
       for (Object failedAssert :
           schematronOutputType.getActivePatternAndFiredRuleAndFailedAssert()) {
-        if (failedAssert instanceof FailedAssert fa) {
+        if (failedAssert instanceof FailedAssert) {
+          FailedAssert fa = (FailedAssert) failedAssert;
           failedAsserts.add(new SchematronFailedAssert(fa));
         }
       }

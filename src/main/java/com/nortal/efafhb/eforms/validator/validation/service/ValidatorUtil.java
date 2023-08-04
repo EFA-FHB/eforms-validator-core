@@ -92,10 +92,14 @@ public class ValidatorUtil {
   }
 
   private String getType(ReportType reportType) {
-    return switch (reportType) {
-      case SCHEMATRON -> VALIDATION_ENTRY_SCHEMATRON_TYPE;
-      case XSD -> VALIDATION_ENTRY_XSD_TYPE;
-    };
+    switch (reportType) {
+      case SCHEMATRON:
+        return VALIDATION_ENTRY_SCHEMATRON_TYPE;
+      case XSD:
+        return VALIDATION_ENTRY_XSD_TYPE;
+      default:
+        throw new IllegalArgumentException("Unsupported report type: " + reportType);
+    }
   }
 
   public ValidationEntry createBusinessDocumentValidationEntry(
