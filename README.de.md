@@ -25,7 +25,7 @@ Die aktuelle Schwarze Liste kann hier gefunden werden: [excluded_rules.txt](src/
 
 ## Technologie-Stack
 
-- [Java 17](https://openjdk.java.net/projects/jdk/17/)
+- [Java 11](https://openjdk.java.net/projects/jdk/11/)
 - [Quarkus Framework](https://quarkus.io/guides/)
 - [Gradle](https://gradle.org/)
 
