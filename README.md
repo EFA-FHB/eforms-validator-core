@@ -26,7 +26,7 @@ The current Blacklist can be found here: [excluded_rules.txt](src/main/resources
 
 ## Tech stack
 
-- [Java 17](https://openjdk.java.net/projects/jdk/17/)
+- [Java 11](https://openjdk.java.net/projects/jdk/11/)
 - [Quarkus Framework](https://quarkus.io/guides/)
 - [Gradle](https://gradle.org/)
 
@@ -34,6 +34,7 @@ The current Blacklist can be found here: [excluded_rules.txt](src/main/resources
 
 - eForms-DE
   - 1.0.1
+  - 1.1.0
 
 - eForms-SDK
   - 0.0.1

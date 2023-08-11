@@ -127,10 +127,14 @@ public class Translate {
    * @return the translations map for the supported type
    */
   private EnumMap<SupportedVersion, XMLDocument> getTranslations(SupportedType supportedType) {
-    return switch (supportedType) {
-      case DE -> translationsDe;
-      case EU -> translationsEu;
-    };
+    switch (supportedType) {
+      case DE:
+        return translationsDe;
+      case EU:
+        return translationsEu;
+      default:
+        throw new IllegalArgumentException("Unsupported type: " + supportedType);
+    }
   }
 
   /**
@@ -141,9 +145,13 @@ public class Translate {
    */
   private EnumMap<SupportedVersion, HashMap<String, String>> getTranslationsCashed(
       SupportedType supportedType) {
-    return switch (supportedType) {
-      case DE -> translationsCashedDe;
-      case EU -> translationsCashedEu;
-    };
+    switch (supportedType) {
+      case DE:
+        return translationsCashedDe;
+      case EU:
+        return translationsCashedEu;
+      default:
+        throw new IllegalArgumentException("Unsupported type: " + supportedType);
+    }
   }
 }

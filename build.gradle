@@ -60,7 +60,7 @@ dependencies {
     implementation 'org.projectlombok:lombok:1.18.22'
 
     implementation 'com.jcabi:jcabi-xml:0.29.0'
-    implementation 'com.helger.schematron:ph-schematron-pure:6.3.4'
+    implementation 'com.helger.schematron:ph-schematron-pure:7.1.2'
     implementation 'com.github.vladimir-bukhtoyarov:bucket4j-core:7.6.0'
 
     compileOnly 'org.projectlombok:lombok:1.18.22'
@@ -80,8 +80,8 @@ dependencies {
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_17
-    targetCompatibility = JavaVersion.VERSION_17
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
 }
 
 compileJava {

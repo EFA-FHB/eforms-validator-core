@@ -153,18 +153,30 @@ class PhaxNativeValidator implements FormsValidator {
   }
 
   private String getSchematronEntryFileName(SupportedVersion version) {
-    return switch (version) {
-      case V0_1_1 -> "entry.sch";
-      case V1_0_0, V1_5_1 -> "complete-validation.sch";
-      case V1_0_1 -> "eforms-de-validation.sch";
-    };
+    switch (version) {
+      case V0_1_1:
+        return "entry.sch";
+      case V1_0_0:
+      case V1_5_1:
+      case V1_7_0:
+        return "complete-validation.sch";
+      case V1_0_1:
+      case V1_1_0:
+        return "eforms-de-validation.sch";
+      default:
+        throw new IllegalArgumentException("Unsupported version: " + version);
+    }
   }
 
   private EnumMap<SupportedVersion, ISchematronResource> getValidators(
       SupportedType supportedType) {
-    return switch (supportedType) {
-      case DE -> validatorsNativeDe;
-      case EU -> validatorsNativeEu;
-    };
+    switch (supportedType) {
+      case DE:
+        return validatorsNativeDe;
+      case EU:
+        return validatorsNativeEu;
+      default:
+        throw new IllegalArgumentException("Unsupported type: " + supportedType);
+    }
   }
 }
