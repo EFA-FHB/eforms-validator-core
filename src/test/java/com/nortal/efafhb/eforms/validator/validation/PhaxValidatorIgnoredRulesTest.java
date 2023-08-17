@@ -87,7 +87,6 @@ class PhaxValidatorIgnoredRulesTest {
   }
 
   private String readFromEFormsResourceAsString(String fileName) throws IOException {
-    return Files.readString(
-        Path.of(String.format(fileName)).toAbsolutePath());
+    return Files.readString(Path.of(String.format(fileName)).toAbsolutePath());
   }
 }

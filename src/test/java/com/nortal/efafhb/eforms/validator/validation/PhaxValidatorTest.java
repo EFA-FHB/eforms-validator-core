@@ -117,13 +117,10 @@ class PhaxValidatorTest {
     validationResult
         .getWarnings()
         .forEach(
-            warn -> {
-              assertTrue(warn.getRule().contains("BR-BT-00514-0304"));
-            });
+            warn -> assertTrue(warn.getRule().contains("BR-BT-00514-0304")));
   }
 
   private String readFromEFormsResourceAsString(String fileName) throws IOException {
-    return Files.readString(
-        Path.of(String.format(fileName)).toAbsolutePath());
+    return Files.readString(Path.of(String.format(fileName)).toAbsolutePath());
   }
 }
