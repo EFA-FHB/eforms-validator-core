@@ -13,7 +13,7 @@ public class PhaxValidatorIgnoredRulesProfile implements QuarkusTestProfile {
         "phax",
         "eforms-validator.api.supported_eforms_versions",
         "eforms-sdk-0.1,eforms-sdk-1.0,eforms-sdk-1.5,eforms-sdk-1.7,eforms-de-1.1",
-        "ignored_rules.config.filepath",
+        "eforms-validator.ignored_rules.config.filepath",
         "src/test/resources/config/ignored_rules_test.csv");
   }
 }

@@ -15,7 +15,7 @@ public class IgnoredRulesConfig implements CsvConfig {
 
   private static final String CONFIG_FILE_NAME = "ignored_rules.csv";
 
-  @ConfigProperty(name = "ignored_rules.config.filepath")
+  @ConfigProperty(name = "eforms-validator.ignored_rules.config.filepath")
   Optional<String> configFilepath;
 
   private final Map<String, List<String>> ignoredRules = new HashMap<>();
