@@ -8,6 +8,7 @@ import com.helger.schematron.ISchematronResource;
 import com.helger.schematron.pure.SchematronResourcePure;
 import com.helger.schematron.svrl.jaxb.SchematronOutputType;
 import com.helger.xml.transform.StringStreamSource;
+import com.nortal.efafhb.eforms.validator.config.IgnoredRulesConfig;
 import com.nortal.efafhb.eforms.validator.enums.ReportType;
 import com.nortal.efafhb.eforms.validator.enums.SupportedType;
 import com.nortal.efafhb.eforms.validator.enums.SupportedVersion;
@@ -26,6 +27,7 @@ import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import lombok.extern.jbosslog.JBossLog;
+import org.apache.commons.lang3.StringUtils;
 
 @JBossLog
 @ApplicationScoped
@@ -41,6 +43,7 @@ class PhaxNativeValidator implements FormsValidator {
 
   @Inject ValidatorUtil validatorUtil;
   @Inject ValidationConfig validationConfig;
+  @Inject IgnoredRulesConfig ignoredRulesConfig;
 
   @PostConstruct
   void init() {
@@ -96,20 +99,41 @@ class PhaxNativeValidator implements FormsValidator {
     return validationResult;
   }
 
+  private boolean isEuRuleExcluded(String ruleId, SupportedType supportedType) {
+    return SupportedType.DE.equals(supportedType) && EXCLUDED_SCHEMATRON_RULES_DE.contains(ruleId);
+  }
+
+  private boolean isRuleIgnored(String ruleId, String sdkVersion) {
+    boolean isIgnored = ignoredRulesConfig.getIgnoredRules(sdkVersion).contains(ruleId);
+    if (isIgnored) {
+      log.debugf(
+          "Rule with id %s was executed and failed, but the error/warning is not included "
+              + "in the result, as it was configured to be skipped by configuration file %s",
+          ruleId, ignoredRulesConfig.getConfigFileName());
+    }
+    return isIgnored;
+  }
+
   private void addFailedAssertsToValidationResult(
       SupportedVersion eformsVersion,
       SupportedType supportedType,
       List<SchematronOutputType> schematronOutputs,
       ValidationResult validationResult) {
 
+    String sdkVersion =
+        StringUtils.joinWith(
+            EFORMS_SDK_VERSION_DELIMITER,
+            supportedType.getStandardizedName(),
+            eformsVersion.getValue());
+
     schematronOutputs.forEach(
         so ->
             SchematronHelper.getAllFailedAssertions(so)
                 .forEach(
                     schematronFailedAssert -> {
-                      if (!SupportedType.DE.equals(supportedType)
-                          || !EXCLUDED_SCHEMATRON_RULES_DE.contains(
-                              schematronFailedAssert.getID())) {
+                      String ruleId = schematronFailedAssert.getID();
+                      if (!isEuRuleExcluded(ruleId, supportedType)
+                          && !isRuleIgnored(ruleId, sdkVersion)) {
                         validationResult.addValidationToReport(
                             ReportType.SCHEMATRON,
                             validatorUtil.getSchematronErrorLevel(

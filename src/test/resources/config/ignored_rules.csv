@@ -1,0 +1,8 @@
+# properties: skd_version in format '^eforms-(sdk|de)-[\d+].[\d+].[\d+]$', rule_id from schematron
+eforms-de-1.1.0,BR-OPT-00202-0101
+eforms-de-1.1.0,BR-OPT-00300-0253
+eforms-de-1.1.0,BR-BT-00023-0036
+eforms-de-1.1.0,BR-BT-00023-0138
+# ignored rules for eu versions:
+eforms-sdk-0.1.1,BR-BT-00506-0052
+eforms-sdk-1.5.1,BR-OPT-00301-1180

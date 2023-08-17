@@ -188,8 +188,7 @@ public class ValidatorServiceImpl implements ValidatorService {
     } catch (IllegalArgumentException e) {
       throw new ValidatorApplicationException(ErrorCode.MALFORMED_XML);
     } catch (IOException e) {
-      log.warn(
-          "Exception while writing eForms document to file. Reason: %s".formatted(e.getMessage()));
+      log.warnf("Exception while writing eForms document to file. Reason: %s", e.getMessage());
       throw new IllegalArgumentException("Exception while writing eForms document to file");
     }
   }

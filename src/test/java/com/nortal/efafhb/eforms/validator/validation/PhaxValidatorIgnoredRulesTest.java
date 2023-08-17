@@ -1,6 +1,5 @@
 package com.nortal.efafhb.eforms.validator.validation;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -8,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.nortal.efafhb.eforms.validator.enums.SupportedType;
 import com.nortal.efafhb.eforms.validator.enums.SupportedVersion;
-import com.nortal.efafhb.eforms.validator.validation.profiles.PhaxValidatorProfile;
+import com.nortal.efafhb.eforms.validator.validation.profiles.PhaxValidatorIgnoredRulesProfile;
 import com.nortal.efafhb.eforms.validator.validation.util.ValidationResult;
 import io.quarkus.test.junit.QuarkusTest;
 import io.quarkus.test.junit.TestProfile;
@@ -19,74 +18,46 @@ import javax.inject.Inject;
 import org.junit.jupiter.api.Test;
 
 @QuarkusTest
-@TestProfile(PhaxValidatorProfile.class)
-class PhaxValidatorTest {
+@TestProfile(PhaxValidatorIgnoredRulesProfile.class)
+class PhaxValidatorIgnoredRulesTest {
 
   private static final String CN_24_MAXIMAL_XML_ERROR = "cn_24_maximal_error.xml";
   private static final String CN_24_MINIMAL_XML = "cn_24_minimal.xml";
-  private static final String CN_24_MINIMAL_V_0_1_XML = "cn_24_minimal_V0.1.xml";
   private static final String NOTICE_CN_DE_11_WARNING_AND_ERROR =
       "notice_cn_de_11_warning_and_error.xml";
 
   @Inject FormsValidator schematronValidator;
 
   @Test
-  void validate() throws IOException {
-    String eformsMaxWithError = readFromEFormsResourceAsString(CN_24_MAXIMAL_XML_ERROR);
-    String eformsMin = readFromEFormsResourceAsString(CN_24_MINIMAL_XML);
-    String eformsV01 = readFromEFormsResourceAsString(CN_24_MINIMAL_V_0_1_XML);
-
-    ValidationResult reportMaxWithError =
-        schematronValidator.validate(SupportedType.EU, eformsMaxWithError, SupportedVersion.V1_0_0);
-    assertEquals(0, reportMaxWithError.getWarnings().size());
-    assertNotEquals(0, reportMaxWithError.getErrors().size());
-
-    ValidationResult reportMin =
-        schematronValidator.validate(SupportedType.EU, eformsMin, SupportedVersion.V1_0_0);
-    assertNotEquals(0, reportMin.getWarnings().size());
-    assertEquals(0, reportMin.getErrors().size());
-
-    ValidationResult reportWrongVersion =
-        schematronValidator.validate(SupportedType.EU, eformsV01, SupportedVersion.V1_0_0);
-    assertEquals(0, reportWrongVersion.getWarnings().size());
-    assertNotEquals(0, reportWrongVersion.getErrors().size());
-
-    ValidationResult reportMinVersion01 =
-        schematronValidator.validate(SupportedType.EU, eformsV01, SupportedVersion.V0_1_1);
-    assertEquals(0, reportMinVersion01.getWarnings().size());
-    assertEquals(0, reportMinVersion01.getErrors().size());
-  }
-
-  @Test
-  void validateErrorDetails() throws IOException {
+  void validateErrorDetails_ignoredRules() throws IOException {
     String eformsWithError = readFromEFormsResourceAsString(CN_24_MAXIMAL_XML_ERROR);
-    String eformsWithWarning = readFromEFormsResourceAsString(CN_24_MINIMAL_XML);
 
     ValidationResult reportWithError =
         schematronValidator.validate(SupportedType.EU, eformsWithError, SupportedVersion.V1_0_0);
     assertFalse(reportWithError.getErrors().isEmpty());
-    // no ignored rules
-    assertEquals(2, reportWithError.getErrors().size());
+    assertNotEquals(2, reportWithError.getErrors().size());
     reportWithError
         .getErrors()
         .forEach(
             error -> {
               assertNotNull(error.getRule());
+              assertNotEquals("BR-BT-00506-0052", error.getRule());
               assertNotNull(error.getPath());
               assertNotNull(error.getTest());
               assertNotNull(error.getType());
             });
 
+    String eformsWithWarning = readFromEFormsResourceAsString(CN_24_MINIMAL_XML);
     ValidationResult reportWithWarning =
         schematronValidator.validate(SupportedType.EU, eformsWithWarning, SupportedVersion.V1_0_0);
     assertFalse(reportWithWarning.getWarnings().isEmpty());
-    // no ignored rules
-    assertEquals(5, reportWithWarning.getWarnings().size());
+    assertNotEquals(5, reportWithWarning.getWarnings().size());
     reportWithWarning
         .getWarnings()
         .forEach(
             warning -> {
               assertNotNull(warning.getRule());
+              assertNotEquals("BR-OPT-00301-1180", warning.getRule());
               assertNotNull(warning.getPath());
               assertNotNull(warning.getTest());
               assertNotNull(warning.getType());
@@ -112,14 +83,7 @@ class PhaxValidatorTest {
               assertNotNull(error.getType());
             });
 
-    assertFalse(validationResult.getWarnings().isEmpty());
-    assertEquals(1, validationResult.getWarnings().size());
-    validationResult
-        .getWarnings()
-        .forEach(
-            warn -> {
-              assertTrue(warn.getRule().contains("BR-BT-00514-0304"));
-            });
+    assertTrue(validationResult.getWarnings().isEmpty());
   }
 
   private String readFromEFormsResourceAsString(String fileName) throws IOException {
