@@ -116,8 +116,7 @@ class PhaxValidatorTest {
     assertEquals(1, validationResult.getWarnings().size());
     validationResult
         .getWarnings()
-        .forEach(
-            warn -> assertTrue(warn.getRule().contains("BR-BT-00514-0304")));
+        .forEach(warn -> assertTrue(warn.getRule().contains("BR-BT-00514-0304")));
   }
 
   private String readFromEFormsResourceAsString(String fileName) throws IOException {
