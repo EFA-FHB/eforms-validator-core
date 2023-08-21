@@ -8,8 +8,10 @@ import java.util.Optional;
 import javax.inject.Singleton;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.extern.jbosslog.JBossLog;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 
+@JBossLog
 @Singleton
 public class IgnoredRulesConfig implements CsvConfig {
 
@@ -22,13 +24,15 @@ public class IgnoredRulesConfig implements CsvConfig {
 
   @Override
   public void loadConfigData(String[] data) {
-    if (data.length >= 2) {
+    if (data.length == 2) {
       IgnoredRule ignoredRule = IgnoredRule.builder().sdkVersion(data[0]).ruleId(data[1]).build();
 
       if (!ignoredRules.containsKey(ignoredRule.getSdkVersion())) {
         ignoredRules.put(ignoredRule.getSdkVersion(), new ArrayList<>());
       }
-
+      log.infof(
+          "Rule with id %s is configured to be ignored by configuration file %s",
+          ignoredRule.getRuleId(), CONFIG_FILE_NAME);
       ignoredRules.get(ignoredRule.getSdkVersion()).add(ignoredRule.getRuleId());
     }
   }
