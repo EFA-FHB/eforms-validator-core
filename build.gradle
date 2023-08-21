@@ -63,6 +63,8 @@ dependencies {
     implementation 'com.helger.schematron:ph-schematron-pure:7.1.2'
     implementation 'com.github.vladimir-bukhtoyarov:bucket4j-core:7.6.0'
 
+    implementation 'com.opencsv:opencsv:5.8'
+
     compileOnly 'org.projectlombok:lombok:1.18.22'
 
     annotationProcessor 'org.projectlombok:lombok:1.18.22'
