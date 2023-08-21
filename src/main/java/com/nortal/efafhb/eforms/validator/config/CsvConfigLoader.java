@@ -39,7 +39,7 @@ public class CsvConfigLoader {
         CSVReader reader = new CSVReader(inputStreamReader)) {
       String[] values;
       while ((values = reader.readNext()) != null) {
-        if (!values[0].startsWith(COMMENT_LINE_PREFIX)) {
+        if (!values[0].isBlank() && !values[0].startsWith(COMMENT_LINE_PREFIX)) {
           config.loadConfigData(values);
         }
       }

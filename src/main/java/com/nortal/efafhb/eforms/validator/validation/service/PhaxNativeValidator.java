@@ -106,7 +106,7 @@ class PhaxNativeValidator implements FormsValidator {
   private boolean isRuleIgnored(String ruleId, String sdkVersion) {
     boolean isIgnored = ignoredRulesConfig.getIgnoredRules(sdkVersion).contains(ruleId);
     if (isIgnored) {
-      log.debugf(
+      log.infof(
           "Rule with id %s was executed and failed, but the error/warning is not included "
               + "in the result, as it was configured to be skipped by configuration file %s",
           ruleId, ignoredRulesConfig.getConfigFileName());
@@ -128,12 +128,13 @@ class PhaxNativeValidator implements FormsValidator {
 
     schematronOutputs.forEach(
         so ->
-            SchematronHelper.getAllFailedAssertions(so)
+            SchematronHelper.getAllFailedAssertions(so).stream()
+                .filter(
+                    schematronFailedAssert ->
+                        !isEuRuleExcluded(schematronFailedAssert.getID(), supportedType)
+                            && !isRuleIgnored(schematronFailedAssert.getID(), sdkVersion))
                 .forEach(
-                    schematronFailedAssert -> {
-                      String ruleId = schematronFailedAssert.getID();
-                      if (!isEuRuleExcluded(ruleId, supportedType)
-                          && !isRuleIgnored(ruleId, sdkVersion)) {
+                    schematronFailedAssert ->
                         validationResult.addValidationToReport(
                             ReportType.SCHEMATRON,
                             validatorUtil.getSchematronErrorLevel(
@@ -144,9 +145,7 @@ class PhaxNativeValidator implements FormsValidator {
                                 supportedType,
                                 schematronFailedAssert.getText(),
                                 schematronFailedAssert.getTest(),
-                                schematronFailedAssert.getLocation()));
-                      }
-                    }));
+                                schematronFailedAssert.getLocation()))));
   }
 
   void loadNative() {
