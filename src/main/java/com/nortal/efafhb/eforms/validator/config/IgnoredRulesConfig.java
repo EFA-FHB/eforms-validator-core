@@ -25,7 +25,8 @@ public class IgnoredRulesConfig implements CsvConfig {
   @Override
   public void loadConfigData(String[] data) {
     if (data.length == 2) {
-      IgnoredRule ignoredRule = IgnoredRule.builder().sdkVersion(data[0]).ruleId(data[1]).build();
+      IgnoredRule ignoredRule =
+          IgnoredRule.builder().sdkVersion(data[0].trim()).ruleId(data[1].trim()).build();
 
       if (!ignoredRules.containsKey(ignoredRule.getSdkVersion())) {
         ignoredRules.put(ignoredRule.getSdkVersion(), new ArrayList<>());
