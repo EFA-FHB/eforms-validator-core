@@ -1,8 +1,10 @@
 package com.nortal.efafhb.eforms.validator.validation;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.nortal.efafhb.eforms.validator.enums.SupportedType;
 import com.nortal.efafhb.eforms.validator.enums.SupportedVersion;
@@ -23,6 +25,8 @@ class PhaxValidatorTest {
   private static final String CN_24_MAXIMAL_XML_ERROR = "cn_24_maximal_error.xml";
   private static final String CN_24_MINIMAL_XML = "cn_24_minimal.xml";
   private static final String CN_24_MINIMAL_V_0_1_XML = "cn_24_minimal_V0.1.xml";
+  private static final String NOTICE_CN_DE_11_WARNING_AND_ERROR =
+      "notice_cn_de_11_warning_and_error.xml";
 
   @Inject FormsValidator schematronValidator;
 
@@ -60,7 +64,9 @@ class PhaxValidatorTest {
 
     ValidationResult reportWithError =
         schematronValidator.validate(SupportedType.EU, eformsWithError, SupportedVersion.V1_0_0);
-    assertNotEquals(0, reportWithError.getErrors().size());
+    assertFalse(reportWithError.getErrors().isEmpty());
+    // no ignored rules
+    assertEquals(2, reportWithError.getErrors().size());
     reportWithError
         .getErrors()
         .forEach(
@@ -73,7 +79,9 @@ class PhaxValidatorTest {
 
     ValidationResult reportWithWarning =
         schematronValidator.validate(SupportedType.EU, eformsWithWarning, SupportedVersion.V1_0_0);
-    assertNotEquals(0, reportWithWarning.getWarnings().size());
+    assertFalse(reportWithWarning.getWarnings().isEmpty());
+    // no ignored rules
+    assertEquals(5, reportWithWarning.getWarnings().size());
     reportWithWarning
         .getWarnings()
         .forEach(
@@ -85,8 +93,34 @@ class PhaxValidatorTest {
             });
   }
 
+  @Test
+  void validateErrorDetails_de() throws IOException {
+    String eformsWithError = readFromEFormsResourceAsString(NOTICE_CN_DE_11_WARNING_AND_ERROR);
+
+    ValidationResult validationResult =
+        schematronValidator.validate(SupportedType.DE, eformsWithError, SupportedVersion.V1_1_0);
+    assertFalse(validationResult.getErrors().isEmpty());
+    assertNotEquals(6, validationResult.getErrors().size());
+    validationResult
+        .getErrors()
+        .forEach(
+            error -> {
+              assertNotNull(error.getRule());
+              assertTrue(error.getRule().contains("CR-DE-BT-23"));
+              assertNotNull(error.getPath());
+              assertNotNull(error.getTest());
+              assertNotNull(error.getType());
+            });
+
+    assertFalse(validationResult.getWarnings().isEmpty());
+    assertEquals(1, validationResult.getWarnings().size());
+    validationResult
+        .getWarnings()
+        .forEach(warn -> assertTrue(warn.getRule().contains("BR-BT-00514-0304")));
+  }
+
   private String readFromEFormsResourceAsString(String fileName) throws IOException {
     return Files.readString(
-        Path.of("src/test/resources/eforms/%s".formatted(fileName)).toAbsolutePath());
+        Path.of(String.format("src/test/resources/eforms/%s", fileName)).toAbsolutePath());
   }
 }
