@@ -128,6 +128,22 @@
       <assert id="CR-BT-01-Germany" test="exists(cac:TenderingTerms/cac:ProcurementLegislationDocumentReference/cbc:ID)" role="error">[CR-BT-01-Germany] cac:TenderingTerms/cac:ProcurementLegislationDocumentReference/cbc:ID must exist in <name />.</assert>
     </rule>
 
+
+    <rule context="$ROOT-NODE/cbc:RequestedPublicationDate">
+
+      <let name="DISPATCH-DATE-NODE" value="../cbc:IssueDate" />
+
+      <assert test="$DISPATCH-DATE-NODE castable as xs:date" id="SR-BT-738-2">[SR-BT-738-2] ../cbc:IssueDate=<value-of select="../cbc:IssueDate"/> is not a valid calendar date.</assert>
+
+      <assert id="SR-BT-738-1" test=" xs:date(.) ge xs:date($DISPATCH-DATE-NODE)" role="error">[SR-DE-26] Calendar date of <name />=<value-of select="." /> must be greater or equals that of cbc:IssueDate=<value-of select="$DISPATCH-DATE-NODE" /></assert>
+
+    <!-- This rule is replacement of BR-BT-00738-0053 to keep compatibility with TED -->
+    <assert id="SR-BT-738-P60D" test="xs:date(.) - xs:date($DISPATCH-DATE-NODE) le xs:dayTimeDuration('P92D')">[SR-BT-738-P60D](<name/>) must not be more than 92 days after IssueDate due to TED requirements. <value-of select="concat('Current IssueDate=',xs:date($DISPATCH-DATE-NODE),' and RequestedPublicationDate=', xs:date(.), ' have a difference of ' , days-from-duration( xs:date(.) - xs:date($DISPATCH-DATE-NODE)), ' days.')"/></assert>
+
+    </rule>
+
+
+
 <!-- Be aware that it is about UBO as child of  efac:Organizations https://github.com/OP-TED/eForms-SDK/discussions/440 -->
     <rule
       context="$EXTENSION-NODE/efac:Organizations/efac:UltimateBeneficialOwner">
@@ -333,18 +349,6 @@
             true()" role="error">[SR-DE-23] cac:CallForTendersDocumentReference must exist at least once in <name />. </assert>
 
     </rule>
-
-    <rule
-      context="$ROOT-NODE/cac:ProcurementProjectLot[cbc:ID/@schemeName = 'Part']/cac:TenderingTerms">
-      <!-- sanityrule for bt-15 part -->
-      <assert id="SR-DE-24" test="
-          if ($SUBTYPE = $SUBTYPES-BT-15) then
-            (count(cac:CallForTendersDocumentReference) >= 1)
-          else
-            true()" role="error">[SR-DE-24] cac:CallForTendersDocumentReference must exist at least once in <name />. </assert>
-
-    </rule>
-
 
     <!-- following  rules CR-DE-BT-708-Part and CR-DE-BT-708-Lot may be combined into single one -->
     <rule
