@@ -114,15 +114,17 @@ class PhaxValidatorTest {
 
     assertTrue(
         validationResult.getErrors().stream()
-            .noneMatch(error -> error.getRule().equals("BR-BT-00738-0053")));
+            .noneMatch(
+                error ->
+                    error.getRule().equals("BR-BT-00738-0053")
+                        || error.getRule().equals("BR-BT-00005-0150")));
 
     assertTrue(
         validationResult.getErrors().stream()
             .allMatch(
                 error ->
                     error.getRule().contains("CR-DE-BT-23")
-                        || error.getRule().contains("SR-DE-26")
-                        || error.getRule().contains("BR-BT-00005-0150")));
+                        || error.getRule().contains("SR-DE-26")));
 
     assertFalse(validationResult.getWarnings().isEmpty());
     assertEquals(1, validationResult.getWarnings().size());
@@ -149,17 +151,17 @@ class PhaxValidatorTest {
             });
     assertTrue(
         validationResult.getErrors().stream()
-            .noneMatch(error -> error.getRule().equals("BR-BT-00738-0053")));
+            .noneMatch(
+                error ->
+                    error.getRule().equals("BR-BT-00738-0053")
+                        || error.getRule().equals("BR-BT-00005-0150")));
     assertTrue(
         validationResult.getErrors().stream()
             .noneMatch(error -> error.getRule().equals("SR-DE-24")));
     // publication date related rules are triggerred
     assertTrue(
         validationResult.getErrors().stream()
-            .anyMatch(
-                error ->
-                    error.getRule().contains("SR-DE-26")
-                        || error.getRule().contains("BR-BT-00005-0150")));
+            .anyMatch(error -> error.getRule().contains("SR-DE-26")));
   }
 
   private String readFromEFormsResourceAsString(String fileName) throws IOException {
