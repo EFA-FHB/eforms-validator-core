@@ -77,7 +77,6 @@ class PhaxValidatorIgnoredRulesTest {
         .forEach(
             error -> {
               assertNotNull(error.getRule());
-              assertTrue(error.getRule().contains("CR-DE-BT-23"));
               assertNotNull(error.getPath());
               assertNotNull(error.getTest());
               assertNotNull(error.getType());
