@@ -27,6 +27,7 @@ class PhaxValidatorTest {
   private static final String CN_24_MINIMAL_V_0_1_XML = "cn_24_minimal_V0.1.xml";
   private static final String NOTICE_CN_DE_11_WARNING_AND_ERROR =
       "notice_cn_de_11_warning_and_error.xml";
+  private static final String NOTICE_CN_DE_10 = "notice_cn_de_10.xml";
 
   @Inject FormsValidator schematronValidator;
 
@@ -106,17 +107,61 @@ class PhaxValidatorTest {
         .forEach(
             error -> {
               assertNotNull(error.getRule());
-              assertTrue(error.getRule().contains("CR-DE-BT-23"));
               assertNotNull(error.getPath());
               assertNotNull(error.getTest());
               assertNotNull(error.getType());
             });
+
+    assertTrue(
+        validationResult.getErrors().stream()
+            .noneMatch(
+                error ->
+                    error.getRule().equals("BR-BT-00738-0053")
+                        || error.getRule().equals("BR-BT-00005-0150")));
+
+    assertTrue(
+        validationResult.getErrors().stream()
+            .allMatch(
+                error ->
+                    error.getRule().contains("CR-DE-BT-23")
+                        || error.getRule().contains("SR-DE-26")));
 
     assertFalse(validationResult.getWarnings().isEmpty());
     assertEquals(1, validationResult.getWarnings().size());
     validationResult
         .getWarnings()
         .forEach(warn -> assertTrue(warn.getRule().contains("BR-BT-00514-0304")));
+  }
+
+  @Test
+  void validateErrorDetails_de_v1_0() throws IOException {
+    String eformsWithError = readFromEFormsResourceAsString(NOTICE_CN_DE_10);
+
+    ValidationResult validationResult =
+        schematronValidator.validate(SupportedType.DE, eformsWithError, SupportedVersion.V1_0_1);
+    assertFalse(validationResult.getErrors().isEmpty());
+    validationResult
+        .getErrors()
+        .forEach(
+            error -> {
+              assertNotNull(error.getRule());
+              assertNotNull(error.getPath());
+              assertNotNull(error.getTest());
+              assertNotNull(error.getType());
+            });
+    assertTrue(
+        validationResult.getErrors().stream()
+            .noneMatch(
+                error ->
+                    error.getRule().equals("BR-BT-00738-0053")
+                        || error.getRule().equals("BR-BT-00005-0150")));
+    assertTrue(
+        validationResult.getErrors().stream()
+            .noneMatch(error -> error.getRule().equals("SR-DE-24")));
+    // publication date related rules are triggerred
+    assertTrue(
+        validationResult.getErrors().stream()
+            .anyMatch(error -> error.getRule().contains("SR-DE-26")));
   }
 
   private String readFromEFormsResourceAsString(String fileName) throws IOException {
