@@ -39,8 +39,7 @@ public class ValidatorUtil {
   private static final String EXCLUDED_SCHEMATRON_RULES_DE_RESOURCE_PATH =
       RESOURCE_PATH + "excluded_rules.txt";
   protected static final List<String> EXCLUDED_SCHEMATRON_RULES_DE =
-      readExcludedSchematronRules(EXCLUDED_SCHEMATRON_RULES_DE_RESOURCE_PATH.formatted("de"));
-
+      readExcludedSchematronRules(String.format(EXCLUDED_SCHEMATRON_RULES_DE_RESOURCE_PATH, "de"));
   static final Map<String, InfoLevel> INFO_LEVEL_MAPPINGS = initInfoLevelMappings();
 
   /**
@@ -123,7 +122,7 @@ public class ValidatorUtil {
         rules.add(reader.readLine());
       }
     } catch (IOException e) {
-      log.error("Something went wrong while reading file '%s'.".formatted(fileName));
+      log.error(String.format("Something went wrong while reading file '%s'.", fileName));
     }
     return Collections.unmodifiableList(rules);
   }
