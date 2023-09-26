@@ -169,7 +169,7 @@ The request should be a multipart form data containing the following parameters:
 
 - `sdkType`: The type of the SDK used for eForms (String). 
   - possible values: `eforms-de`
-- `version`: The version of the eForms Standard used (String).
+- `eformsVersion`: The version of the eForms Standard used (String).
   - possible values: `1.0`, in the future: `1.1`, `1.2`, ...
 - `eforms`: The eForms data to be validated (XML file) (String($binary)).
 

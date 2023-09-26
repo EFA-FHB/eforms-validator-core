@@ -156,7 +156,7 @@ Produces:
 Die Anfrage sollte Multipart-Formulardaten enthalten, die die folgenden Parameter enthalten:
 
 - `sdkType`: Der Typ des für eForms verwendeten SDK (String).
-- `version`: Die Version des verwendeten SDK (String).
+- `eformsVersion`: Die Version des verwendeten SDK (String).
 - `eforms`: Die zu validierenden eForms-Daten (z. B. JSON-Darstellung) (String).
 
 #### Antwort
