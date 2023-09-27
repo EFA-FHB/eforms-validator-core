@@ -100,8 +100,8 @@
     value="$EXTENSION-ORG-NODE-PARENT/efac:Organization" />
 
 
-  <!--
-    Rules to check sanity aspects on technical level e.g. is CustomizationID correct
+  <!-- 
+    Rules to check sanity aspects on technical level e.g. is CustomizationID correct 
     SR = Sanitycheck Rule
      -->
   <pattern id="technical-sanity-pattern">
@@ -124,8 +124,8 @@
   </pattern>
 
 
-  <!--
-  Rules are roughly sorted by typical order of appearance in an instance
+  <!-- 
+  Rules are roughly sorted by typical order of appearance in an instance 
   CR = Cardinalitycheck Rule
   -->
   <pattern id="cardinality-pattern">
@@ -145,8 +145,8 @@ BT-165-Organization-Company is mandatory for a notice with subtype 30 under the 
       <assert id="SR-DE-01" test="cac:TenderingTerms" role="error">[SR-DE-01] TenderingTerms must exist in all Notice Types</assert>
 
       <assert id="CR-BT-01-Germany" test="exists(cac:TenderingTerms/cac:ProcurementLegislationDocumentReference/cbc:ID)" role="error">[CR-BT-01-Germany] cac:TenderingTerms/cac:ProcurementLegislationDocumentReference/cbc:ID must exist in <name />.</assert>
-      <!-- BT-105 is /*/cac:TenderingProcess/cbc:ProcedureCode
-in ted already m for "10", "11", "16", "17", "18", "23", "24", "25", "26", "27", "28", "29", "30", "31", "36", "37", "CEI", "T01", "T02"
+      <!-- BT-105 is /*/cac:TenderingProcess/cbc:ProcedureCode 
+in ted already m for "10", "11", "16", "17", "18", "23", "24", "25", "26", "27", "28", "29", "30", "31", "36", "37", "CEI", "T01", "T02" 
 we need to add 7,8,9,12,13,14, 19,20,21,22,32,E4,33,34,35
 -->
       <assert id="CR-DE-BT-105" test="
@@ -165,7 +165,7 @@ we need to add 7,8,9,12,13,14, 19,20,21,22,32,E4,33,34,35
       <assert id="SR-BT-738-1" test=" xs:date(.) ge xs:date($DISPATCH-DATE-NODE)" role="error">[SR-DE-26] Calendar date of <name />=<value-of select="." /> must be greater or equals that of cbc:IssueDate=<value-of select="$DISPATCH-DATE-NODE" /></assert>
 
     <!-- This rule is replacement of BR-BT-00738-0053 to keep compatibility with TED -->
-    <assert id="SR-BT-738-P60D" test="xs:date(.) - xs:date($DISPATCH-DATE-NODE) le xs:dayTimeDuration('P60D')">[SR-BT-738-P60D](<name/>) must not be more than 60 days after IssueDate due to TED requirements. <value-of select="concat('Current IssueDate=',xs:date($DISPATCH-DATE-NODE),' and RequestedPublicationDate=', xs:date(.), ' have a difference of ' , days-from-duration( xs:date(.) - xs:date($DISPATCH-DATE-NODE)), ' days.')"/></assert>
+    <assert id="SR-BT-738-P60D" test="xs:date(.) - xs:date($DISPATCH-DATE-NODE) &lt; xs:dayTimeDuration('P60D')">[SR-BT-738-P60D](<name/>) must not be more than 60 days after IssueDate due to TED requirements. <value-of select="concat('Current IssueDate=',xs:date($DISPATCH-DATE-NODE),' and RequestedPublicationDate=', xs:date(.), ' have a difference of ' , days-from-duration( xs:date(.) - xs:date($DISPATCH-DATE-NODE)), ' days.')"/></assert>
 
     </rule>
 
@@ -283,7 +283,7 @@ we need to add 7,8,9,12,13,14, 19,20,21,22,32,E4,33,34,35
 
       <assert id="CR-DE-BT-21-Lot" test="boolean(normalize-space(cbc:Name))" role="error">[CR-DE-BT-21-Lot] cbc:Name must exist as child of <name />.</assert>
 
-      <!-- sanity rule to check if parent node of ProcurementTypeCode for BT-06 exists
+      <!-- sanity rule to check if parent node of ProcurementTypeCode for BT-06 exists 
       <assert id="SR-DE-25" test="
           if ($SUBTYPE = $SUBTYPES-BT-06) then
             boolean(cac:ProcurementAdditionalType)
@@ -330,7 +330,7 @@ we need to add 7,8,9,12,13,14, 19,20,21,22,32,E4,33,34,35
 
       <assert id="CR-DE-BT-5141" test="boolean(normalize-space(cac:Country/cbc:IdentificationCode))" role="error">[CR-DE-BT-5141] cbc:IdentificationCode must exist.</assert>
 
-      <!-- BT-5071 conditional mandatory in 1.1 - see BR-DE-27
+      <!-- BT-5071 conditional mandatory in 1.1 - see BR-DE-27 
       <assert id="CR-DE-BT-5071" test="boolean(normalize-space(cbc:CountrySubentityCode))" role="error">[CR-DE-BT-5071] cbc:CountrySubentityCode must exist.</assert>
       -->
     </rule>
@@ -358,7 +358,7 @@ we need to add 7,8,9,12,13,14, 19,20,21,22,32,E4,33,34,35
       <assert id="CR-DE-BT-772-Lot" test="
           if ($SUBTYPE = $SUBTYPES-BT-771-772) then
             (count(cac:TendererQualificationRequest[not(cbc:CompanyLegalFormCode)]/cac:SpecificTendererRequirement[(cbc:TendererRequirementTypeCode[@listName = 'missing-info-submission'])]/cbc:Description) = 1)
-
+          
           else
             true()" role="error">[CR-DE-BT-772-Lot] cbc:Description for BT-771 must exist in <name />.</assert>
 

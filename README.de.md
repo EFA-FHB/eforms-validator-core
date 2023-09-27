@@ -184,7 +184,7 @@ Die Anfrage sollte ein multipart/form-data sein und die folgenden Parameter enth
 
 - `sdkType`: Der Typ des für eForms verwendeten SDKs (String). 
   - mögliche Werte: `eforms-de`
-- `version`: Die Version des verwendeten eForms Standards (String).
+- `eformsVersion`: Die Version des verwendeten eForms Standards (String).
   - mögliche Werte: `1.0`, in der Zukunft: `1.1`, `1.2`, ...
 - `eforms`: Die zu validierenden eForms (XML-Datei) (String($binary)).
 
