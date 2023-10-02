@@ -1,5 +1,7 @@
 package com.nortal.efafhb.eforms.validator.validation.service;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -11,9 +13,13 @@ import com.nortal.efafhb.eforms.validator.validation.ValidationConfig;
 import com.nortal.efafhb.eforms.validator.validation.dto.BusinessDocumentValidationModelDTO;
 import com.nortal.efafhb.eforms.validator.validation.dto.BusinessDocumentValidationRequestDTO;
 import com.nortal.efafhb.eforms.validator.validation.dto.ValidationModelDTO;
+import com.nortal.efafhb.eforms.validator.validation.dto.ValidationModelEntryDTO;
 import com.nortal.efafhb.eforms.validator.validation.dto.ValidationRequestDTO;
 import com.nortal.efafhb.eforms.validator.validation.util.ValidationResult;
 import io.quarkus.test.junit.QuarkusTest;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import javax.inject.Inject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -23,6 +29,8 @@ import org.mockito.MockitoAnnotations;
 
 @QuarkusTest
 class ValidatorServiceImplTest {
+  private static final String EFORM_WITH_ERRORS_PATH =
+      "src/test/resources/eforms/can_29_with_errors.xml";
 
   @InjectMocks private ValidatorServiceImpl validatorService;
 
@@ -30,6 +38,7 @@ class ValidatorServiceImplTest {
 
   @Inject ValidationConfig validationConfig;
   @Mock FormsValidator formsValidator;
+  @Mock EFormsParser eFormsParser;
 
   @BeforeEach
   void setUp() {
@@ -65,5 +74,45 @@ class ValidatorServiceImplTest {
     assertTrue(result.getValid());
     assertTrue(result.getErrors().isEmpty());
     assertTrue(result.getWarnings().isEmpty());
+  }
+
+  @Test
+  void testXSDValidationWithInvalidXML() throws IOException {
+    String expectedDescription =
+        "Die eForms XSD-Validierung ist fehlgeschlagen aufgrund von: 'cvc-complex-type.2.4.a: "
+            + "Invalid content was found starting with element "
+            + "'{\"urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2\":TenderingTerms}'. One of "
+            + "'{\"urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2\":AdditionalNoticeLanguage,"
+            + " \"urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2\":PreviousDocumentReference, "
+            + "\"urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2\":MinutesDocumentReference, "
+            + "\"urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2\":Signature, "
+            + "\"urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2\":ContractingParty}' "
+            + "is expected.'";
+
+    ValidationRequestDTO validationRequestDTO = new ValidationRequestDTO();
+    validationRequestDTO.setSchematronValidation(true);
+    validationRequestDTO.setEforms(readEFormAsByteArray(EFORM_WITH_ERRORS_PATH));
+    validationRequestDTO.setVersion("1.0");
+    validationRequestDTO.setSdkType("eforms-de");
+    validationRequestDTO.setXsdValidation(true);
+    validationRequestDTO.setSchematronValidation(false);
+
+    ValidationModelDTO result = validatorService.validate(validationRequestDTO);
+
+    assertNotNull(result);
+    assertFalse(result.getValid());
+    assertTrue(result.getWarnings().isEmpty());
+    assertEquals(1, result.getErrors().size());
+
+    ValidationModelEntryDTO error = result.getErrors().stream().findFirst().get();
+    assertEquals("XSD", error.getType());
+    assertEquals(expectedDescription, error.getDescription());
+    assertNull(error.getRule());
+    assertNull(error.getRuleContent());
+    assertNull(error.getPath());
+  }
+
+  private byte[] readEFormAsByteArray(String fileName) throws IOException {
+    return Files.readAllBytes(Paths.get(fileName));
   }
 }
