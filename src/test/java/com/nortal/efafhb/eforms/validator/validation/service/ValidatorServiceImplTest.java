@@ -77,7 +77,7 @@ class ValidatorServiceImplTest {
   }
 
   @Test
-  void testXSDValidationWithInvalidXML() throws IOException {
+  void testValidateNoticeWithErros() throws IOException {
     String expectedDescription =
         "Die eForms XSD-Validierung ist fehlgeschlagen aufgrund von: 'cvc-complex-type.2.4.a: "
             + "Invalid content was found starting with element "
