@@ -125,7 +125,7 @@ jobs:
         uses: ./.github/actions/install_shared_actions
         with:
           token: ${{secrets.EFA_CICD_REPO_ACCESS_TOKEN}}
-          tag: v2.4.0
+          tag: v2.5.1
 
       - name: project setup
         uses: ./.github/actions/shared/setup_jdk_17
