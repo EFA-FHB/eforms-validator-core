@@ -1,1 +1,2 @@
 # properties: skd_version in format '^eforms-(sdk|de)-[\d+].[\d+].[\d+]$', rule_id from schematron
+eforms-de-1.1.0,CR-DE-BT-165
