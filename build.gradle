@@ -8,7 +8,7 @@ plugins {
     id 'org.sonarqube'
     id 'maven-publish'
     id 'org.ajoberstar.grgit' version '5.0.0'
-    id "com.diffplug.spotless" version "6.21.0"
+    id "com.diffplug.spotless" version "6.22.0"
     id "com.github.vlsi.jandex" version "1.90"
     id 'com.github.johnrengelman.shadow' version '7.1.2'
 }
