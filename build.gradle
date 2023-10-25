@@ -179,6 +179,11 @@ tasks.named('compileJava').configure {
     dependsOn buildInfo
 }
 
+tasks.named('quarkusDependenciesBuild').configure {
+    dependsOn('processJandexIndex')
+    mustRunAfter('processJandexIndex')
+}
+
 shadowJar {
     archiveClassifier.set('fat')
     configurations = [project.configurations.runtimeClasspath]
