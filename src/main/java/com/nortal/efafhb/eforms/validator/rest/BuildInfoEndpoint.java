@@ -2,12 +2,12 @@ package com.nortal.efafhb.eforms.validator.rest;
 
 import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
 
-import java.io.IOException;
-import java.io.InputStream;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.Response;
+import java.io.IOException;
+import java.io.InputStream;
 
 /** REST endpoint for retrieving build information. */
 @Path("/info")

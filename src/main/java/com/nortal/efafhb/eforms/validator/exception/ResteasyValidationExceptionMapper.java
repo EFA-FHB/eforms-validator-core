@@ -2,12 +2,12 @@ package com.nortal.efafhb.eforms.validator.exception;
 
 import com.nortal.efafhb.eforms.validator.common.Constants;
 import io.quarkus.hibernate.validator.runtime.jaxrs.ResteasyViolationExceptionImpl;
-import java.util.Locale;
-import java.util.ResourceBundle;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.Status;
 import jakarta.ws.rs.ext.ExceptionMapper;
 import jakarta.ws.rs.ext.Provider;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 /** Exception mapper for handling ResteasyViolationExceptionImpl. */
 @Provider

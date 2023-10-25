@@ -11,10 +11,10 @@ import com.nortal.efafhb.eforms.validator.validation.profiles.PhaxValidatorIgnor
 import com.nortal.efafhb.eforms.validator.validation.util.ValidationResult;
 import io.quarkus.test.junit.QuarkusTest;
 import io.quarkus.test.junit.TestProfile;
+import jakarta.inject.Inject;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import jakarta.inject.Inject;
 import org.junit.jupiter.api.Test;
 
 @QuarkusTest

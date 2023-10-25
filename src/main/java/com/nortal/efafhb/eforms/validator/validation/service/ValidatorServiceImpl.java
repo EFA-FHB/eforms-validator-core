@@ -21,6 +21,7 @@ import com.nortal.efafhb.eforms.validator.validation.dto.ValidationModelEntryDTO
 import com.nortal.efafhb.eforms.validator.validation.dto.ValidationRequestDTO;
 import com.nortal.efafhb.eforms.validator.validation.entry.ValidationEntry;
 import com.nortal.efafhb.eforms.validator.validation.util.ValidationResult;
+import jakarta.enterprise.context.ApplicationScoped;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -35,7 +36,6 @@ import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-import jakarta.enterprise.context.ApplicationScoped;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;

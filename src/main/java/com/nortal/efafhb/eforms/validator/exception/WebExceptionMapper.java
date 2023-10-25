@@ -1,13 +1,13 @@
 package com.nortal.efafhb.eforms.validator.exception;
 
 import com.nortal.efafhb.eforms.validator.common.Constants;
-import java.util.Locale;
-import java.util.ResourceBundle;
 import jakarta.ws.rs.WebApplicationException;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.Status;
 import jakarta.ws.rs.ext.ExceptionMapper;
 import jakarta.ws.rs.ext.Provider;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 @Provider
 public class WebExceptionMapper implements ExceptionMapper<WebApplicationException> {

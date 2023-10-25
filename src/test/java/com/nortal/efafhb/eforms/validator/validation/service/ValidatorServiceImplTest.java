@@ -17,10 +17,10 @@ import com.nortal.efafhb.eforms.validator.validation.dto.ValidationModelEntryDTO
 import com.nortal.efafhb.eforms.validator.validation.dto.ValidationRequestDTO;
 import com.nortal.efafhb.eforms.validator.validation.util.ValidationResult;
 import io.quarkus.test.junit.QuarkusTest;
+import jakarta.inject.Inject;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import jakarta.inject.Inject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
