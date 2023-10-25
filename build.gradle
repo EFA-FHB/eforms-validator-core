@@ -147,9 +147,9 @@ test.finalizedBy jacocoTestReport
 jacocoTestReport {
 
     reports {
-        xml.enabled true
-        csv.enabled false
-        html.enabled false
+        xml.getRequired().set(true)
+        csv.getRequired().set(false)
+        html.getRequired().set(false)
     }
 
     getExecutionData().setFrom(fileTree(buildDir).include("jacoco/*.exec"))

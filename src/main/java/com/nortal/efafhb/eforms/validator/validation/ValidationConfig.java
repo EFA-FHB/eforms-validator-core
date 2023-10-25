@@ -3,7 +3,7 @@ package com.nortal.efafhb.eforms.validator.validation;
 import io.smallrye.config.ConfigMapping;
 import io.smallrye.config.WithName;
 import java.util.List;
-import javax.validation.constraints.Pattern;
+import jakarta.validation.constraints.Pattern;
 
 @ConfigMapping(prefix = "eforms-validator.api")
 public interface ValidationConfig {

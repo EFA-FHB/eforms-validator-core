@@ -15,7 +15,7 @@ import io.quarkus.test.junit.TestProfile;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 import org.junit.jupiter.api.Test;
 
 @QuarkusTest

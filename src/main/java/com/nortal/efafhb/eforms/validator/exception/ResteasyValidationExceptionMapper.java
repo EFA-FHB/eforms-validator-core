@@ -4,10 +4,10 @@ import com.nortal.efafhb.eforms.validator.common.Constants;
 import io.quarkus.hibernate.validator.runtime.jaxrs.ResteasyViolationExceptionImpl;
 import java.util.Locale;
 import java.util.ResourceBundle;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
-import javax.ws.rs.ext.ExceptionMapper;
-import javax.ws.rs.ext.Provider;
+import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response.Status;
+import jakarta.ws.rs.ext.ExceptionMapper;
+import jakarta.ws.rs.ext.Provider;
 
 /** Exception mapper for handling ResteasyViolationExceptionImpl. */
 @Provider
