@@ -21,6 +21,7 @@ import com.nortal.efafhb.eforms.validator.validation.dto.ValidationModelEntryDTO
 import com.nortal.efafhb.eforms.validator.validation.dto.ValidationRequestDTO;
 import com.nortal.efafhb.eforms.validator.validation.entry.ValidationEntry;
 import com.nortal.efafhb.eforms.validator.validation.util.ValidationResult;
+import jakarta.enterprise.context.ApplicationScoped;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -35,7 +36,6 @@ import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-import javax.enterprise.context.ApplicationScoped;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
@@ -95,7 +95,7 @@ public class ValidatorServiceImpl implements ValidatorService {
       verifySchemaValid(validationRequestDTO.getEforms(), requestedEformsVersion, sdkType);
       return getValidXSDValidationModel(validatedEformsVersion);
     } catch (SAXException e) {
-      return getInvalidXSDValidationModel(validatedEformsVersion);
+      return getInvalidXSDValidationModel(validatedEformsVersion, e.getMessage());
     }
   }
 
@@ -211,13 +211,15 @@ public class ValidatorServiceImpl implements ValidatorService {
     }
   }
 
-  private static ValidationModelDTO getInvalidXSDValidationModel(String validatedEformsVersion) {
+  private static ValidationModelDTO getInvalidXSDValidationModel(
+      String validatedEformsVersion, String errorMessage) {
     ResourceBundle resourceBundle =
         ResourceBundle.getBundle(Constants.ERRORS, new Locale(Constants.LOCALE_DE));
     ValidationModelEntryDTO error =
         ValidationModelEntryDTO.builder()
             .type(VALIDATION_ENTRY_XSD_TYPE)
-            .description(resourceBundle.getString(XSD_VALIDATION_FAILED_CODE))
+            .description(
+                String.format(resourceBundle.getString(XSD_VALIDATION_FAILED_CODE), errorMessage))
             .build();
     return ValidationModelDTO.builder()
         .errors(new HashSet<>(Collections.singleton(error)))

@@ -6,8 +6,8 @@ import com.nortal.efafhb.eforms.validator.validation.FormsValidator;
 import com.nortal.efafhb.eforms.validator.validation.util.ValidationResult;
 import io.quarkus.arc.properties.IfBuildProperty;
 import io.quarkus.runtime.Startup;
-import javax.annotation.PostConstruct;
-import javax.enterprise.context.ApplicationScoped;
+import jakarta.annotation.PostConstruct;
+import jakarta.enterprise.context.ApplicationScoped;
 import lombok.extern.jbosslog.JBossLog;
 
 @JBossLog

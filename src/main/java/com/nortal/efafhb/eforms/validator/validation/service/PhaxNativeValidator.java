@@ -20,12 +20,12 @@ import com.nortal.efafhb.eforms.validator.validation.schematron.SchematronHelper
 import com.nortal.efafhb.eforms.validator.validation.util.ValidationResult;
 import io.quarkus.arc.properties.IfBuildProperty;
 import io.quarkus.runtime.Startup;
+import jakarta.annotation.PostConstruct;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.List;
-import javax.annotation.PostConstruct;
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
 import lombok.extern.jbosslog.JBossLog;
 import org.apache.commons.lang3.StringUtils;
 
