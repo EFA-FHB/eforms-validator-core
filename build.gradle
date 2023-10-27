@@ -46,7 +46,7 @@ publishing {
 
 dependencies {
     // Quarkus
-    implementation(platform("${quarkusPlatformGroupId}:${quarkusPlatformArtifactId}:${quarkusPlatformVersion}"))
+    implementation(enforcedPlatform("${quarkusPlatformGroupId}:${quarkusPlatformArtifactId}:${quarkusPlatformVersion}"))
     implementation 'io.quarkus:quarkus-arc'
     implementation 'io.quarkus:quarkus-resteasy'
     implementation 'io.quarkus:quarkus-resteasy-jackson'
@@ -147,9 +147,9 @@ test.finalizedBy jacocoTestReport
 jacocoTestReport {
 
     reports {
-        xml.enabled true
-        csv.enabled false
-        html.enabled false
+        xml.getRequired().set(true)
+        csv.getRequired().set(false)
+        html.getRequired().set(false)
     }
 
     getExecutionData().setFrom(fileTree(buildDir).include("jacoco/*.exec"))
@@ -177,6 +177,11 @@ spotless {
 
 tasks.named('compileJava').configure {
     dependsOn buildInfo
+}
+
+tasks.named('quarkusDependenciesBuild').configure {
+    dependsOn('processJandexIndex')
+    mustRunAfter('processJandexIndex')
 }
 
 shadowJar {

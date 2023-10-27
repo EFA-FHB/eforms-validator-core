@@ -1,9 +1,9 @@
 package com.nortal.efafhb.eforms.validator.aspects;
 
-import javax.annotation.Priority;
-import javax.interceptor.AroundInvoke;
-import javax.interceptor.Interceptor;
-import javax.interceptor.InvocationContext;
+import jakarta.annotation.Priority;
+import jakarta.interceptor.AroundInvoke;
+import jakarta.interceptor.Interceptor;
+import jakarta.interceptor.InvocationContext;
 import lombok.extern.jbosslog.JBossLog;
 
 /** Interceptor for logging the execution time of methods. */
