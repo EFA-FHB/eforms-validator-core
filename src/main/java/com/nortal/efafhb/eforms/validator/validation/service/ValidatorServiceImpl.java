@@ -106,11 +106,12 @@ public class ValidatorServiceImpl implements ValidatorService {
             EFORMS_SDK_VERSION_DELIMITER,
             sdkType.getStandardizedName(),
             validationRequestDTO.getVersion());
-    return convertToValidationModel(
-        formsValidator.validate(
-            sdkType,
-            new String(validationRequestDTO.getEforms(), StandardCharsets.UTF_8),
-            SupportedVersion.versionFromSDK(requestedEformsVersion)));
+    String eform = new String(validationRequestDTO.getEforms(), StandardCharsets.UTF_8);
+    SupportedVersion eformVersion = SupportedVersion.versionFromSDK(requestedEformsVersion);
+
+    ValidationResult result = formsValidator.validate(sdkType, eform, eformVersion);
+
+    return convertToValidationModel(result);
   }
 
   @ExecutionTimeLogAspect

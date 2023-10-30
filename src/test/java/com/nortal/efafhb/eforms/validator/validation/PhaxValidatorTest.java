@@ -28,6 +28,7 @@ class PhaxValidatorTest {
   private static final String NOTICE_CN_DE_11_WARNING_AND_ERROR =
       "notice_cn_de_11_warning_and_error.xml";
   private static final String NOTICE_CN_DE_10 = "notice_cn_de_10.xml";
+  private static final String NOTICE_SDK_1_5 = "eform-sdk-1.5.xml";
 
   @Inject FormsValidator schematronValidator;
 
@@ -162,6 +163,16 @@ class PhaxValidatorTest {
     assertTrue(
         validationResult.getErrors().stream()
             .anyMatch(error -> error.getRule().contains("SR-DE-26")));
+  }
+
+  @Test
+  void validateDeSchematronPhase_ignoredVersionValidation() throws IOException {
+    String eformsWithError = readFromEFormsResourceAsString(NOTICE_SDK_1_5);
+
+    ValidationResult result = schematronValidator.validate(SupportedType.DE, eformsWithError, SupportedVersion.V1_1_0);
+
+    assertTrue(result.getErrors().isEmpty());
+    assertTrue(result.getWarnings().isEmpty());
   }
 
   private String readFromEFormsResourceAsString(String fileName) throws IOException {

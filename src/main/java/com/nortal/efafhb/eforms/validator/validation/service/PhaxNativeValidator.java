@@ -6,6 +6,7 @@ import static com.nortal.efafhb.eforms.validator.validation.service.ValidatorUti
 
 import com.helger.schematron.ISchematronResource;
 import com.helger.schematron.pure.SchematronResourcePure;
+import com.helger.schematron.pure.model.PSPhase;
 import com.helger.schematron.svrl.jaxb.SchematronOutputType;
 import com.helger.xml.transform.StringStreamSource;
 import com.nortal.efafhb.eforms.validator.config.IgnoredRulesConfig;
@@ -36,6 +37,7 @@ import org.apache.commons.lang3.StringUtils;
 class PhaxNativeValidator implements FormsValidator {
 
   private static final String SCHEMATRON_LOCATION = RESOURCE_PATH + "native-validation/%s/%s";
+  private static final String DEFAULT_DE_PHASE = "eforms-de-phase";
   private static final EnumMap<SupportedVersion, ISchematronResource> validatorsNativeEu =
       new EnumMap<>(SupportedVersion.class);
   private static final EnumMap<SupportedVersion, ISchematronResource> validatorsNativeDe =
@@ -152,27 +154,51 @@ class PhaxNativeValidator implements FormsValidator {
     log.info("loading phax native schematron validator...");
     validationConfig
         .supportedEFormsVersions()
-        .forEach(
-            version -> {
-              SupportedVersion supportedVersion = SupportedVersion.versionFromSDK(version);
-              SupportedType supportedType = SupportedType.typeFromSDK(version);
-              String supportedTypeName = supportedType.name().toLowerCase();
-              String path =
-                  String.format(
-                      SCHEMATRON_LOCATION,
-                      supportedTypeName,
-                      supportedVersion.getValue(),
-                      getSchematronEntryFileName(supportedVersion));
-
-              log.debugf("loading schematron resource: %s", path);
-              final ISchematronResource aResPure =
-                  SchematronResourcePure.fromClassPath(path, this.getClass().getClassLoader());
-              if (!aResPure.isValidSchematron()) {
-                throw new IllegalArgumentException("Invalid Schematron!");
-              }
-              getValidators(supportedType).put(supportedVersion, aResPure);
-            });
+        .forEach(this::loadSchematron);
     log.info("loading phax native schematron validator completed!");
+  }
+
+  private void loadSchematron(String version) {
+    SupportedVersion supportedVersion = SupportedVersion.versionFromSDK(version);
+    SupportedType supportedType = SupportedType.typeFromSDK(version);
+    String supportedTypeName = supportedType.name().toLowerCase();
+    String path =
+        String.format(
+            SCHEMATRON_LOCATION,
+            supportedTypeName,
+            supportedVersion.getValue(),
+            getSchematronEntryFileName(supportedVersion));
+
+    log.debugf("loading schematron resource: %s", path);
+
+    final SchematronResourcePure aResPure =
+        SchematronResourcePure.fromClassPath(path, this.getClass().getClassLoader());
+
+    if (SupportedType.DE.equals(supportedType)) {
+      applyPhase(aResPure, path);
+    }
+
+    if (!aResPure.isValidSchematron()) {
+      throw new IllegalArgumentException("Invalid Schematron!");
+    }
+
+    getValidators(supportedType).put(supportedVersion, aResPure);
+  }
+
+  private void applyPhase(SchematronResourcePure aResPure, String schematronPath) {
+    boolean phaseExists = SchematronResourcePure.fromClassPath(schematronPath,
+            this.getClass().getClassLoader()).getOrCreateBoundSchema().getOriginalSchema()
+        .getAllPhases()
+        .stream().map(PSPhase::getID)
+        .anyMatch(id -> validationConfig.deSchematronPhase().equals(id));
+
+    if (phaseExists) {
+      aResPure.setPhase(validationConfig.deSchematronPhase());
+    } else {
+      log.infof("Phase '%s' not found in schematron %s, using default phase '%s'",
+          validationConfig.deSchematronPhase(), schematronPath, DEFAULT_DE_PHASE);
+      aResPure.setPhase(DEFAULT_DE_PHASE);
+    }
   }
 
   private String getSchematronEntryFileName(SupportedVersion version) {
