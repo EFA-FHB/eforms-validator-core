@@ -9,29 +9,43 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 import com.nortal.efafhb.eforms.validator.validation.FormsValidator;
+import com.nortal.efafhb.eforms.validator.validation.ValidationConfig;
 import com.nortal.efafhb.eforms.validator.validation.dto.BusinessDocumentValidationModelDTO;
 import com.nortal.efafhb.eforms.validator.validation.dto.BusinessDocumentValidationRequestDTO;
 import com.nortal.efafhb.eforms.validator.validation.dto.ValidationModelDTO;
 import com.nortal.efafhb.eforms.validator.validation.dto.ValidationModelEntryDTO;
 import com.nortal.efafhb.eforms.validator.validation.dto.ValidationRequestDTO;
 import com.nortal.efafhb.eforms.validator.validation.util.ValidationResult;
-import io.quarkus.test.InjectMock;
 import io.quarkus.test.junit.QuarkusTest;
 import jakarta.inject.Inject;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 @QuarkusTest
 class ValidatorServiceImplTest {
   private static final String EFORM_WITH_ERRORS_PATH =
       "src/test/resources/eforms/can_29_with_errors.xml";
 
-  @InjectMock BusinessDocumentValidator businessDocumentValidator;
-  @InjectMock FormsValidator formsValidator;
+  @InjectMocks private ValidatorServiceImpl validatorService;
 
-  @Inject ValidatorServiceImpl validatorService;
+  @Mock BusinessDocumentValidator businessDocumentValidator;
+
+  @Inject ValidationConfig validationConfig;
+  @Mock FormsValidator formsValidator;
+  @Mock EFormsParser eFormsParser;
+
+  @BeforeEach
+  void setUp() {
+    MockitoAnnotations.initMocks(this);
+    validatorService =
+        new ValidatorServiceImpl(businessDocumentValidator, validationConfig, formsValidator);
+  }
 
   @Test
   void testValidateWithSchematronValidation() {
