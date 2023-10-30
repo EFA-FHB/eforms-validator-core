@@ -169,7 +169,8 @@ class PhaxValidatorTest {
   void validateDeSchematronPhase_ignoredVersionValidation() throws IOException {
     String eformsWithError = readFromEFormsResourceAsString(NOTICE_SDK_1_5);
 
-    ValidationResult result = schematronValidator.validate(SupportedType.DE, eformsWithError, SupportedVersion.V1_1_0);
+    ValidationResult result =
+        schematronValidator.validate(SupportedType.DE, eformsWithError, SupportedVersion.V1_1_0);
 
     assertTrue(result.getErrors().isEmpty());
     assertTrue(result.getWarnings().isEmpty());

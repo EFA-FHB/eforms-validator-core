@@ -152,9 +152,7 @@ class PhaxNativeValidator implements FormsValidator {
 
   void loadNative() {
     log.info("loading phax native schematron validator...");
-    validationConfig
-        .supportedEFormsVersions()
-        .forEach(this::loadSchematron);
+    validationConfig.supportedEFormsVersions().forEach(this::loadSchematron);
     log.info("loading phax native schematron validator completed!");
   }
 
@@ -186,16 +184,20 @@ class PhaxNativeValidator implements FormsValidator {
   }
 
   private void applyPhase(SchematronResourcePure aResPure, String schematronPath) {
-    boolean phaseExists = SchematronResourcePure.fromClassPath(schematronPath,
-            this.getClass().getClassLoader()).getOrCreateBoundSchema().getOriginalSchema()
-        .getAllPhases()
-        .stream().map(PSPhase::getID)
-        .anyMatch(id -> validationConfig.deSchematronPhase().equals(id));
+    boolean phaseExists =
+        SchematronResourcePure.fromClassPath(schematronPath, this.getClass().getClassLoader())
+            .getOrCreateBoundSchema()
+            .getOriginalSchema()
+            .getAllPhases()
+            .stream()
+            .map(PSPhase::getID)
+            .anyMatch(id -> validationConfig.deSchematronPhase().equals(id));
 
     if (phaseExists) {
       aResPure.setPhase(validationConfig.deSchematronPhase());
     } else {
-      log.infof("Phase '%s' not found in schematron %s, using default phase '%s'",
+      log.infof(
+          "Phase '%s' not found in schematron %s, using default phase '%s'",
           validationConfig.deSchematronPhase(), schematronPath, DEFAULT_DE_PHASE);
       aResPure.setPhase(DEFAULT_DE_PHASE);
     }
