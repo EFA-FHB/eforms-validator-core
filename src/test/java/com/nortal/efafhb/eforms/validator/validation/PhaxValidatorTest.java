@@ -8,6 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.nortal.efafhb.eforms.validator.enums.SupportedType;
 import com.nortal.efafhb.eforms.validator.enums.SupportedVersion;
+import com.nortal.efafhb.eforms.validator.validation.entry.ValidationEntry;
 import com.nortal.efafhb.eforms.validator.validation.profiles.PhaxValidatorProfile;
 import com.nortal.efafhb.eforms.validator.validation.util.ValidationResult;
 import io.quarkus.test.junit.QuarkusTest;
@@ -16,6 +17,7 @@ import jakarta.inject.Inject;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import org.junit.jupiter.api.Test;
 
 @QuarkusTest
@@ -125,7 +127,12 @@ class PhaxValidatorTest {
             .allMatch(
                 error ->
                     error.getRule().contains("CR-DE-BT-23")
-                        || error.getRule().contains("SR-DE-26")));
+                        || error.getRule().contains("SR-DE-26")
+                        || error
+                            .getRule()
+                            .contains(
+                                "Notice Dispatch Date must be between 0 and 24 hours "
+                                    + "before the current date.")));
 
     assertFalse(validationResult.getWarnings().isEmpty());
     assertEquals(1, validationResult.getWarnings().size());
@@ -172,7 +179,21 @@ class PhaxValidatorTest {
     ValidationResult result =
         schematronValidator.validate(SupportedType.DE, eformsWithError, SupportedVersion.V1_1_0);
 
-    assertTrue(result.getErrors().isEmpty());
+    assertEquals(1, result.getErrors().size());
+
+    ValidationEntry resultValidationEntry = new ArrayList<>(result.getErrors()).get(0);
+    assertEquals(
+        "Notice Dispatch Date must be between 0 and 24 hours before the current date.",
+        resultValidationEntry.getRule());
+    assertEquals("/cn:ContractNotice/cbc:IssueDate", resultValidationEntry.getPath());
+    assertEquals(
+        "Rule: Notice Dispatch Date must be between 0 and 24 hours before the current date. ; Test: ((current-date() - xs:date(text())) le xs:dayTimeDuration('P2D')) and ((current-date() - xs:date(text())) ge xs:dayTimeDuration('-P1D')) ; Location: /cn:ContractNotice/cbc:IssueDate",
+        resultValidationEntry.getFormattedMessage());
+    assertEquals(
+        "((current-date() - xs:date(text())) le xs:dayTimeDuration('P2D')) and ((current-date() - xs:date(text())) ge xs:dayTimeDuration('-P1D'))",
+        resultValidationEntry.getTest());
+    assertEquals("SCHEMATRON", resultValidationEntry.getType());
+
     assertTrue(result.getWarnings().isEmpty());
   }
 
