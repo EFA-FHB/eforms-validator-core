@@ -15,9 +15,18 @@ import io.quarkus.test.junit.QuarkusTest;
 import io.quarkus.test.junit.TestProfile;
 import jakarta.inject.Inject;
 import java.io.IOException;
+import java.io.StringReader;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Deque;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.Test;
 
 @QuarkusTest
@@ -31,6 +40,8 @@ class PhaxValidatorTest {
       "notice_cn_de_11_warning_and_error.xml";
   private static final String NOTICE_CN_DE_10 = "notice_cn_de_10.xml";
   private static final String NOTICE_SDK_1_5 = "eform-sdk-1.5.xml";
+  private static final String ISSUE_DATE_XML_TAG = "IssueDate";
+  private static final String REQUESTED_PUBLICATION_DATE_XML_TAG = "RequestedPublicationDate";
 
   @Inject FormsValidator schematronValidator;
 
@@ -124,15 +135,55 @@ class PhaxValidatorTest {
 
     assertTrue(
         validationResult.getErrors().stream()
+            .anyMatch(
+                error ->
+                    error
+                        .getRule()
+                        .contains(
+                            "Notice Dispatch Date must be between 0 and 24 hours "
+                                + "before the current date.")));
+
+    assertFalse(validationResult.getWarnings().isEmpty());
+    assertEquals(1, validationResult.getWarnings().size());
+    validationResult
+        .getWarnings()
+        .forEach(warn -> assertTrue(warn.getRule().contains("BR-BT-00514-0304")));
+  }
+
+  @Test
+  void validateErrorDetails_de_fixed_dates_to_current() throws IOException {
+    String eformsWithError = readFromEFormsResourceAsString(NOTICE_CN_DE_11_WARNING_AND_ERROR);
+    eformsWithError = replaceDateTagToCurrentDate(eformsWithError, ISSUE_DATE_XML_TAG);
+    eformsWithError =
+        replaceDateTagToCurrentDate(eformsWithError, REQUESTED_PUBLICATION_DATE_XML_TAG);
+
+    ValidationResult validationResult =
+        schematronValidator.validate(SupportedType.DE, eformsWithError, SupportedVersion.V1_1_0);
+    assertFalse(validationResult.getErrors().isEmpty());
+    assertNotEquals(6, validationResult.getErrors().size());
+    validationResult
+        .getErrors()
+        .forEach(
+            error -> {
+              assertNotNull(error.getRule());
+              assertNotNull(error.getPath());
+              assertNotNull(error.getTest());
+              assertNotNull(error.getType());
+            });
+
+    assertTrue(
+        validationResult.getErrors().stream()
+            .noneMatch(
+                error ->
+                    error.getRule().equals("BR-BT-00738-0053")
+                        || error.getRule().equals("BR-BT-00005-0150")));
+
+    assertTrue(
+        validationResult.getErrors().stream()
             .allMatch(
                 error ->
                     error.getRule().contains("CR-DE-BT-23")
-                        || error.getRule().contains("SR-DE-26")
-                        || error
-                            .getRule()
-                            .contains(
-                                "Notice Dispatch Date must be between 0 and 24 hours "
-                                    + "before the current date.")));
+                        || error.getRule().contains("SR-DE-26")));
 
     assertFalse(validationResult.getWarnings().isEmpty());
     assertEquals(1, validationResult.getWarnings().size());
@@ -175,6 +226,21 @@ class PhaxValidatorTest {
   @Test
   void validateDeSchematronPhase_ignoredVersionValidation() throws IOException {
     String eformsWithError = readFromEFormsResourceAsString(NOTICE_SDK_1_5);
+    eformsWithError = replaceDateTagToCurrentDate(eformsWithError, ISSUE_DATE_XML_TAG);
+    eformsWithError =
+        replaceDateTagToCurrentDate(eformsWithError, REQUESTED_PUBLICATION_DATE_XML_TAG);
+
+    ValidationResult result =
+        schematronValidator.validate(SupportedType.DE, eformsWithError, SupportedVersion.V1_1_0);
+
+    assertTrue(result.getErrors().isEmpty());
+    assertTrue(result.getWarnings().isEmpty());
+  }
+
+  @Test
+  void validateDeSchematronPhase_ignoredVersionValidation_fixed_dates_to_current()
+      throws IOException {
+    String eformsWithError = readFromEFormsResourceAsString(NOTICE_SDK_1_5);
 
     ValidationResult result =
         schematronValidator.validate(SupportedType.DE, eformsWithError, SupportedVersion.V1_1_0);
@@ -200,5 +266,30 @@ class PhaxValidatorTest {
   private String readFromEFormsResourceAsString(String fileName) throws IOException {
     return Files.readString(
         Path.of(String.format("src/test/resources/eforms/%s", fileName)).toAbsolutePath());
+  }
+
+  private static String replaceDateTagToCurrentDate(String fileContents, String xmlTag) {
+    List<String> fileLines = IOUtils.readLines(new StringReader(fileContents));
+
+    int xmlTagsCount = (int) fileLines.stream().filter(line -> line.contains(xmlTag)).count();
+    Deque<Integer> minusDaysDeque = new LinkedList<>();
+    IntStream.rangeClosed(1, xmlTagsCount).forEach(minusDaysDeque::push);
+
+    return fileLines.stream()
+        .map(line -> replaceDateTagValue(line, xmlTag, minusDaysDeque))
+        .collect(Collectors.joining(System.lineSeparator()));
+  }
+
+  private static String replaceDateTagValue(
+      String line, String xmlTag, Deque<Integer> minusDaysDeque) {
+    if (line.contains(xmlTag)) {
+      String xmlDate = line.split("[<>]")[2];
+      String currentDate =
+          LocalDate.now()
+              .minusDays(minusDaysDeque.pop())
+              .format(DateTimeFormatter.ofPattern("yyyy-MM-dd+02:00"));
+      return line.replace(xmlDate, currentDate);
+    }
+    return line;
   }
 }
