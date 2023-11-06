@@ -15,7 +15,7 @@ import io.quarkus.test.junit.QuarkusTest;
 import io.quarkus.test.junit.TestProfile;
 import jakarta.inject.Inject;
 import java.io.IOException;
-import java.io.StringReader;
+import java.io.StringWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.LocalDate;
@@ -23,11 +23,21 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Deque;
 import java.util.LinkedList;
-import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-import org.apache.commons.io.IOUtils;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 import org.junit.jupiter.api.Test;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 @QuarkusTest
 @TestProfile(PhaxValidatorProfile.class)
@@ -40,8 +50,8 @@ class PhaxValidatorTest {
       "notice_cn_de_11_warning_and_error.xml";
   private static final String NOTICE_CN_DE_10 = "notice_cn_de_10.xml";
   private static final String NOTICE_SDK_1_5 = "eform-sdk-1.5.xml";
-  private static final String ISSUE_DATE_XML_TAG = "IssueDate";
-  private static final String REQUESTED_PUBLICATION_DATE_XML_TAG = "RequestedPublicationDate";
+  private static final String ISSUE_DATE_XML_TAG = "cbc:IssueDate";
+  private static final String REQUESTED_PUBLICATION_DATE_XML_TAG = "cbc:RequestedPublicationDate";
 
   @Inject FormsValidator schematronValidator;
 
@@ -151,14 +161,16 @@ class PhaxValidatorTest {
   }
 
   @Test
-  void validateErrorDetails_de_fixed_dates_to_current() throws IOException {
-    String eformsWithError = readFromEFormsResourceAsString(NOTICE_CN_DE_11_WARNING_AND_ERROR);
-    eformsWithError = replaceDateTagToCurrentDate(eformsWithError, ISSUE_DATE_XML_TAG);
-    eformsWithError =
-        replaceDateTagToCurrentDate(eformsWithError, REQUESTED_PUBLICATION_DATE_XML_TAG);
+  void validateErrorDetails_de_fixed_dates_to_current()
+      throws IOException, ParserConfigurationException, TransformerException, SAXException {
+    String eFormsWithErrorUri =
+        getEformsAbsolutePath(NOTICE_CN_DE_11_WARNING_AND_ERROR).toUri().toString();
+    String eFormsWithError =
+        replaceDateTagToCurrentDate(
+            eFormsWithErrorUri, ISSUE_DATE_XML_TAG, REQUESTED_PUBLICATION_DATE_XML_TAG);
 
     ValidationResult validationResult =
-        schematronValidator.validate(SupportedType.DE, eformsWithError, SupportedVersion.V1_1_0);
+        schematronValidator.validate(SupportedType.DE, eFormsWithError, SupportedVersion.V1_1_0);
     assertFalse(validationResult.getErrors().isEmpty());
     assertNotEquals(6, validationResult.getErrors().size());
     validationResult
@@ -224,12 +236,13 @@ class PhaxValidatorTest {
   }
 
   @Test
-  void validateDeSchematronPhase_ignoredVersionValidation() throws IOException {
-    String eformsWithError = readFromEFormsResourceAsString(NOTICE_SDK_1_5);
-    eformsWithError = replaceDateTagToCurrentDate(eformsWithError, ISSUE_DATE_XML_TAG);
-    eformsWithError =
-        replaceDateTagToCurrentDate(eformsWithError, REQUESTED_PUBLICATION_DATE_XML_TAG);
+  void validateDeSchematronPhase_ignoredVersionValidation()
+      throws IOException, ParserConfigurationException, TransformerException, SAXException {
+    String eformsWithErrorUri = getEformsAbsolutePath(NOTICE_SDK_1_5).toUri().toString();
 
+    String eformsWithError =
+        replaceDateTagToCurrentDate(
+            eformsWithErrorUri, ISSUE_DATE_XML_TAG, REQUESTED_PUBLICATION_DATE_XML_TAG);
     ValidationResult result =
         schematronValidator.validate(SupportedType.DE, eformsWithError, SupportedVersion.V1_1_0);
 
@@ -264,32 +277,47 @@ class PhaxValidatorTest {
   }
 
   private String readFromEFormsResourceAsString(String fileName) throws IOException {
-    return Files.readString(
-        Path.of(String.format("src/test/resources/eforms/%s", fileName)).toAbsolutePath());
+    return Files.readString(getEformsAbsolutePath(fileName));
   }
 
-  private static String replaceDateTagToCurrentDate(String fileContents, String xmlTag) {
-    List<String> fileLines = IOUtils.readLines(new StringReader(fileContents));
-
-    int xmlTagsCount = (int) fileLines.stream().filter(line -> line.contains(xmlTag)).count();
-    Deque<Integer> minusDaysDeque = new LinkedList<>();
-    IntStream.rangeClosed(1, xmlTagsCount).forEach(minusDaysDeque::push);
-
-    return fileLines.stream()
-        .map(line -> replaceDateTagValue(line, xmlTag, minusDaysDeque))
-        .collect(Collectors.joining(System.lineSeparator()));
+  private Path getEformsAbsolutePath(String fileName) {
+    return Path.of(String.format("src/test/resources/eforms/%s", fileName)).toAbsolutePath();
   }
 
-  private static String replaceDateTagValue(
-      String line, String xmlTag, Deque<Integer> minusDaysDeque) {
-    if (line.contains(xmlTag)) {
-      String xmlDate = line.split("[<>]")[2];
-      String currentDate =
-          LocalDate.now()
-              .minusDays(minusDaysDeque.pop())
-              .format(DateTimeFormatter.ofPattern("yyyy-MM-dd+02:00"));
-      return line.replace(xmlDate, currentDate);
+  private static String replaceDateTagToCurrentDate(String eFormsFileUri, String... xmlTags)
+      throws ParserConfigurationException, IOException, SAXException, TransformerException {
+
+    DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+    DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+    Document document = dBuilder.parse(eFormsFileUri);
+    document.getDocumentElement().normalize();
+
+    for (String xmlTag : xmlTags) {
+      changeTagValue(xmlTag, document);
     }
-    return line;
+
+    TransformerFactory tf = TransformerFactory.newInstance();
+    Transformer transformer = tf.newTransformer();
+    transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
+    StringWriter writer = new StringWriter();
+    transformer.transform(new DOMSource(document), new StreamResult(writer));
+    return writer.getBuffer().toString();
+  }
+
+  private static void changeTagValue(String xmlTag, Document document) {
+    NodeList tagNameList = document.getElementsByTagName(xmlTag);
+    Deque<Integer> minusDaysDeque = new LinkedList<>();
+    IntStream.rangeClosed(1, tagNameList.getLength()).forEach(minusDaysDeque::push);
+
+    for (int i = 0; i < tagNameList.getLength(); i++) {
+      Element element = (Element) tagNameList.item(i);
+      element.getFirstChild().setNodeValue(getNewDateTagValue(minusDaysDeque.pop()));
+    }
+  }
+
+  private static String getNewDateTagValue(long minusDays) {
+    return LocalDate.now()
+        .minusDays(minusDays)
+        .format(DateTimeFormatter.ofPattern("yyyy-MM-dd+02:00"));
   }
 }
