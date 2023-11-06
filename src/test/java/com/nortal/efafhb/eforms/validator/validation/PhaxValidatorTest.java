@@ -18,9 +18,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Deque;
-import java.util.LinkedList;
-import java.util.stream.IntStream;
 import javax.inject.Inject;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -49,6 +46,8 @@ class PhaxValidatorTest {
   private static final String NOTICE_CN_DE_10 = "notice_cn_de_10.xml";
   private static final String ISSUE_DATE_XML_TAG = "cbc:IssueDate";
   private static final String REQUESTED_PUBLICATION_DATE_XML_TAG = "cbc:RequestedPublicationDate";
+  private static final String SETTLED_CONTRACT_XML_TAG = "efac:SettledContract";
+  private static final String CONTRACT_AWARD_NOTICE_XML_TAG = "ContractAwardNotice";
 
   @Inject FormsValidator schematronValidator;
 
@@ -162,14 +161,18 @@ class PhaxValidatorTest {
   @Test
   void validateErrorDetails_de_fixed_dates_to_current()
       throws IOException, ParserConfigurationException, TransformerException, SAXException {
-    String eFormsWithErrorUri =
+    String eFormsWithErrorFileUri =
         getEformsAbsolutePath(NOTICE_CN_DE_11_WARNING_AND_ERROR).toUri().toString();
-    String eFormsWithError =
-        replaceDateTagToCurrentDate(
-            eFormsWithErrorUri, ISSUE_DATE_XML_TAG, REQUESTED_PUBLICATION_DATE_XML_TAG);
+    String eFormsWithErrorUpdatedDates =
+        replaceDateTagsToCurrentDate(
+            eFormsWithErrorFileUri,
+            new Tags(ISSUE_DATE_XML_TAG, SETTLED_CONTRACT_XML_TAG, 2L),
+            new Tags(ISSUE_DATE_XML_TAG, CONTRACT_AWARD_NOTICE_XML_TAG, 1L),
+            new Tags(REQUESTED_PUBLICATION_DATE_XML_TAG, CONTRACT_AWARD_NOTICE_XML_TAG, 1L));
 
     ValidationResult validationResult =
-        schematronValidator.validate(SupportedType.DE, eFormsWithError, SupportedVersion.V1_1_0);
+        schematronValidator.validate(
+            SupportedType.DE, eFormsWithErrorUpdatedDates, SupportedVersion.V1_1_0);
     assertFalse(validationResult.getErrors().isEmpty());
     assertNotEquals(6, validationResult.getErrors().size());
     validationResult
@@ -243,7 +246,7 @@ class PhaxValidatorTest {
     return Path.of(String.format("src/test/resources/eforms/%s", fileName)).toAbsolutePath();
   }
 
-  private static String replaceDateTagToCurrentDate(String eFormsFileUri, String... xmlTags)
+  private static String replaceDateTagsToCurrentDate(String eFormsFileUri, Tags... xmlTags)
       throws ParserConfigurationException, IOException, SAXException, TransformerException {
 
     DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
@@ -251,8 +254,8 @@ class PhaxValidatorTest {
     Document document = dBuilder.parse(eFormsFileUri);
     document.getDocumentElement().normalize();
 
-    for (String xmlTag : xmlTags) {
-      changeTagValue(xmlTag, document);
+    for (Tags xmlTag : xmlTags) {
+      changeDateTagValue(xmlTag, document);
     }
 
     TransformerFactory tf = TransformerFactory.newInstance();
@@ -263,14 +266,15 @@ class PhaxValidatorTest {
     return writer.getBuffer().toString();
   }
 
-  private static void changeTagValue(String xmlTag, Document document) {
-    NodeList tagNameList = document.getElementsByTagName(xmlTag);
-    Deque<Integer> minusDaysDeque = new LinkedList<>();
-    IntStream.rangeClosed(1, tagNameList.getLength()).forEach(minusDaysDeque::push);
+  private static void changeDateTagValue(Tags xmlTag, Document document) {
+    NodeList tagNameList = document.getElementsByTagName(xmlTag.xmlTag);
 
     for (int i = 0; i < tagNameList.getLength(); i++) {
       Element element = (Element) tagNameList.item(i);
-      element.getFirstChild().setNodeValue(getNewDateTagValue(minusDaysDeque.pop()));
+      if (element.getParentNode().getNodeName().equals(xmlTag.parentXmlTag)) {
+        element.getFirstChild().setNodeValue(getNewDateTagValue(xmlTag.minusDays));
+        break;
+      }
     }
   }
 
@@ -278,5 +282,18 @@ class PhaxValidatorTest {
     return LocalDate.now()
         .minusDays(minusDays)
         .format(DateTimeFormatter.ofPattern("yyyy-MM-dd+02:00"));
+  }
+
+  private static class Tags {
+
+    String xmlTag;
+    String parentXmlTag;
+    long minusDays;
+
+    public Tags(String xmlTag, String parentXmlTag, long minusDays) {
+      this.xmlTag = xmlTag;
+      this.parentXmlTag = parentXmlTag;
+      this.minusDays = minusDays;
+    }
   }
 }
