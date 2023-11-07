@@ -18,6 +18,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import javax.inject.Inject;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -235,6 +236,43 @@ class PhaxValidatorTest {
     assertTrue(
         validationResult.getErrors().stream()
             .anyMatch(error -> error.getRule().contains("SR-DE-26")));
+  }
+
+  @Test
+  void validate_notices_eu_v1_5_5_valid() throws IOException {
+    List<String> validNotices =
+        List.of(
+            "1.5.5/valid/can_24_maximal.xml",
+            "1.5.5/valid/cn_24_maximal.xml",
+            "1.5.5/valid/pin-buyer_24_published.xml");
+
+    for (String validNotice : validNotices) {
+      String eformsWithError = readFromEFormsResourceAsString(validNotice);
+
+      ValidationResult result =
+          schematronValidator.validate(SupportedType.EU, eformsWithError, SupportedVersion.V1_5_5);
+
+      assertTrue(result.getErrors().isEmpty());
+      assertTrue(result.getWarnings().isEmpty());
+    }
+  }
+
+  @Test
+  void validate_notices_eu_v1_5_5_invalid() throws IOException {
+    List<String> invalidNotices =
+        List.of(
+            "1.5.5/invalid/INVALID_can_24_stage-2.xml",
+            "1.5.5/invalid/INVALID_cn_24_stage-2.xml",
+            "1.5.5/invalid/INVALID_pin-buyer_24_stage-1.xml");
+
+    for (String validNotice : invalidNotices) {
+      String eformsWithError = readFromEFormsResourceAsString(validNotice);
+
+      ValidationResult result =
+          schematronValidator.validate(SupportedType.EU, eformsWithError, SupportedVersion.V1_5_5);
+
+      assertFalse(result.getErrors().isEmpty());
+    }
   }
 
   private String readFromEFormsResourceAsString(String fileName) throws IOException {

@@ -180,7 +180,7 @@ class PhaxNativeValidator implements FormsValidator {
       case V0_1_1:
         return "entry.sch";
       case V1_0_0:
-      case V1_5_1:
+      case V1_5_5:
       case V1_7_0:
         return "complete-validation.sch";
       case V1_0_1:
