@@ -49,7 +49,7 @@ public enum NoticeSchema {
    * Calculates the path to the XSD schema file in the resources, based on the specified SDK type,
    * eForms version, and notice type name.
    *
-   * @param requestedEformsVersion the SDK/DE version of the eForms (e.g., "1.5.1")
+   * @param requestedEformsVersion the SDK/DE version of the eForms (e.g., "1.5.5")
    * @param sdkType the type of SDK for eForms (national/european)
    * @param noticeTypeName the name of the notice type
    * @return the path to the XSD schema file in the resources, based on the given SDK type, eForms
