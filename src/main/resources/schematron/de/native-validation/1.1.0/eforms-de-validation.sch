@@ -36,9 +36,20 @@
     <!--<active pattern="codelist-checks"/>-->
   </phase>
 
+  <phase id="doe-validation-phase">
+    <active pattern="global-variable-pattern" />
+    <active pattern="technical-sanity-pattern" />
+    <active pattern="cardinality-pattern" />
+    <active pattern="codelists" />
+    <active pattern="conditional-mandatory" />
+    <active pattern="doe-validation-pattern" />
+  </phase>
+
+
   <include href="./common.sch" />
   <include href="./eforms-de-codes.sch" />
   <include href="./eforms-de-conditional-mandatory.sch" />
+  <include href="./eforms-de-doe-validation.sch" />
 
   <let name="EFORMS-DE-MAJOR-MINOR-VERSION" value="'1.1'" />
 
@@ -99,6 +110,8 @@
   <let name="EXTENSION-ORG-NODE"
     value="$EXTENSION-ORG-NODE-PARENT/efac:Organization" />
 
+  <let name="BT-05-DATE" value="xs:date($ROOT-NODE/cbc:IssueDate)" />
+  <let name="BT-05-TIME" value="xs:time($ROOT-NODE/cbc:IssueTime)" />
 
   <!-- 
     Rules to check sanity aspects on technical level e.g. is CustomizationID correct 
@@ -160,12 +173,12 @@ we need to add 7,8,9,12,13,14, 19,20,21,22,32,E4,33,34,35
 
       <let name="DISPATCH-DATE-NODE" value="../cbc:IssueDate" />
 
-      <assert test="$DISPATCH-DATE-NODE castable as xs:date" id="SR-BT-738-2">[SR-BT-738-2] ../cbc:IssueDate=<value-of select="../cbc:IssueDate"/> is not a valid calendar date.</assert>
+      <assert test="$DISPATCH-DATE-NODE castable as xs:date" id="SR-BT-738-2">[SR-BT-738-2] ../cbc:IssueDate=<value-of select="../cbc:IssueDate" /> is not a valid calendar date.</assert>
 
-      <assert id="SR-BT-738-1" test=" xs:date(.) ge xs:date($DISPATCH-DATE-NODE)" role="error">[SR-DE-26] Calendar date of <name />=<value-of select="." /> must be greater or equals that of cbc:IssueDate=<value-of select="$DISPATCH-DATE-NODE" /></assert>
+      <assert id="SR-BT-738-1" test="xs:date(.) ge xs:date($DISPATCH-DATE-NODE)" role="error">[SR-DE-26] Calendar date of <name />=<value-of select="." /> must be greater or equals that of cbc:IssueDate=<value-of select="$DISPATCH-DATE-NODE" /></assert>
 
-    <!-- This rule is replacement of BR-BT-00738-0053 to keep compatibility with TED -->
-    <assert id="SR-BT-738-P60D" test="xs:date(.) - xs:date($DISPATCH-DATE-NODE) &lt; xs:dayTimeDuration('P60D')">[SR-BT-738-P60D](<name/>) must not be more than 60 days after IssueDate due to TED requirements. <value-of select="concat('Current IssueDate=',xs:date($DISPATCH-DATE-NODE),' and RequestedPublicationDate=', xs:date(.), ' have a difference of ' , days-from-duration( xs:date(.) - xs:date($DISPATCH-DATE-NODE)), ' days.')"/></assert>
+      <!-- This rule is replacement of BR-BT-00738-0053 to keep compatibility with TED -->
+      <assert id="SR-BT-738-P60D" test="xs:date(.) - xs:date($DISPATCH-DATE-NODE) &lt; xs:dayTimeDuration('P60D')">[SR-BT-738-P60D](<name />) must not be more than 60 days after IssueDate due to TED requirements. <value-of select="concat('Current IssueDate=', xs:date($DISPATCH-DATE-NODE), ' and RequestedPublicationDate=', xs:date(.), ' have a difference of ', days-from-duration(xs:date(.) - xs:date($DISPATCH-DATE-NODE)), ' days.')" /></assert>
 
     </rule>
 
@@ -226,8 +239,7 @@ we need to add 7,8,9,12,13,14, 19,20,21,22,32,E4,33,34,35
       context="$EXTENSION-ORG-NODE/efac:Company[cac:PartyIdentification/cbc:ID = (//efac:TenderingParty/efac:Tenderer/cbc:ID, //efac:TenderingParty/efac:Subcontractor/cbc:ID)]/cac:PartyIdentification"
       role="error">
 
-      <assert id="CR-DE-BT-165" role="error" test="../efbc:CompanySizeCode[$SUBTYPE = $SUBTYPES-BT-165]">[CR-DE-BT-165] If this company (<value-of select="cbc:ID" />) is a winner, BT-165 (Winner Size) must exist.</assert>
-
+      <assert id="CR-DE-BT-165" role="error" test="not($SUBTYPE = $SUBTYPES-BT-165) or ../efbc:CompanySizeCode">[CR-DE-BT-165](<value-of select="$SUBTYPE" />) If this company (<value-of select="cbc:ID" />) is a winner, BT-165 (Winner Size) must exist in subtype <value-of select="$SUBTYPES-BT-165" />.</assert>
     </rule>
 
     <rule context="$NOTICE_RESULT/efac:SettledContract">
@@ -383,18 +395,6 @@ we need to add 7,8,9,12,13,14, 19,20,21,22,32,E4,33,34,35
             true()" role="error">[SR-DE-23] cac:CallForTendersDocumentReference must exist at least once in <name />. </assert>
 
     </rule>
-
-    <rule
-      context="$ROOT-NODE/cac:ProcurementProjectLot[cbc:ID/@schemeName = 'Part']/cac:TenderingTerms">
-      <!-- sanityrule for bt-15 part -->
-      <assert id="SR-DE-24" test="
-          if ($SUBTYPE = $SUBTYPES-BT-15) then
-            (count(cac:CallForTendersDocumentReference) >= 1)
-          else
-            true()" role="error">[SR-DE-24] cac:CallForTendersDocumentReference must exist at least once in <name />. </assert>
-
-    </rule>
-
 
     <!-- following  rules CR-DE-BT-708-Part and CR-DE-BT-708-Lot may be combined into single one -->
     <rule
