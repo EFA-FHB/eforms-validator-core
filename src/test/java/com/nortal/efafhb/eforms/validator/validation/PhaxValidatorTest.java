@@ -8,7 +8,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.nortal.efafhb.eforms.validator.enums.SupportedType;
 import com.nortal.efafhb.eforms.validator.enums.SupportedVersion;
-import com.nortal.efafhb.eforms.validator.validation.entry.ValidationEntry;
 import com.nortal.efafhb.eforms.validator.validation.profiles.PhaxValidatorProfile;
 import com.nortal.efafhb.eforms.validator.validation.util.ValidationResult;
 import io.quarkus.test.junit.QuarkusTest;
@@ -20,11 +19,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Deque;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.stream.IntStream;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -50,9 +45,20 @@ class PhaxValidatorTest {
   private static final String NOTICE_CN_DE_11_WARNING_AND_ERROR =
       "notice_cn_de_11_warning_and_error.xml";
   private static final String NOTICE_CN_DE_10 = "notice_cn_de_10.xml";
+  private static final String NOTICE_CN_DE_11 = "eforms_CN_16_max-DE_valid.xml";
   private static final String NOTICE_SDK_1_5 = "eform-sdk-1.5.xml";
   private static final String ISSUE_DATE_XML_TAG = "cbc:IssueDate";
   private static final String REQUESTED_PUBLICATION_DATE_XML_TAG = "cbc:RequestedPublicationDate";
+  private static final String CONTRACT_NOTICE_XML_TAG = "ContractNotice";
+  private static final String CONTRACT_AWARD_NOTICE_XML_TAG = "ContractAwardNotice";
+  private static final String TENDER_SUBMISSION_DEADLINE_PERIOD_XML_TAG =
+      "cac:TenderSubmissionDeadlinePeriod";
+  private static final String END_DATE_XML_TAG = "cbc:EndDate";
+  private static final String OPEN_TENDER_EVENT_XML_TAG = "cac:OpenTenderEvent";
+  private static final String OCCURRENCE_DATE_XML_TAG = "cbc:OccurrenceDate";
+
+  private static final String DATE_PATTERN = "yyyy-MM-dd+02:00";
+  private static final String DATE_PATTERN_Z = "yyyy-MM-dd'Z'";
 
   @Inject FormsValidator schematronValidator;
 
@@ -85,11 +91,11 @@ class PhaxValidatorTest {
 
   @Test
   void validateErrorDetails() throws IOException {
-    String eformsWithError = readFromEFormsResourceAsString(CN_24_MAXIMAL_XML_ERROR);
+    String eFormsWithError = readFromEFormsResourceAsString(CN_24_MAXIMAL_XML_ERROR);
     String eformsWithWarning = readFromEFormsResourceAsString(CN_24_MINIMAL_XML);
 
     ValidationResult reportWithError =
-        schematronValidator.validate(SupportedType.EU, eformsWithError, SupportedVersion.V1_0_0);
+        schematronValidator.validate(SupportedType.EU, eFormsWithError, SupportedVersion.V1_0_0);
     assertFalse(reportWithError.getErrors().isEmpty());
     // no ignored rules
     assertEquals(2, reportWithError.getErrors().size());
@@ -121,10 +127,10 @@ class PhaxValidatorTest {
 
   @Test
   void validateErrorDetails_de() throws IOException {
-    String eformsWithError = readFromEFormsResourceAsString(NOTICE_CN_DE_11_WARNING_AND_ERROR);
+    String eFormsWithError = readFromEFormsResourceAsString(NOTICE_CN_DE_11_WARNING_AND_ERROR);
 
     ValidationResult validationResult =
-        schematronValidator.validate(SupportedType.DE, eformsWithError, SupportedVersion.V1_1_0);
+        schematronValidator.validate(SupportedType.DE, eFormsWithError, SupportedVersion.V1_1_0);
     assertFalse(validationResult.getErrors().isEmpty());
     assertNotEquals(6, validationResult.getErrors().size());
     validationResult
@@ -146,13 +152,14 @@ class PhaxValidatorTest {
 
     assertTrue(
         validationResult.getErrors().stream()
-            .anyMatch(
+            .allMatch(
                 error ->
-                    error
-                        .getRule()
-                        .contains(
-                            "Notice Dispatch Date must be between 0 and 24 hours "
-                                + "before the current date.")));
+                    error.getRule().contains("CR-DE-BT-23")
+                        || error.getRule().contains("SR-DE-26")
+                        || error
+                            .getRule()
+                            .contains(
+                                "Date of BT-05=2023-05-23+02:00 must be less than 1 day in the past")));
 
     assertFalse(validationResult.getWarnings().isEmpty());
     assertEquals(1, validationResult.getWarnings().size());
@@ -166,9 +173,12 @@ class PhaxValidatorTest {
       throws IOException, ParserConfigurationException, TransformerException, SAXException {
     String eFormsWithErrorUri =
         getEformsAbsolutePath(NOTICE_CN_DE_11_WARNING_AND_ERROR).toUri().toString();
+
     String eFormsWithError =
-        replaceDateTagToCurrentDate(
-            eFormsWithErrorUri, ISSUE_DATE_XML_TAG, REQUESTED_PUBLICATION_DATE_XML_TAG);
+        replaceDateTagsToCurrentDate(
+            eFormsWithErrorUri,
+            new DateTags(ISSUE_DATE_XML_TAG, CONTRACT_AWARD_NOTICE_XML_TAG, 1L),
+            new DateTags(REQUESTED_PUBLICATION_DATE_XML_TAG, CONTRACT_AWARD_NOTICE_XML_TAG, 1L));
 
     ValidationResult validationResult =
         schematronValidator.validate(SupportedType.DE, eFormsWithError, SupportedVersion.V1_1_0);
@@ -207,10 +217,10 @@ class PhaxValidatorTest {
 
   @Test
   void validateErrorDetails_de_v1_0() throws IOException {
-    String eformsWithError = readFromEFormsResourceAsString(NOTICE_CN_DE_10);
+    String eFormsWithError = readFromEFormsResourceAsString(NOTICE_CN_DE_10);
 
     ValidationResult validationResult =
-        schematronValidator.validate(SupportedType.DE, eformsWithError, SupportedVersion.V1_0_1);
+        schematronValidator.validate(SupportedType.DE, eFormsWithError, SupportedVersion.V1_0_1);
     assertFalse(validationResult.getErrors().isEmpty());
     validationResult
         .getErrors()
@@ -237,6 +247,41 @@ class PhaxValidatorTest {
   }
 
   @Test
+  void validateErrorDetails_de_v1_1() throws IOException {
+    String eFormsWithError = readFromEFormsResourceAsString(NOTICE_CN_DE_11);
+
+    ValidationResult validationResult =
+        schematronValidator.validate(SupportedType.DE, eFormsWithError, SupportedVersion.V1_1_0);
+    assertTrue(validationResult.getErrors().isEmpty());
+    assertTrue(validationResult.getWarnings().isEmpty());
+  }
+
+  @Test
+  void validateErrorDetails_de_v1_1_fixed_dates_to_current()
+      throws IOException, ParserConfigurationException, TransformerException, SAXException {
+
+    String eFormsWithErrorUri = getEformsAbsolutePath(NOTICE_CN_DE_11).toUri().toString();
+    String eFormsWithError =
+        replaceDateTagsToCurrentDate(
+            eFormsWithErrorUri,
+            new DateTags(ISSUE_DATE_XML_TAG, CONTRACT_NOTICE_XML_TAG, 1L),
+            new DateTags(REQUESTED_PUBLICATION_DATE_XML_TAG, CONTRACT_NOTICE_XML_TAG, 1L),
+            new DateTags(
+                END_DATE_XML_TAG,
+                TENDER_SUBMISSION_DEADLINE_PERIOD_XML_TAG,
+                0L,
+                true,
+                DATE_PATTERN),
+            new DateTags(
+                OCCURRENCE_DATE_XML_TAG, OPEN_TENDER_EVENT_XML_TAG, 0L, true, DATE_PATTERN_Z));
+
+    ValidationResult validationResult =
+        schematronValidator.validate(SupportedType.DE, eFormsWithError, SupportedVersion.V1_1_0);
+    assertTrue(validationResult.getErrors().isEmpty());
+    assertTrue(validationResult.getWarnings().isEmpty());
+  }
+
+  @Test
   void validate_notices_eu_v1_5_5_valid() throws IOException {
     List<String> validNotices =
         List.of(
@@ -245,10 +290,10 @@ class PhaxValidatorTest {
             "1.5.5/valid/pin-buyer_24_published.xml");
 
     for (String validNotice : validNotices) {
-      String eformsWithError = readFromEFormsResourceAsString(validNotice);
+      String eFormsWithError = readFromEFormsResourceAsString(validNotice);
 
       ValidationResult result =
-          schematronValidator.validate(SupportedType.EU, eformsWithError, SupportedVersion.V1_5_5);
+          schematronValidator.validate(SupportedType.EU, eFormsWithError, SupportedVersion.V1_5_5);
 
       assertTrue(result.getErrors().isEmpty());
       assertTrue(result.getWarnings().isEmpty());
@@ -264,53 +309,53 @@ class PhaxValidatorTest {
             "1.5.5/invalid/INVALID_pin-buyer_24_stage-1.xml");
 
     for (String validNotice : invalidNotices) {
-      String eformsWithError = readFromEFormsResourceAsString(validNotice);
+      String eFormsWithError = readFromEFormsResourceAsString(validNotice);
 
       ValidationResult result =
-          schematronValidator.validate(SupportedType.EU, eformsWithError, SupportedVersion.V1_5_5);
+          schematronValidator.validate(SupportedType.EU, eFormsWithError, SupportedVersion.V1_5_5);
 
       assertFalse(result.getErrors().isEmpty());
     }
   }
 
   @Test
-  void validateDeSchematronPhase_ignoredVersionValidation()
-      throws IOException, ParserConfigurationException, TransformerException, SAXException {
-    String eformsWithErrorUri = getEformsAbsolutePath(NOTICE_SDK_1_5).toUri().toString();
+  void validateDeSchematronPhase_ignoredVersionValidation() throws IOException {
+    String eFormsWithError = readFromEFormsResourceAsString(NOTICE_SDK_1_5);
 
-    String eformsWithError =
-        replaceDateTagToCurrentDate(
-            eformsWithErrorUri, ISSUE_DATE_XML_TAG, REQUESTED_PUBLICATION_DATE_XML_TAG);
     ValidationResult result =
-        schematronValidator.validate(SupportedType.DE, eformsWithError, SupportedVersion.V1_1_0);
+        schematronValidator.validate(SupportedType.DE, eFormsWithError, SupportedVersion.V1_1_0);
 
-    assertTrue(result.getErrors().isEmpty());
+    assertEquals(1, result.getErrors().size());
+
+    assertTrue(result.getErrors().stream().allMatch(error -> error.getRule().contains("SR-DE-1")));
     assertTrue(result.getWarnings().isEmpty());
   }
 
   @Test
   void validateDeSchematronPhase_ignoredVersionValidation_fixed_dates_to_current()
-      throws IOException {
-    String eformsWithError = readFromEFormsResourceAsString(NOTICE_SDK_1_5);
+      throws IOException, ParserConfigurationException, TransformerException, SAXException {
+    String eFormsWithErrorUri = getEformsAbsolutePath(NOTICE_SDK_1_5).toUri().toString();
+
+    String eFormsWithError =
+        replaceDateTagsToCurrentDate(
+            eFormsWithErrorUri,
+            new DateTags(ISSUE_DATE_XML_TAG, CONTRACT_NOTICE_XML_TAG, 1L),
+            new DateTags(REQUESTED_PUBLICATION_DATE_XML_TAG, CONTRACT_NOTICE_XML_TAG, 1L),
+            new DateTags(
+                END_DATE_XML_TAG,
+                TENDER_SUBMISSION_DEADLINE_PERIOD_XML_TAG,
+                0L,
+                true,
+                DATE_PATTERN),
+            new DateTags(
+                OCCURRENCE_DATE_XML_TAG, OPEN_TENDER_EVENT_XML_TAG, 0L, true, DATE_PATTERN_Z));
 
     ValidationResult result =
-        schematronValidator.validate(SupportedType.DE, eformsWithError, SupportedVersion.V1_1_0);
+        schematronValidator.validate(SupportedType.DE, eFormsWithError, SupportedVersion.V1_1_0);
 
     assertEquals(1, result.getErrors().size());
 
-    ValidationEntry resultValidationEntry = new ArrayList<>(result.getErrors()).get(0);
-    assertEquals(
-        "Notice Dispatch Date must be between 0 and 24 hours before the current date.",
-        resultValidationEntry.getRule());
-    assertEquals("/cn:ContractNotice/cbc:IssueDate", resultValidationEntry.getPath());
-    assertEquals(
-        "Rule: Notice Dispatch Date must be between 0 and 24 hours before the current date. ; Test: ((current-date() - xs:date(text())) le xs:dayTimeDuration('P2D')) and ((current-date() - xs:date(text())) ge xs:dayTimeDuration('-P1D')) ; Location: /cn:ContractNotice/cbc:IssueDate",
-        resultValidationEntry.getFormattedMessage());
-    assertEquals(
-        "((current-date() - xs:date(text())) le xs:dayTimeDuration('P2D')) and ((current-date() - xs:date(text())) ge xs:dayTimeDuration('-P1D'))",
-        resultValidationEntry.getTest());
-    assertEquals("SCHEMATRON", resultValidationEntry.getType());
-
+    assertTrue(result.getErrors().stream().allMatch(error -> error.getRule().contains("SR-DE-1")));
     assertTrue(result.getWarnings().isEmpty());
   }
 
@@ -322,7 +367,7 @@ class PhaxValidatorTest {
     return Path.of(String.format("src/test/resources/eforms/%s", fileName)).toAbsolutePath();
   }
 
-  private static String replaceDateTagToCurrentDate(String eFormsFileUri, String... xmlTags)
+  private static String replaceDateTagsToCurrentDate(String eFormsFileUri, DateTags... xmlTags)
       throws ParserConfigurationException, IOException, SAXException, TransformerException {
 
     DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
@@ -330,8 +375,8 @@ class PhaxValidatorTest {
     Document document = dBuilder.parse(eFormsFileUri);
     document.getDocumentElement().normalize();
 
-    for (String xmlTag : xmlTags) {
-      changeTagValue(xmlTag, document);
+    for (DateTags xmlTag : xmlTags) {
+      changeDateTagValue(xmlTag, document);
     }
 
     TransformerFactory tf = TransformerFactory.newInstance();
@@ -342,20 +387,46 @@ class PhaxValidatorTest {
     return writer.getBuffer().toString();
   }
 
-  private static void changeTagValue(String xmlTag, Document document) {
-    NodeList tagNameList = document.getElementsByTagName(xmlTag);
-    Deque<Integer> minusDaysDeque = new LinkedList<>();
-    IntStream.rangeClosed(1, tagNameList.getLength()).forEach(minusDaysDeque::push);
+  private static void changeDateTagValue(DateTags xmlTag, Document document) {
+    NodeList tagNameList = document.getElementsByTagName(xmlTag.xmlTag);
 
     for (int i = 0; i < tagNameList.getLength(); i++) {
       Element element = (Element) tagNameList.item(i);
-      element.getFirstChild().setNodeValue(getNewDateTagValue(minusDaysDeque.pop()));
+      if (element.getParentNode().getNodeName().equals(xmlTag.parentXmlTag)) {
+        element
+            .getFirstChild()
+            .setNodeValue(getNewDateTimeTagValue(xmlTag.minusDays, xmlTag.datePattern));
+        if (!xmlTag.changeAll) {
+          break;
+        }
+      }
     }
   }
 
-  private static String getNewDateTagValue(long minusDays) {
-    return LocalDate.now()
-        .minusDays(minusDays)
-        .format(DateTimeFormatter.ofPattern("yyyy-MM-dd+02:00"));
+  private static String getNewDateTimeTagValue(long minusDays, String pattern) {
+    return LocalDate.now().minusDays(minusDays).format(DateTimeFormatter.ofPattern(pattern));
+  }
+
+  private static class DateTags {
+
+    String xmlTag;
+    String parentXmlTag;
+    long minusDays;
+    boolean changeAll;
+    String datePattern;
+
+    public DateTags(String xmlTag, String parentXmlTag, long minusDays) {
+      this(xmlTag, parentXmlTag, minusDays, false, DATE_PATTERN);
+    }
+
+    public DateTags(
+        String xmlTag, String parentXmlTag, long minusDays, boolean changeAll, String datePattern) {
+
+      this.xmlTag = xmlTag;
+      this.parentXmlTag = parentXmlTag;
+      this.minusDays = minusDays;
+      this.changeAll = changeAll;
+      this.datePattern = datePattern;
+    }
   }
 }

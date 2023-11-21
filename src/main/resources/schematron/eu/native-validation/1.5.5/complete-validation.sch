@@ -18,7 +18,6 @@
 	
 	<let name="noticeSubType" value="/*/ext:UBLExtensions/ext:UBLExtension/ext:ExtensionContent/efext:EformsExtension/efac:NoticeSubType/cbc:SubTypeCode/text()"/>
 	
-	<include href="config.sch"/>
 	<include href="validation-stage-1a.sch"/>
 	<include href="validation-stage-1b.sch"/>
 	<include href="validation-stage-2a.sch"/>
@@ -27,8 +26,6 @@
 	<include href="validation-stage-3b.sch"/>
 	<include href="validation-stage-4.sch"/>
 	<include href="validation-stage-5.sch"/>
-	<include href="validation-stage-6a.sch"/>
-	<include href="validation-stage-6b.sch"/>
 
   <diagnostics>
     <diagnostic id="BT-01-notice">cbc:RegulatoryDomain</diagnostic>
