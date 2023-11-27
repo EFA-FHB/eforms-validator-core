@@ -6,6 +6,8 @@ import com.nortal.efafhb.eforms.validator.enums.SupportedType;
 import com.nortal.efafhb.eforms.validator.enums.SupportedVersion;
 import com.nortal.efafhb.eforms.validator.validation.entry.ValidationEntry;
 import com.nortal.efafhb.eforms.validator.validation.util.Translate;
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -16,8 +18,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import lombok.extern.jbosslog.JBossLog;
 import org.apache.commons.lang3.StringUtils;
 

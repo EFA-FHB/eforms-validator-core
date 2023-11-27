@@ -8,7 +8,7 @@ plugins {
     id 'org.sonarqube'
     id 'maven-publish'
     id 'org.ajoberstar.grgit' version '5.0.0'
-    id "com.diffplug.spotless" version "6.21.0"
+    id "com.diffplug.spotless" version "6.22.0"
     id "com.github.vlsi.jandex" version "1.90"
     id 'com.github.johnrengelman.shadow' version '7.1.2'
 }
@@ -73,7 +73,7 @@ dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.10.0'
 
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.10.0'
-    implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.15.2'
+    implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.16.0'
     constraints {
         implementation('org.yaml:snakeyaml:2.0') {
             because 'version 1.33 is vulnerable to CVE-2022-1471'
@@ -147,9 +147,9 @@ test.finalizedBy jacocoTestReport
 jacocoTestReport {
 
     reports {
-        xml.enabled true
-        csv.enabled false
-        html.enabled false
+        xml.getRequired().set(true)
+        csv.getRequired().set(false)
+        html.getRequired().set(false)
     }
 
     getExecutionData().setFrom(fileTree(buildDir).include("jacoco/*.exec"))
@@ -177,6 +177,11 @@ spotless {
 
 tasks.named('compileJava').configure {
     dependsOn buildInfo
+}
+
+tasks.named('quarkusDependenciesBuild').configure {
+    dependsOn('processJandexIndex')
+    mustRunAfter('processJandexIndex')
 }
 
 shadowJar {

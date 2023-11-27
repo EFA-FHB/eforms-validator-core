@@ -9,11 +9,11 @@ import com.nortal.efafhb.eforms.validator.exception.ErrorCode;
 import com.nortal.efafhb.eforms.validator.exception.ValidatorApplicationException;
 import com.nortal.efafhb.eforms.validator.validation.schematron.SchematronHelper;
 import com.nortal.efafhb.eforms.validator.validation.util.ValidationResult;
+import jakarta.annotation.PostConstruct;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
-import javax.annotation.PostConstruct;
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
 import lombok.extern.jbosslog.JBossLog;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 
