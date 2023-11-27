@@ -21,6 +21,7 @@ General process of validation:
  2. Triggered errors from blacklisted rules are left out
  3. eForms-DE schematron of matchinng version are validated
  4. Combined validation result (valid / not-valid) including eforms-EU and eforms-DE errors and warnings is returned
+ 5. It is a possibility to change the default validation phase in the national schematron rules with application property eforms-validator.api.de_schematron_phase 
 
 The current Blacklist can be found here: [excluded_rules.txt](src/main/resources/schematron/de/excluded_rules.txt)
 
