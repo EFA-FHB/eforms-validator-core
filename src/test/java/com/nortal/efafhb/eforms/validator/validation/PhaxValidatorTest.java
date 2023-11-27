@@ -15,7 +15,6 @@ import io.quarkus.test.junit.QuarkusTest;
 import io.quarkus.test.junit.TestProfile;
 import jakarta.inject.Inject;
 import java.io.IOException;
-
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.w3c.dom.Document;
@@ -35,7 +34,6 @@ class PhaxValidatorTest {
   private static final String NOTICE_CN_DE_10 = "notice_cn_de_10.xml";
   private static final String NOTICE_CN_DE_11 = "eforms_CN_16_max-DE_valid.xml";
   private static final String NOTICE_SDK_1_5 = "eform-sdk-1.5.xml";
-
 
   @Inject FormsValidator schematronValidator;
 
