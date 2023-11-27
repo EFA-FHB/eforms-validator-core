@@ -15,8 +15,13 @@ import io.quarkus.test.junit.QuarkusTest;
 import io.quarkus.test.junit.TestProfile;
 import jakarta.inject.Inject;
 import java.io.IOException;
+
 import java.util.List;
 import org.junit.jupiter.api.Test;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 @QuarkusTest
 @TestProfile(PhaxValidatorProfile.class)
@@ -30,6 +35,7 @@ class PhaxValidatorTest {
   private static final String NOTICE_CN_DE_10 = "notice_cn_de_10.xml";
   private static final String NOTICE_CN_DE_11 = "eforms_CN_16_max-DE_valid.xml";
   private static final String NOTICE_SDK_1_5 = "eform-sdk-1.5.xml";
+
 
   @Inject FormsValidator schematronValidator;
 
@@ -171,6 +177,59 @@ class PhaxValidatorTest {
             .allMatch(
                 error ->
                     error.getRule().contains("CR-DE-BT-23")
+                        || error.getRule().contains("SR-DE-26")
+                        || error
+                            .getRule()
+                            .contains(
+                                "Notice Dispatch Date must be between 0 and 24 hours "
+                                    + "before the current date.")));
+
+    assertFalse(validationResult.getWarnings().isEmpty());
+    assertEquals(1, validationResult.getWarnings().size());
+    validationResult
+        .getWarnings()
+        .forEach(warn -> assertTrue(warn.getRule().contains("BR-BT-00514-0304")));
+  }
+
+  @Test
+  void validateErrorDetails_de_fixed_dates_to_current()
+      throws IOException, ParserConfigurationException, TransformerException, SAXException {
+    String eFormsWithErrorFileUri =
+        getEformsAbsolutePath(NOTICE_CN_DE_11_WARNING_AND_ERROR).toUri().toString();
+    String eFormsWithErrorUpdatedDates =
+        replaceDateTagsToCurrentDate(
+            eFormsWithErrorFileUri,
+            new Tags(ISSUE_DATE_XML_TAG, SETTLED_CONTRACT_XML_TAG, 2L),
+            new Tags(ISSUE_DATE_XML_TAG, CONTRACT_AWARD_NOTICE_XML_TAG, 1L),
+            new Tags(REQUESTED_PUBLICATION_DATE_XML_TAG, CONTRACT_AWARD_NOTICE_XML_TAG, 1L));
+
+    ValidationResult validationResult =
+        schematronValidator.validate(
+            SupportedType.DE, eFormsWithErrorUpdatedDates, SupportedVersion.V1_1_0);
+    assertFalse(validationResult.getErrors().isEmpty());
+    assertNotEquals(6, validationResult.getErrors().size());
+    validationResult
+        .getErrors()
+        .forEach(
+            error -> {
+              assertNotNull(error.getRule());
+              assertNotNull(error.getPath());
+              assertNotNull(error.getTest());
+              assertNotNull(error.getType());
+            });
+
+    assertTrue(
+        validationResult.getErrors().stream()
+            .noneMatch(
+                error ->
+                    error.getRule().equals("BR-BT-00738-0053")
+                        || error.getRule().equals("BR-BT-00005-0150")));
+
+    assertTrue(
+        validationResult.getErrors().stream()
+            .allMatch(
+                error ->
+                    error.getRule().contains("CR-DE-BT-23")
                         || error.getRule().contains("SR-DE-26")));
 
     assertFalse(validationResult.getWarnings().isEmpty());
@@ -240,6 +299,7 @@ class PhaxValidatorTest {
             "1.5.5/valid/pin-buyer_24_published.xml");
 
     for (String validNotice : validNotices) {
+
       String eForm = readFromEFormsResourceAsString(validNotice);
 
       ValidationResult result =
@@ -289,5 +349,60 @@ class PhaxValidatorTest {
 
     assertTrue(result.getErrors().isEmpty());
     assertTrue(result.getWarnings().isEmpty());
+  }
+
+  private Path getEformsAbsolutePath(String fileName) {
+    return Path.of(String.format("src/test/resources/eforms/%s", fileName)).toAbsolutePath();
+  }
+
+  private static String replaceDateTagsToCurrentDate(String eFormsFileUri, Tags... xmlTags)
+      throws ParserConfigurationException, IOException, SAXException, TransformerException {
+
+    DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+    DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+    Document document = dBuilder.parse(eFormsFileUri);
+    document.getDocumentElement().normalize();
+
+    for (Tags xmlTag : xmlTags) {
+      changeDateTagValue(xmlTag, document);
+    }
+
+    TransformerFactory tf = TransformerFactory.newInstance();
+    Transformer transformer = tf.newTransformer();
+    transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
+    StringWriter writer = new StringWriter();
+    transformer.transform(new DOMSource(document), new StreamResult(writer));
+    return writer.getBuffer().toString();
+  }
+
+  private static void changeDateTagValue(Tags xmlTag, Document document) {
+    NodeList tagNameList = document.getElementsByTagName(xmlTag.xmlTag);
+
+    for (int i = 0; i < tagNameList.getLength(); i++) {
+      Element element = (Element) tagNameList.item(i);
+      if (element.getParentNode().getNodeName().equals(xmlTag.parentXmlTag)) {
+        element.getFirstChild().setNodeValue(getNewDateTagValue(xmlTag.minusDays));
+        break;
+      }
+    }
+  }
+
+  private static String getNewDateTagValue(long minusDays) {
+    return LocalDate.now()
+        .minusDays(minusDays)
+        .format(DateTimeFormatter.ofPattern("yyyy-MM-dd+02:00"));
+  }
+
+  private static class Tags {
+
+    String xmlTag;
+    String parentXmlTag;
+    long minusDays;
+
+    public Tags(String xmlTag, String parentXmlTag, long minusDays) {
+      this.xmlTag = xmlTag;
+      this.parentXmlTag = parentXmlTag;
+      this.minusDays = minusDays;
+    }
   }
 }

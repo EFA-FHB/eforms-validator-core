@@ -236,7 +236,7 @@ After you ran any tests, run a sonar check using:
 ```
 
 Check the sonar report launching `http://localhost:9000`.
-Lookup credentials to access the sonar dashboard can be found in `gradle.properties`.
+Lookup credentials to access the sonar dashboard can be found in `gradle.properties`.  
 
 
 ## CI/CD
