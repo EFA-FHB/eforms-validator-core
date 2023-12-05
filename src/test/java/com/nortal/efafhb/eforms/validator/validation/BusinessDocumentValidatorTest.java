@@ -56,6 +56,7 @@ class BusinessDocumentValidatorTest {
     SchematronOutputType schematronOutputType = mock(SchematronOutputType.class);
     when(schematronResource.applySchematronValidationToSVRL(any(StringStreamSource.class)))
         .thenReturn(schematronOutputType);
+
     when(SchematronHelper.getAllFailedAssertions(schematronOutputType))
         .thenReturn(new CommonsArrayList<>());
 
@@ -69,5 +70,4 @@ class BusinessDocumentValidatorTest {
 
     assertEquals(ErrorCode.MALFORMED_XML, thrown.getErrorCode());
   }
-  
 }
