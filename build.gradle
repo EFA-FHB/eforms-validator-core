@@ -139,8 +139,10 @@ sonarqube {
         property "sonar.projectKey", "EFA-FHB_eforms-validator-core"
         property "sonar.projectName", "eforms-validator-core"
         property "sonar.organization", "efa-fhb"
-        property 'sonar.inclusions', "**/service/**"
+        property "sonar.coverage.jacoco.xmlReportPaths", "build/jacoco-report/jacoco.xml"
+        property "sonar.java.coveragePlugin", "jacoco"
         property "sonar.language", "java"
+        property 'sonar.inclusions', "**/service/**"
         property 'sonar.inclusions', "**/enums/**, **/validation/**"
     }
 }
@@ -148,21 +150,11 @@ sonarqube {
 test.finalizedBy jacocoTestReport
 
 jacocoTestReport {
-
-    reports {
-        xml.getRequired().set(true)
-        csv.getRequired().set(false)
-        html.getRequired().set(false)
-    }
-
+    dependsOn processJandexIndex
     getExecutionData().setFrom(fileTree(buildDir).include("jacoco/*.exec"))
-
-    afterEvaluate {
-        classDirectories.setFrom(files(classDirectories.files.collect {
-            fileTree(dir: it, exclude: ["**/build/generated/*"])
-        }))
+    reports {
+        xml.required = true
     }
-    dependsOn processResources, quarkusGenerateCode, compileJava
 }
 
 tasks.named('sonarqube').configure {
