@@ -33,10 +33,6 @@ class BusinessDocumentValidatorTest {
     MockitoAnnotations.initMocks(this);
   }
 
-
-
-
-  
   @Test
   void testValidate_ValidDocument_ReturnsValidValidationResult() throws Exception {
     String validDocument = "valid.xml";
@@ -73,4 +69,5 @@ class BusinessDocumentValidatorTest {
 
     assertEquals(ErrorCode.MALFORMED_XML, thrown.getErrorCode());
   }
+  
 }
