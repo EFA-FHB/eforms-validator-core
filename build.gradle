@@ -140,8 +140,6 @@ sonarqube {
         property "sonar.projectName", "eforms-validator-core"
         property "sonar.organization", "efa-fhb"
         property 'sonar.inclusions', "**/service/**"
-        property "sonar.coverage.jacoco.xmlReportPaths", "build/jacoco-report/jacoco.xml"
-        property "sonar.java.coveragePlugin", "jacoco"
         property "sonar.language", "java"
         property 'sonar.inclusions', "**/enums/**, **/validation/**"
     }
