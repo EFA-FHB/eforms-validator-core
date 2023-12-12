@@ -8,6 +8,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
+import com.nortal.efafhb.eforms.validator.enums.InfoLevel;
+import com.nortal.efafhb.eforms.validator.enums.ReportType;
 import com.nortal.efafhb.eforms.validator.enums.SupportedType;
 import com.nortal.efafhb.eforms.validator.enums.SupportedVersion;
 import com.nortal.efafhb.eforms.validator.validation.FormsValidator;
@@ -17,6 +19,7 @@ import com.nortal.efafhb.eforms.validator.validation.dto.BusinessDocumentValidat
 import com.nortal.efafhb.eforms.validator.validation.dto.ValidationModelDTO;
 import com.nortal.efafhb.eforms.validator.validation.dto.ValidationModelEntryDTO;
 import com.nortal.efafhb.eforms.validator.validation.dto.ValidationRequestDTO;
+import com.nortal.efafhb.eforms.validator.validation.entry.ValidationEntry;
 import com.nortal.efafhb.eforms.validator.validation.util.ValidationResult;
 import io.quarkus.test.junit.QuarkusTest;
 import jakarta.inject.Inject;
@@ -71,8 +74,7 @@ class ValidatorServiceImplTest {
     validationRequestDTO.setXsdValidation(false);
     validationRequestDTO.setSchematronValidation(true);
 
-    ValidationResult result = new ValidationResult();
-    result.setSdkValidationVersion("eforms-de-1.0");
+    ValidationResult result = getValidationResult();
     Mockito.when(
             formsValidator.validate(
                 Mockito.any(SupportedType.class),
@@ -80,10 +82,11 @@ class ValidatorServiceImplTest {
                 Mockito.any(SupportedVersion.class)))
         .thenReturn(result);
     ValidationModelDTO validationModel = validatorService.validate(validationRequestDTO);
+
     assertNotNull(validationModel);
-    assertTrue(validationModel.getValid());
-    assertTrue(validationModel.getWarnings().isEmpty());
-    assertTrue(validationModel.getErrors().isEmpty());
+    assertFalse(validationModel.getValid());
+    assertEquals(1, validationModel.getWarnings().size());
+    assertEquals(1, validationModel.getErrors().size());
   }
 
   @Test
@@ -138,5 +141,15 @@ class ValidatorServiceImplTest {
 
   private byte[] readEFormAsByteArray(String fileName) throws IOException {
     return Files.readAllBytes(Paths.get(fileName));
+  }
+
+  private static ValidationResult getValidationResult() {
+    ValidationResult result = new ValidationResult();
+    result.setSdkValidationVersion("eforms-de-1.0");
+    ValidationEntry errorEntry = ValidationEntry.builder().build();
+    ValidationEntry warningEntry = ValidationEntry.builder().build();
+    result.addValidationToReport(ReportType.SCHEMATRON, InfoLevel.ERROR, errorEntry);
+    result.addValidationToReport(ReportType.SCHEMATRON, InfoLevel.WARNING, warningEntry);
+    return result;
   }
 }
