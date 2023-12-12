@@ -90,7 +90,7 @@ public class ValidatorUtil {
     return infoLevel;
   }
 
-  private String getType(ReportType reportType) {
+  public static String getType(ReportType reportType) {
     switch (reportType) {
       case SCHEMATRON:
         return VALIDATION_ENTRY_SCHEMATRON_TYPE;
