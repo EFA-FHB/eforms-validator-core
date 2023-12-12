@@ -123,13 +123,14 @@
 
 
     <!-- changed from (boolean(cbc:SMESuitableIndicator/text())) to current implementation as it's more reliable -->
+    <!-- '#Besonders geeignet für:' text is only mandatory in german language, not in main-lang, as text-snipped itself is also german and it's only applicable for german notices-->
     <assert id="BR-DE-26" test="
         
         if (cbc:SMESuitableIndicator/text() = 'true' or cbc:SMESuitableIndicator/text() = '1')
         then
-          (starts-with(normalize-space(cbc:Note/text()), '#Besonders geeignet für:freelance#') or
-          starts-with(normalize-space(cbc:Note/text()), '#Besonders geeignet für:startup#') or
-          starts-with(normalize-space(cbc:Note/text()), '#Besonders geeignet für:selbst#')
+          (starts-with(cbc:Note[./@languageID = 'DEU']/text()/normalize-space(.), '#Besonders geeignet für:freelance#') or
+          starts-with(cbc:Note[./@languageID = 'DEU']/text()/normalize-space(.), '#Besonders geeignet für:startup#') or
+          starts-with(cbc:Note[./@languageID = 'DEU']/text()/normalize-space(.), '#Besonders geeignet für:selbst#')
           )
         else
           true()" role="error">[BR-DE-26-Part] If SMESuitableIndicator is true or 1, BT-300 /cac:ProcurementProject/cbd:Note needs to start with #Besonders geeignet für:(freelance|startup|selbst)#, free-text can follow.
@@ -254,10 +255,10 @@ context: Matching those efac:StrategicProcurementInformation in LotResults with 
         )
         then
           (boolean(normalize-space(cbc:AwardingCriterionTypeCode)) and
-          boolean(normalize-space(cbc:Name))
+          boolean(normalize-space(cbc:Name[./@languageID = $MAIN-LANG]))
           )
         else
-          true()" role="error">[BR-DE-23] When a percentage value (ParameterCode per-exa) in ParameterNumeric is >= 10, cbc:AwardingCriterionTypeCode and cbc:Name are mandatory
+          true()" role="error">[BR-DE-23] When a percentage value (ParameterCode per-exa) in ParameterNumeric has a value >= 10 then cbc:AwardingCriterionTypeCode and cbc:Name with attribute languageID="<value-of select = " $MAIN-LANG"/>" are mandatory.
     </assert>
   </rule>
 
