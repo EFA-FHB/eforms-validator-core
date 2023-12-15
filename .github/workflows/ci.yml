@@ -8,8 +8,7 @@ on:
       - '!feature/**'
     paths:
       - '**'
-      - '!gradle.properties'
-      - '!.github/**/*.yaml'
+      - '!.github/**/*.yml'
     tags:
       - '*'
   pull_request:
