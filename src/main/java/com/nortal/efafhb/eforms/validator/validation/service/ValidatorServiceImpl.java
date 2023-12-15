@@ -1,12 +1,12 @@
 package com.nortal.efafhb.eforms.validator.validation.service;
 
 import static com.nortal.efafhb.eforms.validator.validation.service.ValidatorUtil.EFORMS_SDK_VERSION_DELIMITER;
-import static com.nortal.efafhb.eforms.validator.validation.service.ValidatorUtil.VALIDATION_ENTRY_XSD_TYPE;
 import static com.nortal.efafhb.eforms.validator.validation.service.ValidatorUtil.XSD_VALIDATION_FAILED_CODE;
 
 import com.nortal.efafhb.eforms.validator.aspects.ExecutionTimeLogAspect;
 import com.nortal.efafhb.eforms.validator.common.Constants;
 import com.nortal.efafhb.eforms.validator.enums.NoticeSchema;
+import com.nortal.efafhb.eforms.validator.enums.ReportType;
 import com.nortal.efafhb.eforms.validator.enums.SupportedType;
 import com.nortal.efafhb.eforms.validator.enums.SupportedVersion;
 import com.nortal.efafhb.eforms.validator.exception.ErrorCode;
@@ -218,7 +218,7 @@ public class ValidatorServiceImpl implements ValidatorService {
         ResourceBundle.getBundle(Constants.ERRORS, new Locale(Constants.LOCALE_DE));
     ValidationModelEntryDTO error =
         ValidationModelEntryDTO.builder()
-            .type(VALIDATION_ENTRY_XSD_TYPE)
+            .type(ValidatorUtil.getType(ReportType.XSD))
             .description(
                 String.format(resourceBundle.getString(XSD_VALIDATION_FAILED_CODE), errorMessage))
             .build();

@@ -4,8 +4,7 @@
   <let name="SUBTYPES-BT-5071-BT-5141-Lot"
     value="('E2', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', 'E3', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31', '32', 'E4', '33', '34', '35', '36', '37', '38', '39', '40')" />
   <let name="SUBTYPES-BT-5071-BT-5141-Part" value="('4', '5', '6')" />
-  <let name="SUBTYPES-BT-746-BT-706"
-    value="('25', '26', '27', '28', '29', '30', '31', '32', 'E4', '33', '34', '35', '36', '37')" />
+  
   <let name="COUNTRIES-WITH-NUTS"
     value="('BEL', 'BGR', 'CZE', 'DNK', 'DEU', 'EST', 'IRL', 'GRC', 'ESP', 'FRA', 'HRV', 'ITA', 'CYP', 'LVA', 'LTU', 'LUX', 'HUN', 'MLT', 'NLD', 'AUT', 'POL', 'PRT', 'ROU', 'SVN', 'SVK', 'FIN', 'SWE', 'GBR', 'ISL', 'LIE', 'NOR', 'CHE', 'MNE', 'MKD', 'ALB', 'SRB', 'TUR')" />
 
@@ -123,13 +122,14 @@
 
 
     <!-- changed from (boolean(cbc:SMESuitableIndicator/text())) to current implementation as it's more reliable -->
+    <!-- '#Besonders geeignet für:' text is only mandatory in german language, not in main-lang, as text-snipped itself is also german and it's only applicable for german notices-->
     <assert id="BR-DE-26" test="
         
         if (cbc:SMESuitableIndicator/text() = 'true' or cbc:SMESuitableIndicator/text() = '1')
         then
-          (starts-with(normalize-space(cbc:Note/text()), '#Besonders geeignet für:freelance#') or
-          starts-with(normalize-space(cbc:Note/text()), '#Besonders geeignet für:startup#') or
-          starts-with(normalize-space(cbc:Note/text()), '#Besonders geeignet für:selbst#')
+          (starts-with(cbc:Note[./@languageID = 'DEU']/text()/normalize-space(.), '#Besonders geeignet für:freelance#') or
+          starts-with(cbc:Note[./@languageID = 'DEU']/text()/normalize-space(.), '#Besonders geeignet für:startup#') or
+          starts-with(cbc:Note[./@languageID = 'DEU']/text()/normalize-space(.), '#Besonders geeignet für:selbst#')
           )
         else
           true()" role="error">[BR-DE-26-Part] If SMESuitableIndicator is true or 1, BT-300 /cac:ProcurementProject/cbd:Note needs to start with #Besonders geeignet für:(freelance|startup|selbst)#, free-text can follow.
@@ -254,33 +254,10 @@ context: Matching those efac:StrategicProcurementInformation in LotResults with 
         )
         then
           (boolean(normalize-space(cbc:AwardingCriterionTypeCode)) and
-          boolean(normalize-space(cbc:Name))
+          boolean(normalize-space(cbc:Name[./@languageID = $MAIN-LANG]))
           )
         else
-          true()" role="error">[BR-DE-23] When a percentage value (ParameterCode per-exa) in ParameterNumeric is >= 10, cbc:AwardingCriterionTypeCode and cbc:Name are mandatory
-    </assert>
-  </rule>
-
-
-  <!-- BR-DE-25 
-
-if BT-746 is false (or 0), BT-706 is  mandatory, otherwise not.
-
-bt-746:  /*/ext:UBLExtensions/ext:UBLExtension/ext:ExtensionContent/efext:EformsExtension/efac:Organizations/efac:Organization/efbc:ListedOnRegulatedMarketIndicator
-bt-706-UBO: /*/ext:UBLExtensions/ext:UBLExtension/ext:ExtensionContent/efext:EformsExtension/efac:Organizations/efac:UltimateBeneficialOwner/efac:Nationality/cbc:NationalityID
-only applicable for subtypes 25-37 -> variable SUBTYPES-BT-746-BT-706 
-
--->
-  <!-- Be aware that it is about UBO as child of  efac:Organizations https://github.com/OP-TED/eForms-SDK/discussions/440 -->
-
-  <!-- context: ultimatebeneficialOwner which is linked in organization that has ListedOnRegulatedMarketIndicator false or 0 -->
-  <rule
-    context="$EXTENSION-ORG-NODE-PARENT/efac:UltimateBeneficialOwner[cbc:ID/text() = $EXTENSION-ORG-NODE-PARENT/efac:Organization[efbc:ListedOnRegulatedMarketIndicator/text() = ('false', '0')]/efac:UltimateBeneficialOwner/cbc:ID/text()]">
-    <assert id="BR-DE-25" test="
-        if ($SUBTYPE = $SUBTYPES-BT-746-BT-706) then
-          boolean(normalize-space(efac:Nationality/cbc:NationalityID))
-        else
-          true()" role="error">[BR-DE-25] In UltimateBeneficialOwner, which is linked from Organization with ListedOnRegulatedMarketIndicator = false or 0, efac:Nationality/cbc:NationalityID is mandatory.
+          true()" role="error">[BR-DE-23] When a percentage value (ParameterCode per-exa) in ParameterNumeric has a value >= 10 then cbc:AwardingCriterionTypeCode and cbc:Name with attribute languageID="<value-of select = " $MAIN-LANG"/>" are mandatory.
     </assert>
   </rule>
 

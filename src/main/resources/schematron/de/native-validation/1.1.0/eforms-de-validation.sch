@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<schema xmlns="http://purl.oclc.org/dsdl/schematron" queryBinding="xslt2"
+<schema xmlns="http://purl.oclc.org/dsdl/schematron" queryBinding="xslt2" xmlns:ext="eforms-extension"
   defaultPhase="eforms-de-phase">
 
   <title>eForms-DE Schematron Version @eforms-de-schematron.version.full@ compliant with eForms-DE specification @eforms-de.version.full@</title>
@@ -113,6 +113,9 @@
   <let name="BT-05-DATE" value="xs:date($ROOT-NODE/cbc:IssueDate)" />
   <let name="BT-05-TIME" value="xs:time($ROOT-NODE/cbc:IssueTime)" />
 
+  <let name="MAIN-LANG" value="normalize-space($ROOT-NODE/cbc:NoticeLanguageCode)" />
+
+
   <!-- 
     Rules to check sanity aspects on technical level e.g. is CustomizationID correct 
     SR = Sanitycheck Rule
@@ -194,7 +197,7 @@ we need to add 7,8,9,12,13,14, 19,20,21,22,32,E4,33,34,35
 
       <assert id="SR-DE-9" test="count($CONTACT-NODE) = 1" role="error">[SR-DE-9] Every <name /> must have one cac:Contact</assert>
 
-      <assert id="CR-DE-BT-500" test="boolean(normalize-space(cac:PartyName/cbc:Name))" role="error">[CR-DE-BT-5] Every <name /> must have a Name.</assert>
+      <assert id="CR-DE-BT-500" ext:depends-on="BT-500-Organization-Company_D" test="boolean(normalize-space(cac:PartyName/cbc:Name[./@languageID = $MAIN-LANG]))" role="error">[CR-DE-BT-500] Every <name /> must have one Name with attribute languageID="<value-of select = " $MAIN-LANG"/>".</assert>
 
       <assert id="CR-DE-BT-513" test="boolean(normalize-space($ADDRESS-NODE/cbc:CityName))" role="error">[CR-DE-BT-513] Every <name /> must have a cbc:CityName.</assert>
 
@@ -270,11 +273,11 @@ we need to add 7,8,9,12,13,14, 19,20,21,22,32,E4,33,34,35
     <rule context="$ROOT-NODE/cac:ProcurementProject">
 
 
-      <assert id="SR-DE-14" test="exists(cac:RealizedLocation)" role="error">[SR-DE-14] Every <name /> must have cac:Country</assert>
+      <assert id="SR-DE-14" test="exists(cac:RealizedLocation)" role="error">[SR-DE-14] Every <name /> must have cac:RealizedLocation</assert>
 
       <assert id="CR-DE-BT-23" test="boolean(normalize-space(cbc:ProcurementTypeCode))" role="error">[CR-DE-BT-23] <name /> must have  cbc:ProcurementTypeCode.</assert>
 
-      <assert id="CR-DE-BT-21" test="boolean(normalize-space(cbc:Name))" role="error">[CR-DE-BT-21] <name /> must have one cbc:Name.</assert>
+      <assert id="CR-DE-BT-21" test="boolean(normalize-space((cbc:Name[./@languageID = $MAIN-LANG])))" role="error">[CR-DE-BT-21] <name /> must have one cbc:Name with attribute languageID="<value-of select = " $MAIN-LANG"/>" .</assert>
 
     </rule>
 
@@ -293,7 +296,7 @@ we need to add 7,8,9,12,13,14, 19,20,21,22,32,E4,33,34,35
 
       <assert id="CR-DE-BT-23-Lot" test="boolean(normalize-space(cbc:ProcurementTypeCode[@listName = 'contract-nature']))" role="error">[CR-DE-BT-23-Lot] cbc:ProcurementTypeCode must exist as child of <name />.</assert>
 
-      <assert id="CR-DE-BT-21-Lot" test="boolean(normalize-space(cbc:Name))" role="error">[CR-DE-BT-21-Lot] cbc:Name must exist as child of <name />.</assert>
+      <assert id="CR-DE-BT-21-Lot" test="boolean(normalize-space((cbc:Name[./@languageID = $MAIN-LANG])))" role="error">[CR-DE-BT-21-Lot] One cbc:Name with attribute languageID="<value-of select = " $MAIN-LANG"/>" must exist as child of <name />.</assert>
 
       <!-- sanity rule to check if parent node of ProcurementTypeCode for BT-06 exists 
       <assert id="SR-DE-25" test="
@@ -332,7 +335,7 @@ we need to add 7,8,9,12,13,14, 19,20,21,22,32,E4,33,34,35
 
       <assert id="CR-DE-BT-23-Part" test="boolean(normalize-space(cbc:ProcurementTypeCode[@listName = 'contract-nature']))" role="error">[CR-DE-BT-23-Part] cbc:ProcurementTypeCode must exist as child of <name />.</assert>
 
-      <assert id="CR-DE-BT-21-Part" test="boolean(normalize-space(cbc:Name))" role="error">[CR-DE-BT-23-Part] cbc:Name must exist as child of <name />.</assert>
+      <assert id="CR-DE-BT-21-Part" test="boolean(normalize-space(cbc:Name[./@languageID = $MAIN-LANG]))" role="error">[CR-DE-BT-23-Part] One cbc:Name with attribute languageID="<value-of select = " $MAIN-LANG"/>" must exist as child of <name />.</assert>
     </rule>
 
 
@@ -369,10 +372,10 @@ we need to add 7,8,9,12,13,14, 19,20,21,22,32,E4,33,34,35
       <!-- strictly speaking it is a cm rule, cause it is only required if BT-771 exists -->
       <assert id="CR-DE-BT-772-Lot" test="
           if ($SUBTYPE = $SUBTYPES-BT-771-772) then
-            (count(cac:TendererQualificationRequest[not(cbc:CompanyLegalFormCode)]/cac:SpecificTendererRequirement[(cbc:TendererRequirementTypeCode[@listName = 'missing-info-submission'])]/cbc:Description) = 1)
+            (count(cac:TendererQualificationRequest[not(cbc:CompanyLegalFormCode)]/cac:SpecificTendererRequirement[(cbc:TendererRequirementTypeCode[@listName = 'missing-info-submission'])]/cbc:Description[./@languageID = $MAIN-LANG]) = 1)
           
           else
-            true()" role="error">[CR-DE-BT-772-Lot] cbc:Description for BT-771 must exist in <name />.</assert>
+            true()" role="error">[CR-DE-BT-772-Lot] cbc:Description with attribute languageID="<value-of select = " $MAIN-LANG"/>" for BT-772 must exist in <name />.</assert>
 
       <!-- I think it is superflous now: sanity checks to make sure parent path for CR-DE-BT-771-Lot and CR-DE-BT-772-Lot exists -->
       <assert id="SR-DE-21" test="
@@ -454,7 +457,7 @@ we need to add 7,8,9,12,13,14, 19,20,21,22,32,E4,33,34,35
     <rule
       context="$ROOT-NODE/cac:ProcurementProjectLot[cbc:ID/@schemeName = 'LotsGroup']">
 
-      <assert id="CR-DE-BT-21-LotsGroup" test="boolean(normalize-space(cac:ProcurementProject/cbc:Name))" role="error">[CR-DE-BT-21-LotsGroup] /cac:ProcurementProject/cbc:Name must exist in <name />.</assert>
+      <assert id="CR-DE-BT-21-LotsGroup" test="boolean(normalize-space(cac:ProcurementProject/cbc:Name[./@languageID = $MAIN-LANG]))" role="error">[CR-DE-BT-21-LotsGroup] One /cac:ProcurementProject/cbc:Name with attribute languageID="<value-of select = " $MAIN-LANG"/>" must exist in <name />.</assert>
 
       <!-- commented-out because EU rules contradict the CELEX. In clarification.
       <assert id="CR-DE-BT-24-LotsGroup"
