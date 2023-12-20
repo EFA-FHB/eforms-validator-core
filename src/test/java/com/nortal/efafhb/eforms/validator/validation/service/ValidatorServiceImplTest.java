@@ -8,6 +8,10 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
+import com.nortal.efafhb.eforms.validator.enums.InfoLevel;
+import com.nortal.efafhb.eforms.validator.enums.ReportType;
+import com.nortal.efafhb.eforms.validator.enums.SupportedType;
+import com.nortal.efafhb.eforms.validator.enums.SupportedVersion;
 import com.nortal.efafhb.eforms.validator.validation.FormsValidator;
 import com.nortal.efafhb.eforms.validator.validation.ValidationConfig;
 import com.nortal.efafhb.eforms.validator.validation.dto.BusinessDocumentValidationModelDTO;
@@ -15,6 +19,7 @@ import com.nortal.efafhb.eforms.validator.validation.dto.BusinessDocumentValidat
 import com.nortal.efafhb.eforms.validator.validation.dto.ValidationModelDTO;
 import com.nortal.efafhb.eforms.validator.validation.dto.ValidationModelEntryDTO;
 import com.nortal.efafhb.eforms.validator.validation.dto.ValidationRequestDTO;
+import com.nortal.efafhb.eforms.validator.validation.entry.ValidationEntry;
 import com.nortal.efafhb.eforms.validator.validation.util.ValidationResult;
 import io.quarkus.test.junit.QuarkusTest;
 import jakarta.inject.Inject;
@@ -25,6 +30,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 @QuarkusTest
@@ -38,19 +44,17 @@ class ValidatorServiceImplTest {
 
   @Inject ValidationConfig validationConfig;
   @Mock FormsValidator formsValidator;
-  @Mock EFormsParser eFormsParser;
 
   @BeforeEach
   void setUp() {
-    MockitoAnnotations.initMocks(this);
+    MockitoAnnotations.openMocks(this);
     validatorService =
         new ValidatorServiceImpl(businessDocumentValidator, validationConfig, formsValidator);
   }
 
   @Test
-  void testValidateWithSchematronValidation() {
+  void testValidateWithValidationsDisabled() {
     ValidationRequestDTO validationRequestDTO = new ValidationRequestDTO();
-    validationRequestDTO.setSchematronValidation(true);
     validationRequestDTO.setEforms(new byte[] {});
     validationRequestDTO.setVersion("1.0");
     validationRequestDTO.setSdkType("eforms-de");
@@ -59,6 +63,30 @@ class ValidatorServiceImplTest {
 
     ValidationModelDTO result = validatorService.validate(validationRequestDTO);
     assertNull(result);
+  }
+
+  @Test
+  void testValidateWithSchematronValidation() throws IOException {
+    ValidationRequestDTO validationRequestDTO = new ValidationRequestDTO();
+    validationRequestDTO.setEforms(readEFormAsByteArray(EFORM_WITH_ERRORS_PATH));
+    validationRequestDTO.setVersion("1.0");
+    validationRequestDTO.setSdkType("eforms-de");
+    validationRequestDTO.setXsdValidation(false);
+    validationRequestDTO.setSchematronValidation(true);
+
+    ValidationResult result = getValidationResult();
+    Mockito.when(
+            formsValidator.validate(
+                Mockito.any(SupportedType.class),
+                Mockito.anyString(),
+                Mockito.any(SupportedVersion.class)))
+        .thenReturn(result);
+    ValidationModelDTO validationModel = validatorService.validate(validationRequestDTO);
+
+    assertNotNull(validationModel);
+    assertFalse(validationModel.getValid());
+    assertEquals(1, validationModel.getWarnings().size());
+    assertEquals(1, validationModel.getErrors().size());
   }
 
   @Test
@@ -90,7 +118,6 @@ class ValidatorServiceImplTest {
             + "is expected.'";
 
     ValidationRequestDTO validationRequestDTO = new ValidationRequestDTO();
-    validationRequestDTO.setSchematronValidation(true);
     validationRequestDTO.setEforms(readEFormAsByteArray(EFORM_WITH_ERRORS_PATH));
     validationRequestDTO.setVersion("1.0");
     validationRequestDTO.setSdkType("eforms-de");
@@ -114,5 +141,15 @@ class ValidatorServiceImplTest {
 
   private byte[] readEFormAsByteArray(String fileName) throws IOException {
     return Files.readAllBytes(Paths.get(fileName));
+  }
+
+  private static ValidationResult getValidationResult() {
+    ValidationResult result = new ValidationResult();
+    result.setSdkValidationVersion("eforms-de-1.0");
+    ValidationEntry errorEntry = ValidationEntry.builder().build();
+    ValidationEntry warningEntry = ValidationEntry.builder().build();
+    result.addValidationToReport(ReportType.SCHEMATRON, InfoLevel.ERROR, errorEntry);
+    result.addValidationToReport(ReportType.SCHEMATRON, InfoLevel.WARNING, warningEntry);
+    return result;
   }
 }

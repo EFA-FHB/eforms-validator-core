@@ -146,6 +146,10 @@ sonarqube {
     }
 }
 
+tasks.named('jacocoTestReport').configure {
+    dependsOn('processJandexIndex')
+}
+
 test.finalizedBy jacocoTestReport
 
 jacocoTestReport {
