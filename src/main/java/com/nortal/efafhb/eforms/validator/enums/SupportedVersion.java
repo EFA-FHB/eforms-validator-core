@@ -11,7 +11,8 @@ public enum SupportedVersion {
   V1_0_1("1.0.1"),
   V1_0_0("1.0.0"),
   V0_1_1("0.1.1"),
-  V1_1_0("1.1.0");
+  V1_1_0("1.1.0"),
+  V1_10_0("1.10.0");
 
   private final String value;
 

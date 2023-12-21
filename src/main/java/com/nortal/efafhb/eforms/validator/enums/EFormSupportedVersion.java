@@ -11,7 +11,8 @@ public enum EFormSupportedVersion {
   V15("eforms-sdk-1.5", "1.5.5"),
   V17("eforms-sdk-1.7", "1.7.2"),
   VD10("eforms-de-1.0", "1.0.1"),
-  VD11("eforms-de-1.1", "1.1.0");
+  VD11("eforms-de-1.1", "1.1.0"),
+  V110("eforms-sdk-1.10", "1.10.0");
 
   private final String eformsVersion;
   private final String supportedVersion;
