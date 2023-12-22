@@ -30,6 +30,8 @@ class PhaxValidatorTest {
   private static final String NOTICE_CN_DE_10 = "notice_cn_de_10.xml";
   private static final String NOTICE_CN_DE_11 = "eforms_CN_16_max-DE_valid.xml";
   private static final String NOTICE_SDK_1_5 = "eform-sdk-1.5.xml";
+  private static final String NOTICE_SDK_1_10_T01 = "t01_PRT.xml";
+  private static final String NOTICE_SDK_1_10_T02 = "t02_ESP.xml";
 
   @Inject FormsValidator schematronValidator;
 
@@ -289,5 +291,89 @@ class PhaxValidatorTest {
 
     assertTrue(result.getErrors().isEmpty());
     assertTrue(result.getWarnings().isEmpty());
+  }
+
+  @Test
+  void validate_notices_eu_v1_10_0_valid() throws IOException {
+    List<String> validNotices =
+        List.of(
+            "1.10.0/valid/can_24_maximal.xml",
+            "1.10.0/valid/cn_24_maximal.xml",
+            "1.10.0/valid/pin-buyer_24_published.xml");
+
+    for (String validNotice : validNotices) {
+      String eForm = readFromEFormsResourceAsString(validNotice);
+
+      ValidationResult result =
+          schematronValidator.validate(SupportedType.EU, eForm, SupportedVersion.V1_10_0);
+
+      assertTrue(result.getErrors().isEmpty());
+      assertTrue(result.getWarnings().isEmpty());
+    }
+  }
+
+  @Test
+  void validate_notices_eu_v1_10_0_invalid() throws IOException {
+    List<String> invalidNotices =
+        List.of(
+            "1.10.0/invalid/INVALID_can_24_stage-2.xml",
+            "1.10.0/invalid/INVALID_cn_24_stage-2.xml",
+            "1.10.0/invalid/INVALID_pin-buyer_24_stage-1.xml");
+
+    for (String validNotice : invalidNotices) {
+      String eFormsWithError = readFromEFormsResourceAsString(validNotice);
+
+      ValidationResult validationResult =
+          schematronValidator.validate(SupportedType.EU, eFormsWithError, SupportedVersion.V1_10_0);
+
+      assertFalse(validationResult.getErrors().isEmpty());
+      validationResult
+          .getErrors()
+          .forEach(
+              error -> {
+                assertNotNull(error.getRule());
+                assertNotNull(error.getPath());
+                assertNotNull(error.getTest());
+                assertNotNull(error.getType());
+              });
+    }
+  }
+
+  @Test
+  void validate_notices_t01_invalid() throws IOException {
+    String eFormsWithError = readFromEFormsResourceAsString(NOTICE_SDK_1_10_T01);
+
+    ValidationResult validationResult =
+        schematronValidator.validate(SupportedType.EU, eFormsWithError, SupportedVersion.V1_10_0);
+
+    assertFalse(validationResult.getErrors().isEmpty());
+    validationResult
+        .getErrors()
+        .forEach(
+            error -> {
+              assertNotNull(error.getRule());
+              assertNotNull(error.getPath());
+              assertNotNull(error.getTest());
+              assertNotNull(error.getType());
+            });
+  }
+
+  @Test
+  void validate_notices_t02_invalid() throws IOException {
+    String eFormsWithError = readFromEFormsResourceAsString(NOTICE_SDK_1_10_T02);
+
+    ValidationResult validationResult =
+        schematronValidator.validate(SupportedType.EU, eFormsWithError, SupportedVersion.V1_10_0);
+
+    assertFalse(validationResult.getErrors().isEmpty());
+    validationResult
+        .getErrors()
+        .forEach(
+            error -> {
+              assertNotNull(error.getRule());
+              assertNotNull(error.getPath());
+              assertNotNull(error.getTest());
+              assertNotNull(error.getType());
+            });
   }
 }
