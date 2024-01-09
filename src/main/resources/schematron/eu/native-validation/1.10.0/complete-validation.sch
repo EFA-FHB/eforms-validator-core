@@ -666,6 +666,7 @@
 	<include href="validation-stage-4-X01.sch"/>
 	<include href="validation-stage-4-X02.sch"/>
 	<include href="validation-stage-5.sch"/>
+	<include href="validation-stage-6b-dynamic.sch"/>
 
 	<diagnostics>
 		<diagnostic id="BT-01-notice" see="field:BT-01-notice">cbc:RegulatoryDomain</diagnostic>

@@ -35,15 +35,15 @@ class PhaxValidatorDoePhaseTest {
   private static final String NOTICE_CN_DE_10 = "notice_cn_de_10.xml";
   private static final String NOTICE_CN_DE_11 = "eforms_CN_16_max-DE_valid.xml";
   private static final String NOTICE_SDK_1_5 = "eform-sdk-1.5.xml";
-  private static final String ISSUE_DATE_XML_TAG = "cbc:IssueDate";
-  private static final String REQUESTED_PUBLICATION_DATE_XML_TAG = "cbc:RequestedPublicationDate";
-  private static final String CONTRACT_NOTICE_XML_TAG = "ContractNotice";
-  private static final String CONTRACT_AWARD_NOTICE_XML_TAG = "ContractAwardNotice";
-  private static final String TENDER_SUBMISSION_DEADLINE_PERIOD_XML_TAG =
+  public static final String ISSUE_DATE_XML_TAG = "cbc:IssueDate";
+  public static final String REQUESTED_PUBLICATION_DATE_XML_TAG = "cbc:RequestedPublicationDate";
+  public static final String CONTRACT_NOTICE_XML_TAG = "ContractNotice";
+  public static final String CONTRACT_AWARD_NOTICE_XML_TAG = "ContractAwardNotice";
+  public static final String TENDER_SUBMISSION_DEADLINE_PERIOD_XML_TAG =
       "cac:TenderSubmissionDeadlinePeriod";
-  private static final String END_DATE_XML_TAG = "cbc:EndDate";
-  private static final String OPEN_TENDER_EVENT_XML_TAG = "cac:OpenTenderEvent";
-  private static final String OCCURRENCE_DATE_XML_TAG = "cbc:OccurrenceDate";
+  public static final String END_DATE_XML_TAG = "cbc:EndDate";
+  public static final String OPEN_TENDER_EVENT_XML_TAG = "cac:OpenTenderEvent";
+  public static final String OCCURRENCE_DATE_XML_TAG = "cbc:OccurrenceDate";
 
   @Inject FormsValidator schematronValidator;
 
