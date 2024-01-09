@@ -1,6 +1,12 @@
 package com.nortal.efafhb.eforms.validator.validation;
 
+import static com.nortal.efafhb.eforms.validator.validation.PhaxValidatorDoePhaseTest.CONTRACT_AWARD_NOTICE_XML_TAG;
+import static com.nortal.efafhb.eforms.validator.validation.PhaxValidatorDoePhaseTest.CONTRACT_NOTICE_XML_TAG;
+import static com.nortal.efafhb.eforms.validator.validation.PhaxValidatorDoePhaseTest.ISSUE_DATE_XML_TAG;
+import static com.nortal.efafhb.eforms.validator.validation.TestUtils.DATE_PATTERN;
+import static com.nortal.efafhb.eforms.validator.validation.TestUtils.getEformsAbsolutePath;
 import static com.nortal.efafhb.eforms.validator.validation.TestUtils.readFromEFormsResourceAsString;
+import static com.nortal.efafhb.eforms.validator.validation.TestUtils.replaceDateTagsToCurrentDate;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
@@ -9,6 +15,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.nortal.efafhb.eforms.validator.enums.SupportedType;
 import com.nortal.efafhb.eforms.validator.enums.SupportedVersion;
+import com.nortal.efafhb.eforms.validator.validation.TestUtils.DateTags;
+import com.nortal.efafhb.eforms.validator.validation.entry.ValidationEntry;
 import com.nortal.efafhb.eforms.validator.validation.profiles.PhaxValidatorProfile;
 import com.nortal.efafhb.eforms.validator.validation.util.ValidationResult;
 import io.quarkus.test.junit.QuarkusTest;
@@ -32,6 +40,9 @@ class PhaxValidatorTest {
   private static final String NOTICE_SDK_1_5 = "eform-sdk-1.5.xml";
   private static final String NOTICE_SDK_1_10_T01 = "t01_PRT.xml";
   private static final String NOTICE_SDK_1_10_T02 = "t02_ESP.xml";
+  public static final String END_DATE_XML_TAG = "cbc:EndDate";
+  public static final String TENDER_SUBMISSION_XML_TAG = "cac:TenderSubmissionDeadlinePeriod";
+  public static final String PRIOR_INFORMATION_NOTICE_XML_TAG = "PriorInformationNotice";
 
   @Inject FormsValidator schematronValidator;
 
@@ -294,7 +305,7 @@ class PhaxValidatorTest {
   }
 
   @Test
-  void validate_notices_eu_v1_10_0_valid() throws IOException {
+  void validate_notices_eu_v1_10_0_valid() throws Exception {
     List<String> validNotices =
         List.of(
             "1.10.0/valid/can_24_maximal.xml",
@@ -302,7 +313,16 @@ class PhaxValidatorTest {
             "1.10.0/valid/pin-buyer_24_published.xml");
 
     for (String validNotice : validNotices) {
-      String eForm = readFromEFormsResourceAsString(validNotice);
+      String path = getEformsAbsolutePath(validNotice).toUri().toString();
+      String eForm =
+          replaceDateTagsToCurrentDate(
+              path,
+              new DateTags(
+                  ISSUE_DATE_XML_TAG, CONTRACT_AWARD_NOTICE_XML_TAG, 0L, true, DATE_PATTERN),
+              new DateTags(ISSUE_DATE_XML_TAG, CONTRACT_NOTICE_XML_TAG, 0L, true, DATE_PATTERN),
+              new DateTags(
+                  ISSUE_DATE_XML_TAG, PRIOR_INFORMATION_NOTICE_XML_TAG, 0L, true, DATE_PATTERN),
+              new DateTags(END_DATE_XML_TAG, TENDER_SUBMISSION_XML_TAG, -2L, true, DATE_PATTERN));
 
       ValidationResult result =
           schematronValidator.validate(SupportedType.EU, eForm, SupportedVersion.V1_10_0);
@@ -356,6 +376,15 @@ class PhaxValidatorTest {
               assertNotNull(error.getTest());
               assertNotNull(error.getType());
             });
+
+    boolean containsDispatchDateError =
+        validationResult.getErrors().stream()
+            .map(ValidationEntry::getRule)
+            .anyMatch(
+                rule ->
+                    rule.equals(
+                        "Notice Dispatch Date eSender (BT-803), or by default Notice Dispatch Date (BT-05), must be between 0 and 24 hours before the current date."));
+    assertTrue(containsDispatchDateError);
   }
 
   @Test
@@ -375,5 +404,14 @@ class PhaxValidatorTest {
               assertNotNull(error.getTest());
               assertNotNull(error.getType());
             });
+
+    boolean containsDispatchDateError =
+        validationResult.getErrors().stream()
+            .map(ValidationEntry::getRule)
+            .anyMatch(
+                rule ->
+                    rule.equals(
+                        "Notice Dispatch Date eSender (BT-803), or by default Notice Dispatch Date (BT-05), must be between 0 and 24 hours before the current date."));
+    assertTrue(containsDispatchDateError);
   }
 }
