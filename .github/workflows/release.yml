@@ -45,16 +45,6 @@ jobs:
           fetch-depth: 0 #spotless fix
           persist-credentials: false
 
-      - name: install_shared_actions
-        uses: ./.github/actions/install_shared_actions
-        with:
-          token: ${{secrets.EFA_CICD_REPO_ACCESS_TOKEN}}
-          tag: v2.4.0
-
-      - name: ensure branch strategy compliance
-        id: check_branch_strategy
-        uses: ./.github/actions/shared/check_branch_name
-
       - name: create_release
         uses: ./.github/actions/create_release_validator
         with:
