@@ -113,6 +113,10 @@ jobs:
     if: ${{ github.actor != 'dependabot[bot]' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/development') }}
     needs: [test]
     runs-on: ubuntu-latest
+    
+    permissions:
+      contents: read
+      packages: write
 
     name: "🚀 publish"
 
@@ -134,5 +138,4 @@ jobs:
         with:
           arguments: publish
         env:
-          GITHUB_TOKEN: ${{ secrets.JAVA_TOKEN }}
-          GITHUB_ACTOR: ${{ secrets.JAVA_ACTOR }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
