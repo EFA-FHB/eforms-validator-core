@@ -8,7 +8,7 @@ on:
       - '!feature/**'
     paths:
       - '**'
-      - '!.github/**/*.yml'
+      #- '!.github/**/*.yml'
     tags:
       - '*'
   pull_request:
