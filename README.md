@@ -41,6 +41,7 @@ The current Blacklist can be found here: [excluded_rules.txt](src/main/resources
   - 0.0.1
   - 1.0.0
   - 1.5.1
+  - 1.10.0
 
 ## Hardware
 
