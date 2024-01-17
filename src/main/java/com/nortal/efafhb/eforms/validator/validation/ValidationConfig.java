@@ -8,7 +8,7 @@ import java.util.List;
 @ConfigMapping(prefix = "eforms-validator.api")
 public interface ValidationConfig {
 
-  String EFORMS_VERSION_REGEXP = "^eforms-(sdk|de)-[\\d+].[\\d+]$";
+  String EFORMS_VERSION_REGEXP = "^eforms-(sdk|de)-(\\d+).(\\d+)$";
   String EFORMS_VERSION_MESSAGE = "Bad eForm version format";
 
   /**

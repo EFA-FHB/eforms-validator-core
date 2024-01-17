@@ -20,7 +20,8 @@ public class ValidatorRequestDTO {
 
   @NotNull(message = "Version must not be null")
   @FormParam("eformsVersion")
-  private @Pattern(regexp = "^[\\d]\\.[\\d]$", message = "BAD_EFORM_VERSION_FORMAT") String version;
+  private @Pattern(regexp = "^[\\d]\\.(\\d+)$", message = "BAD_EFORM_VERSION_FORMAT") String
+      version;
 
   @NotNull(message = "Sdk type must not be null.")
   @FormParam("sdkType")
