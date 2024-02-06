@@ -427,9 +427,6 @@ class PhaxValidatorTest {
 
     ValidationResult result =
         schematronValidator.validate(SupportedType.DE, eForm, SupportedVersion.V1_2_0);
-
-    System.out.println(result.getErrors());
-    System.out.println(result.getWarnings());
     assertAll(
         () -> assertTrue(result.getErrors().isEmpty()),
         () -> assertTrue(result.getWarnings().isEmpty()));
