@@ -14,7 +14,7 @@ info:
     name: oeffentliche-vergabe-support@nortal.com
     email: oeffentliche-vergabe-support@nortal.com
 
-  version: 1.0.0
+  version: 1.4.0
 
 paths:
   /v1/eforms-validation:
@@ -37,7 +37,7 @@ paths:
                 eformsVersion:
                   pattern: "^[\\d]\\.[\\d]$"
                   type: string
-                  example: "1.0"
+                  example: "1.2"
                 sdkType:
                   type: string
                   example: eforms-de
