@@ -3,6 +3,7 @@ package com.nortal.efafhb.eforms.validator.validation;
 import static com.nortal.efafhb.eforms.validator.validation.PhaxValidatorDoePhaseTest.CONTRACT_AWARD_NOTICE_XML_TAG;
 import static com.nortal.efafhb.eforms.validator.validation.PhaxValidatorDoePhaseTest.CONTRACT_NOTICE_XML_TAG;
 import static com.nortal.efafhb.eforms.validator.validation.PhaxValidatorDoePhaseTest.ISSUE_DATE_XML_TAG;
+import static com.nortal.efafhb.eforms.validator.validation.PhaxValidatorDoePhaseTest.PLANNED_DATE_XML_TAG;
 import static com.nortal.efafhb.eforms.validator.validation.PhaxValidatorDoePhaseTest.REQUESTED_PUBLICATION_DATE_XML_TAG;
 import static com.nortal.efafhb.eforms.validator.validation.TestUtils.DATE_PATTERN;
 import static com.nortal.efafhb.eforms.validator.validation.TestUtils.getEformsAbsolutePath;
@@ -394,11 +395,10 @@ class PhaxValidatorTest {
   @ParameterizedTest
   @ValueSource(
       strings = {
-        "1.2.0/valid/eforms_PIN_7-DE.xml",
         "1.2.0/valid/eforms_CAN_29-DE_valid.xml",
-        //        "1.2.0/valid/eforms_CAN_30_max-DE_valid.xml",
         "1.2.0/valid/eforms_CAN_31-DE_valid_FRA.xml",
-        //        "1.2.0/valid/eforms_CAN_32-DE_valid_contracts.xml"
+        "1.2.0/valid/eforms_PIN_4_min-DE_valid.xml",
+        "1.2.0/valid/eforms_PIN_7-DE.xml"
       })
   void validate_notices_de_v1_2_0_valid(String validNotice) throws Exception {
     String path = getEformsAbsolutePath(validNotice).toUri().toString();
@@ -417,7 +417,17 @@ class PhaxValidatorTest {
                 -2L,
                 true,
                 DATE_PATTERN),
+            new DateTags(
+                ISSUE_DATE_XML_TAG, PRIOR_INFORMATION_NOTICE_XML_TAG, 0L, true, DATE_PATTERN),
+            new DateTags(
+                REQUESTED_PUBLICATION_DATE_XML_TAG,
+                PRIOR_INFORMATION_NOTICE_XML_TAG,
+                -2L,
+                true,
+                DATE_PATTERN),
             new DateTags(ISSUE_DATE_XML_TAG, CONTRACT_AWARD_NOTICE_XML_TAG, 0L, true, DATE_PATTERN),
+            new DateTags(
+                PLANNED_DATE_XML_TAG, PRIOR_INFORMATION_NOTICE_XML_TAG, -1L, true, DATE_PATTERN),
             new DateTags(
                 REQUESTED_PUBLICATION_DATE_XML_TAG,
                 CONTRACT_AWARD_NOTICE_XML_TAG,
