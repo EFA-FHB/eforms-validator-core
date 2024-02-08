@@ -16,6 +16,10 @@ on:
       - main
       - development
       - 'feature/**'
+permissions:
+  contents: read
+  packages: write
+  pull-requests: read
 
 jobs:
   build:
@@ -39,7 +43,7 @@ jobs:
         uses: ./.github/actions/install_shared_actions
         with:
           token: ${{secrets.EFA_CICD_REPO_ACCESS_TOKEN}}
-          tag: v2.5.1
+          tag: v2.5.2
 
       - name: ensure branch strategy compliance
         id: check_branch_strategy
@@ -73,7 +77,7 @@ jobs:
         uses: ./.github/actions/install_shared_actions
         with:
           token: ${{secrets.EFA_CICD_REPO_ACCESS_TOKEN}}
-          tag: v2.4.0
+          tag: v2.5.2
 
       - name: project setup
         uses: ./.github/actions/shared/setup_jdk_17
@@ -114,10 +118,6 @@ jobs:
     needs: [test]
     runs-on: ubuntu-latest
     
-    permissions:
-      contents: read
-      packages: write
-
     name: "🚀 publish"
 
     steps:
