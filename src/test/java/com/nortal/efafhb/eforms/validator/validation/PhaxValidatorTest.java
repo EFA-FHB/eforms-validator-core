@@ -3,10 +3,13 @@ package com.nortal.efafhb.eforms.validator.validation;
 import static com.nortal.efafhb.eforms.validator.validation.PhaxValidatorDoePhaseTest.CONTRACT_AWARD_NOTICE_XML_TAG;
 import static com.nortal.efafhb.eforms.validator.validation.PhaxValidatorDoePhaseTest.CONTRACT_NOTICE_XML_TAG;
 import static com.nortal.efafhb.eforms.validator.validation.PhaxValidatorDoePhaseTest.ISSUE_DATE_XML_TAG;
+import static com.nortal.efafhb.eforms.validator.validation.PhaxValidatorDoePhaseTest.PLANNED_DATE_XML_TAG;
+import static com.nortal.efafhb.eforms.validator.validation.PhaxValidatorDoePhaseTest.REQUESTED_PUBLICATION_DATE_XML_TAG;
 import static com.nortal.efafhb.eforms.validator.validation.TestUtils.DATE_PATTERN;
 import static com.nortal.efafhb.eforms.validator.validation.TestUtils.getEformsAbsolutePath;
 import static com.nortal.efafhb.eforms.validator.validation.TestUtils.readFromEFormsResourceAsString;
 import static com.nortal.efafhb.eforms.validator.validation.TestUtils.replaceDateTagsToCurrentDate;
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
@@ -25,6 +28,8 @@ import jakarta.inject.Inject;
 import java.io.IOException;
 import java.util.List;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 @QuarkusTest
 @TestProfile(PhaxValidatorProfile.class)
@@ -305,12 +310,12 @@ class PhaxValidatorTest {
   }
 
   @Test
-  void validate_notices_eu_v1_10_0_valid() throws Exception {
+  void validate_notices_eu_v1_10_1_valid() throws Exception {
     List<String> validNotices =
         List.of(
-            "1.10.0/valid/can_24_maximal.xml",
-            "1.10.0/valid/cn_24_maximal.xml",
-            "1.10.0/valid/pin-buyer_24_published.xml");
+            "1.10.1/valid/can_24_maximal.xml",
+            "1.10.1/valid/cn_24_maximal.xml",
+            "1.10.1/valid/pin-buyer_24_published.xml");
 
     for (String validNotice : validNotices) {
       String path = getEformsAbsolutePath(validNotice).toUri().toString();
@@ -325,7 +330,7 @@ class PhaxValidatorTest {
               new DateTags(END_DATE_XML_TAG, TENDER_SUBMISSION_XML_TAG, -2L, true, DATE_PATTERN));
 
       ValidationResult result =
-          schematronValidator.validate(SupportedType.EU, eForm, SupportedVersion.V1_10_0);
+          schematronValidator.validate(SupportedType.EU, eForm, SupportedVersion.V1_10_1);
 
       assertTrue(result.getErrors().isEmpty());
       assertTrue(result.getWarnings().isEmpty());
@@ -333,18 +338,18 @@ class PhaxValidatorTest {
   }
 
   @Test
-  void validate_notices_eu_v1_10_0_invalid() throws IOException {
+  void validate_notices_eu_v1_10_1_invalid() throws IOException {
     List<String> invalidNotices =
         List.of(
-            "1.10.0/invalid/INVALID_can_24_stage-2.xml",
-            "1.10.0/invalid/INVALID_cn_24_stage-2.xml",
-            "1.10.0/invalid/INVALID_pin-buyer_24_stage-1.xml");
+            "1.10.1/invalid/INVALID_can_24_stage-2.xml",
+            "1.10.1/invalid/INVALID_cn_24_stage-2.xml",
+            "1.10.1/invalid/INVALID_pin-buyer_24_stage-1.xml");
 
     for (String validNotice : invalidNotices) {
       String eFormsWithError = readFromEFormsResourceAsString(validNotice);
 
       ValidationResult validationResult =
-          schematronValidator.validate(SupportedType.EU, eFormsWithError, SupportedVersion.V1_10_0);
+          schematronValidator.validate(SupportedType.EU, eFormsWithError, SupportedVersion.V1_10_1);
 
       assertFalse(validationResult.getErrors().isEmpty());
       validationResult
@@ -364,7 +369,85 @@ class PhaxValidatorTest {
     String eFormsWithError = readFromEFormsResourceAsString(NOTICE_SDK_1_10_T01);
 
     ValidationResult validationResult =
-        schematronValidator.validate(SupportedType.EU, eFormsWithError, SupportedVersion.V1_10_0);
+        schematronValidator.validate(SupportedType.EU, eFormsWithError, SupportedVersion.V1_10_1);
+
+    assertFalse(validationResult.getErrors().isEmpty());
+    validationResult
+        .getErrors()
+        .forEach(
+            error -> {
+              assertNotNull(error.getRule());
+              assertNotNull(error.getPath());
+              assertNotNull(error.getTest());
+              assertNotNull(error.getType());
+            });
+
+    boolean containsDispatchDateError =
+        validationResult.getErrors().stream()
+            .map(ValidationEntry::getRule)
+            .anyMatch(
+                rule ->
+                    rule.equals(
+                        "Notice Dispatch Date eSender (BT-803), or by default Notice Dispatch Date (BT-05), must be between 0 and 24 hours before the current date."));
+    assertTrue(containsDispatchDateError);
+  }
+
+  @ParameterizedTest
+  @ValueSource(
+      strings = {
+        "1.2.0/valid/eforms_CAN_29-DE_valid.xml",
+        "1.2.0/valid/eforms_CAN_31-DE_valid_FRA.xml",
+        "1.2.0/valid/eforms_PIN_4_min-DE_valid.xml",
+        "1.2.0/valid/eforms_PIN_7-DE.xml"
+      })
+  void validate_notices_de_v1_2_0_valid(String validNotice) throws Exception {
+    String path = getEformsAbsolutePath(validNotice).toUri().toString();
+    String eForm =
+        replaceDateTagsToCurrentDate(
+            path,
+            new DateTags(
+                ISSUE_DATE_XML_TAG,
+                "urn:" + PRIOR_INFORMATION_NOTICE_XML_TAG,
+                0L,
+                true,
+                DATE_PATTERN),
+            new DateTags(
+                REQUESTED_PUBLICATION_DATE_XML_TAG,
+                "urn:" + PRIOR_INFORMATION_NOTICE_XML_TAG,
+                -2L,
+                true,
+                DATE_PATTERN),
+            new DateTags(
+                ISSUE_DATE_XML_TAG, PRIOR_INFORMATION_NOTICE_XML_TAG, 0L, true, DATE_PATTERN),
+            new DateTags(
+                REQUESTED_PUBLICATION_DATE_XML_TAG,
+                PRIOR_INFORMATION_NOTICE_XML_TAG,
+                -2L,
+                true,
+                DATE_PATTERN),
+            new DateTags(ISSUE_DATE_XML_TAG, CONTRACT_AWARD_NOTICE_XML_TAG, 0L, true, DATE_PATTERN),
+            new DateTags(
+                PLANNED_DATE_XML_TAG, PRIOR_INFORMATION_NOTICE_XML_TAG, -1L, true, DATE_PATTERN),
+            new DateTags(
+                REQUESTED_PUBLICATION_DATE_XML_TAG,
+                CONTRACT_AWARD_NOTICE_XML_TAG,
+                -2L,
+                true,
+                DATE_PATTERN));
+
+    ValidationResult result =
+        schematronValidator.validate(SupportedType.DE, eForm, SupportedVersion.V1_2_0);
+    assertAll(
+        () -> assertTrue(result.getErrors().isEmpty()),
+        () -> assertTrue(result.getWarnings().isEmpty()));
+  }
+
+  @Test
+  void validate_notices_t02_invalid() throws IOException {
+    String eFormsWithError = readFromEFormsResourceAsString(NOTICE_SDK_1_10_T02);
+
+    ValidationResult validationResult =
+        schematronValidator.validate(SupportedType.EU, eFormsWithError, SupportedVersion.V1_10_1);
 
     assertFalse(validationResult.getErrors().isEmpty());
     validationResult
@@ -388,30 +471,30 @@ class PhaxValidatorTest {
   }
 
   @Test
-  void validate_notices_t02_invalid() throws IOException {
-    String eFormsWithError = readFromEFormsResourceAsString(NOTICE_SDK_1_10_T02);
+  void validate_notices_de_v1_2_0_invalid() throws IOException {
+    List<String> invalidNotices =
+        List.of(
+            "1.2.0/invalid/eforms_CAN_25-DE.xml",
+            "1.2.0/invalid/eforms_CAN_26-DE_.xml",
+            "1.2.0/invalid/eforms_CAN_27-DE.xml",
+            "1.2.0/invalid/eforms_CAN_28-DE.xml");
 
-    ValidationResult validationResult =
-        schematronValidator.validate(SupportedType.EU, eFormsWithError, SupportedVersion.V1_10_0);
+    for (String validNotice : invalidNotices) {
+      String eFormsWithError = readFromEFormsResourceAsString(validNotice);
 
-    assertFalse(validationResult.getErrors().isEmpty());
-    validationResult
-        .getErrors()
-        .forEach(
-            error -> {
-              assertNotNull(error.getRule());
-              assertNotNull(error.getPath());
-              assertNotNull(error.getTest());
-              assertNotNull(error.getType());
-            });
+      ValidationResult validationResult =
+          schematronValidator.validate(SupportedType.DE, eFormsWithError, SupportedVersion.V1_2_0);
 
-    boolean containsDispatchDateError =
-        validationResult.getErrors().stream()
-            .map(ValidationEntry::getRule)
-            .anyMatch(
-                rule ->
-                    rule.equals(
-                        "Notice Dispatch Date eSender (BT-803), or by default Notice Dispatch Date (BT-05), must be between 0 and 24 hours before the current date."));
-    assertTrue(containsDispatchDateError);
+      assertFalse(validationResult.getErrors().isEmpty());
+      validationResult
+          .getErrors()
+          .forEach(
+              error -> {
+                assertNotNull(error.getRule());
+                assertNotNull(error.getPath());
+                assertNotNull(error.getTest());
+                assertNotNull(error.getType());
+              });
+    }
   }
 }
