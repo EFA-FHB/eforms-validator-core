@@ -25,7 +25,6 @@ General process of validation:
 
 The current Blacklist can be found here: [excluded_rules.txt](src/main/resources/schematron/de/excluded_rules.txt)
 
-
 ## Tech stack
 
 - [Java 11](https://openjdk.java.net/projects/jdk/11/)
