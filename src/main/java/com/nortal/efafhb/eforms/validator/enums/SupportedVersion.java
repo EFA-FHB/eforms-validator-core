@@ -37,14 +37,16 @@ public enum SupportedVersion {
    *     from input is not recognized
    */
   public static SupportedVersion versionFromSDK(String sdkVersion) {
-    var suportedVersion = EFormSupportedVersion.getSupportedVersion(sdkVersion);
+    var supportedVersion = EFormSupportedVersion.getSupportedVersion(sdkVersion);
     return Arrays.stream(SupportedVersion.values())
-        .filter(v -> v.getValue().equals(suportedVersion))
+        .filter(v -> v.getValue().equals(supportedVersion))
         .findFirst()
         .orElseThrow(
             () ->
                 new IllegalArgumentException(
-                    String.format("Not supported version of sdk: %s", suportedVersion)));
+                    String.format(
+                        "Not supported version of sdk: %s. sdk version provided: %s",
+                        supportedVersion, sdkVersion)));
   }
 
   /**
