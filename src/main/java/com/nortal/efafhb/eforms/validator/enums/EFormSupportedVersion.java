@@ -9,7 +9,7 @@ public enum EFormSupportedVersion {
   V01("eforms-sdk-0.1", "0.1.1"),
   V10("eforms-sdk-1.0", "1.0.0"),
   V15("eforms-sdk-1.5", "1.5.5"),
-  V17("eforms-sdk-1.7", "1.7.2"),
+  V17("eforms-sdk-1.7", "1.7.3"),
   VD10("eforms-de-1.0", "1.0.1"),
   VD11("eforms-de-1.1", "1.1.0"),
   VD12("eforms-de-1.2", "1.2.0"),
