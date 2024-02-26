@@ -51,7 +51,7 @@ jobs:
         uses: ./.github/actions/install_shared_actions
         with:
           token: ${{secrets.EFA_CICD_REPO_ACCESS_TOKEN}}
-          tag: v2.5.2
+          tag: v2.5.3
 
       - name: ensure branch strategy compliance
         id: check_branch_strategy
