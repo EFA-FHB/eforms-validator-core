@@ -51,12 +51,12 @@ jobs:
         uses: ./.github/actions/install_shared_actions
         with:
           token: ${{secrets.EFA_CICD_REPO_ACCESS_TOKEN}}
-          tag: v2.5.2
+          tag: v2.5.3
 
       - name: ensure branch strategy compliance
         id: check_branch_strategy
         uses: ./.github/actions/shared/check_branch_name
-
+      
       - name: create_release
         uses: ./.github/actions/create_release_validator
         with:
