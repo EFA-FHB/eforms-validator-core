@@ -27,7 +27,7 @@ runs:
         [[ -n "${tag}" ]] && ref="refs/tags/$tag" || ref="refs/heads/$branch"
         echo "ref=${ref}" >> $GITHUB_OUTPUT
 
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       name: Checkout cicd repo
       with:
         repository: EFA-FHB/efa_cicd

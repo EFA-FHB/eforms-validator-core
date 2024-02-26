@@ -28,7 +28,7 @@ jobs:
     name: "🛠️ build"
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         name: Checkout project
         with:
           fetch-depth: 0 #spotless fix
@@ -53,7 +53,7 @@ jobs:
         uses: ./.github/actions/shared/setup_jdk_17
 
       - name: build without tests
-        uses: gradle/gradle-build-action@v2.6.0
+        uses: gradle/gradle-build-action@v3
         with:
           arguments: build -x test
 
@@ -70,7 +70,7 @@ jobs:
     name: "📝 run tests"
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         name: Checkout project
 
       - name: install_shared_actions
@@ -84,7 +84,7 @@ jobs:
 
       - name: run unit tests
         id: run_tests
-        uses: gradle/gradle-build-action@v2.6.0
+        uses: gradle/gradle-build-action@v3
         with:
           arguments: test --info -Pgpr.key=${{ inputs.xray-ghp-token }}
 
@@ -109,7 +109,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: https://sonarcloud.io
-        uses: gradle/gradle-build-action@v2.6.0
+        uses: gradle/gradle-build-action@v3
         with:
           arguments: sonarqube --info
 
@@ -121,7 +121,7 @@ jobs:
     name: "🚀 publish"
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         name: checkout project
 
       - name: install_shared_actions
@@ -134,7 +134,7 @@ jobs:
         uses: ./.github/actions/shared/setup_jdk_17
 
       - name: publish package
-        uses: gradle/gradle-build-action@v2.6.0
+        uses: gradle/gradle-build-action@v3
         with:
           arguments: publish
         env:
