@@ -36,11 +36,13 @@ The current Blacklist can be found here: [excluded_rules.txt](src/main/resources
 - eForms-DE
   - 1.0.1
   - 1.1.0
+  - 1.2.0
 
 - eForms-SDK
   - 0.0.1
   - 1.0.0
   - 1.5.1
+  - 1.10.1
 
 ## Hardware
 

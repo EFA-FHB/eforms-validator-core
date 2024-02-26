@@ -7,19 +7,21 @@ import lombok.Getter;
 @Getter
 public enum SupportedVersion {
   V1_5_5("1.5.5"),
-  V1_7_2("1.7.2"),
+  V1_7_3("1.7.3"),
   V1_0_1("1.0.1"),
   V1_0_0("1.0.0"),
   V0_1_1("0.1.1"),
   V1_1_0("1.1.0"),
-  V1_10_0("1.10.0");
+  V1_2_0("1.2.0"),
+  V1_10_1("1.10.1");
 
   private final String value;
 
   private static final Map<SupportedVersion, SupportedVersion> sdkVersionsForGdk =
       Map.of(
           SupportedVersion.V1_0_1, SupportedVersion.V1_5_5,
-          SupportedVersion.V1_1_0, SupportedVersion.V1_7_2);
+          SupportedVersion.V1_1_0, SupportedVersion.V1_7_3,
+          SupportedVersion.V1_2_0, SupportedVersion.V1_10_1);
 
   SupportedVersion(String value) {
     this.value = value;
@@ -35,14 +37,16 @@ public enum SupportedVersion {
    *     from input is not recognized
    */
   public static SupportedVersion versionFromSDK(String sdkVersion) {
-    var suportedVersion = EFormSupportedVersion.getSupportedVersion(sdkVersion);
+    var supportedVersion = EFormSupportedVersion.getSupportedVersion(sdkVersion);
     return Arrays.stream(SupportedVersion.values())
-        .filter(v -> v.getValue().equals(suportedVersion))
+        .filter(v -> v.getValue().equals(supportedVersion))
         .findFirst()
         .orElseThrow(
             () ->
                 new IllegalArgumentException(
-                    String.format("Not supported version of sdk: %s", suportedVersion)));
+                    String.format(
+                        "Not supported version of sdk: %s. sdk version provided: %s",
+                        supportedVersion, sdkVersion)));
   }
 
   /**

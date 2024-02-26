@@ -36,6 +36,7 @@ class PhaxValidatorDoePhaseTest {
   private static final String NOTICE_CN_DE_11 = "eforms_CN_16_max-DE_valid.xml";
   private static final String NOTICE_SDK_1_5 = "eform-sdk-1.5.xml";
   public static final String ISSUE_DATE_XML_TAG = "cbc:IssueDate";
+  public static final String PLANNED_DATE_XML_TAG = "cbc:PlannedDate";
   public static final String REQUESTED_PUBLICATION_DATE_XML_TAG = "cbc:RequestedPublicationDate";
   public static final String CONTRACT_NOTICE_XML_TAG = "ContractNotice";
   public static final String CONTRACT_AWARD_NOTICE_XML_TAG = "ContractAwardNotice";
