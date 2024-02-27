@@ -109,7 +109,8 @@ public class ValidatorServiceImpl implements ValidatorService {
     String eform = new String(validationRequestDTO.getEforms(), StandardCharsets.UTF_8);
     SupportedVersion eformVersion = SupportedVersion.versionFromSDK(requestedEformsVersion);
 
-    ValidationResult result = formsValidator.validate(sdkType, eform, eformVersion);
+    ValidationResult result =
+        formsValidator.validate(sdkType, eform, eformVersion, requestedEformsVersion);
 
     return convertToValidationModel(result);
   }

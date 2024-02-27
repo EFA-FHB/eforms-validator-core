@@ -12,8 +12,12 @@ public interface FormsValidator {
    * @param supportedType what version of sdk will validator use
    * @param eforms EForms to be validated
    * @param eformsVersion Specifies against which version of sdk schematrons version to validate
+   * @param requestedEformsVersion
    * @return result of validation
    */
   ValidationResult validate(
-      SupportedType supportedType, String eforms, SupportedVersion eformsVersion);
+      SupportedType supportedType,
+      String eforms,
+      SupportedVersion eformsVersion,
+      String requestedEformsVersion);
 }

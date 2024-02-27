@@ -55,22 +55,26 @@ class PhaxValidatorDoePhaseTest {
     String eFormsV01 = readFromEFormsResourceAsString(CN_24_MINIMAL_V_0_1_XML);
 
     ValidationResult reportMaxWithError =
-        schematronValidator.validate(SupportedType.EU, eFormsMaxWithError, SupportedVersion.V1_0_0);
+        schematronValidator.validate(
+            SupportedType.EU, eFormsMaxWithError, SupportedVersion.V1_0_0, "version");
     assertEquals(0, reportMaxWithError.getWarnings().size());
     assertNotEquals(0, reportMaxWithError.getErrors().size());
 
     ValidationResult reportMin =
-        schematronValidator.validate(SupportedType.EU, eFormsMin, SupportedVersion.V1_0_0);
+        schematronValidator.validate(
+            SupportedType.EU, eFormsMin, SupportedVersion.V1_0_0, "version");
     assertNotEquals(0, reportMin.getWarnings().size());
     assertEquals(0, reportMin.getErrors().size());
 
     ValidationResult reportWrongVersion =
-        schematronValidator.validate(SupportedType.EU, eFormsV01, SupportedVersion.V1_0_0);
+        schematronValidator.validate(
+            SupportedType.EU, eFormsV01, SupportedVersion.V1_0_0, "version");
     assertEquals(0, reportWrongVersion.getWarnings().size());
     assertNotEquals(0, reportWrongVersion.getErrors().size());
 
     ValidationResult reportMinVersion01 =
-        schematronValidator.validate(SupportedType.EU, eFormsV01, SupportedVersion.V0_1_1);
+        schematronValidator.validate(
+            SupportedType.EU, eFormsV01, SupportedVersion.V0_1_1, "version");
     assertEquals(0, reportMinVersion01.getWarnings().size());
     assertEquals(0, reportMinVersion01.getErrors().size());
   }
@@ -81,7 +85,8 @@ class PhaxValidatorDoePhaseTest {
     String eFormsWithWarning = readFromEFormsResourceAsString(CN_24_MINIMAL_XML);
 
     ValidationResult reportWithError =
-        schematronValidator.validate(SupportedType.EU, eFormsWithError, SupportedVersion.V1_0_0);
+        schematronValidator.validate(
+            SupportedType.EU, eFormsWithError, SupportedVersion.V1_0_0, "version");
     assertFalse(reportWithError.getErrors().isEmpty());
     // no ignored rules
     assertEquals(2, reportWithError.getErrors().size());
@@ -96,7 +101,8 @@ class PhaxValidatorDoePhaseTest {
             });
 
     ValidationResult reportWithWarning =
-        schematronValidator.validate(SupportedType.EU, eFormsWithWarning, SupportedVersion.V1_0_0);
+        schematronValidator.validate(
+            SupportedType.EU, eFormsWithWarning, SupportedVersion.V1_0_0, "version");
     assertFalse(reportWithWarning.getWarnings().isEmpty());
     // no ignored rules
     assertEquals(5, reportWithWarning.getWarnings().size());
@@ -118,7 +124,7 @@ class PhaxValidatorDoePhaseTest {
 
     ValidationResult validationResult =
         schematronValidator.validate(
-            SupportedType.DE, eFormWithErrorAndWarning, SupportedVersion.V1_1_0);
+            SupportedType.DE, eFormWithErrorAndWarning, SupportedVersion.V1_1_0, "version");
     assertFalse(validationResult.getErrors().isEmpty());
     assertNotEquals(6, validationResult.getErrors().size());
     validationResult
@@ -169,7 +175,7 @@ class PhaxValidatorDoePhaseTest {
 
     ValidationResult validationResult =
         schematronValidator.validate(
-            SupportedType.DE, eFormsWithErrorDatesFixed, SupportedVersion.V1_1_0);
+            SupportedType.DE, eFormsWithErrorDatesFixed, SupportedVersion.V1_1_0, "version");
     assertFalse(validationResult.getErrors().isEmpty());
     assertNotEquals(6, validationResult.getErrors().size());
     validationResult
@@ -208,7 +214,8 @@ class PhaxValidatorDoePhaseTest {
     String eFormsWithError = readFromEFormsResourceAsString(NOTICE_CN_DE_10);
 
     ValidationResult validationResult =
-        schematronValidator.validate(SupportedType.DE, eFormsWithError, SupportedVersion.V1_0_1);
+        schematronValidator.validate(
+            SupportedType.DE, eFormsWithError, SupportedVersion.V1_0_1, "version");
     assertFalse(validationResult.getErrors().isEmpty());
     validationResult
         .getErrors()
@@ -239,7 +246,7 @@ class PhaxValidatorDoePhaseTest {
     String eForms = readFromEFormsResourceAsString(NOTICE_CN_DE_11);
 
     ValidationResult validationResult =
-        schematronValidator.validate(SupportedType.DE, eForms, SupportedVersion.V1_1_0);
+        schematronValidator.validate(SupportedType.DE, eForms, SupportedVersion.V1_1_0, "version");
     assertTrue(validationResult.getErrors().isEmpty());
     assertTrue(validationResult.getWarnings().isEmpty());
   }
@@ -263,7 +270,7 @@ class PhaxValidatorDoePhaseTest {
 
     ValidationResult validationResult =
         schematronValidator.validate(
-            SupportedType.DE, eFormsWithErrorDatesFixed, SupportedVersion.V1_1_0);
+            SupportedType.DE, eFormsWithErrorDatesFixed, SupportedVersion.V1_1_0, "version");
     assertTrue(validationResult.getErrors().isEmpty());
     assertTrue(validationResult.getWarnings().isEmpty());
   }
@@ -280,7 +287,7 @@ class PhaxValidatorDoePhaseTest {
       String eForm = readFromEFormsResourceAsString(validNotice);
 
       ValidationResult result =
-          schematronValidator.validate(SupportedType.EU, eForm, SupportedVersion.V1_5_5);
+          schematronValidator.validate(SupportedType.EU, eForm, SupportedVersion.V1_5_5, "version");
 
       assertTrue(result.getErrors().isEmpty());
       assertTrue(result.getWarnings().isEmpty());
@@ -299,7 +306,8 @@ class PhaxValidatorDoePhaseTest {
       String eFormsWithError = readFromEFormsResourceAsString(validNotice);
 
       ValidationResult result =
-          schematronValidator.validate(SupportedType.EU, eFormsWithError, SupportedVersion.V1_5_5);
+          schematronValidator.validate(
+              SupportedType.EU, eFormsWithError, SupportedVersion.V1_5_5, "version");
 
       assertFalse(result.getErrors().isEmpty());
     }
@@ -310,7 +318,8 @@ class PhaxValidatorDoePhaseTest {
     String eFormsWithError = readFromEFormsResourceAsString(NOTICE_SDK_1_5);
 
     ValidationResult result =
-        schematronValidator.validate(SupportedType.DE, eFormsWithError, SupportedVersion.V1_1_0);
+        schematronValidator.validate(
+            SupportedType.DE, eFormsWithError, SupportedVersion.V1_1_0, "version");
 
     assertEquals(1, result.getErrors().size());
 
@@ -339,7 +348,7 @@ class PhaxValidatorDoePhaseTest {
 
     ValidationResult result =
         schematronValidator.validate(
-            SupportedType.DE, eFormsWithErrorDatesFixed, SupportedVersion.V1_1_0);
+            SupportedType.DE, eFormsWithErrorDatesFixed, SupportedVersion.V1_1_0, "version");
 
     assertEquals(1, result.getErrors().size());
 

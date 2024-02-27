@@ -23,7 +23,10 @@ class NoopValidator implements FormsValidator {
 
   @Override
   public ValidationResult validate(
-      SupportedType supportedType, String eforms, SupportedVersion eformsVersion) {
+      SupportedType supportedType,
+      String eforms,
+      SupportedVersion eformsVersion,
+      String requestedEformsVersion) {
     log.warn("Providing noop validation result");
     return new ValidationResult();
   }

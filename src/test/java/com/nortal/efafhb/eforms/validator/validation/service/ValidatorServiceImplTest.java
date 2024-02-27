@@ -79,7 +79,8 @@ class ValidatorServiceImplTest {
             formsValidator.validate(
                 Mockito.any(SupportedType.class),
                 Mockito.anyString(),
-                Mockito.any(SupportedVersion.class)))
+                Mockito.any(SupportedVersion.class),
+                "version"))
         .thenReturn(result);
     ValidationModelDTO validationModel = validatorService.validate(validationRequestDTO);
 

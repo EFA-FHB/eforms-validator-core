@@ -4,6 +4,7 @@ import static com.nortal.efafhb.eforms.validator.validation.service.ValidatorUti
 import static com.nortal.efafhb.eforms.validator.validation.service.ValidatorUtil.EXCLUDED_SCHEMATRON_RULES_DE;
 import static com.nortal.efafhb.eforms.validator.validation.service.ValidatorUtil.RESOURCE_PATH;
 
+import com.helger.commons.collection.impl.ICommonsList;
 import com.helger.schematron.ISchematronResource;
 import com.helger.schematron.pure.SchematronResourcePure;
 import com.helger.schematron.pure.model.PSPhase;
@@ -26,7 +27,11 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import java.util.ArrayList;
 import java.util.EnumMap;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import lombok.extern.jbosslog.JBossLog;
 import org.apache.commons.lang3.StringUtils;
 
@@ -42,6 +47,8 @@ class PhaxNativeValidator implements FormsValidator {
       new EnumMap<>(SupportedVersion.class);
   private static final EnumMap<SupportedVersion, ISchematronResource> validatorsNativeDe =
       new EnumMap<>(SupportedVersion.class);
+  private static final Map<Map<SupportedVersion, String>, ISchematronResource>
+      validatorsForSubtype = new HashMap<>();
 
   @Inject ValidatorUtil validatorUtil;
   @Inject ValidationConfig validationConfig;
@@ -54,7 +61,10 @@ class PhaxNativeValidator implements FormsValidator {
 
   @Override
   public ValidationResult validate(
-      SupportedType supportedType, String eforms, SupportedVersion eformsVersion) {
+      SupportedType supportedType,
+      String eforms,
+      SupportedVersion eformsVersion,
+      String requestedEformsVersion) {
 
     List<SchematronOutputType> schematronOutputs = new ArrayList<>();
 
@@ -72,6 +82,12 @@ class PhaxNativeValidator implements FormsValidator {
                 .applySchematronValidationToSVRL(new StringStreamSource(eforms));
         schematronOutputs.add(de);
         schematronOutputs.add(eu);
+      } else if (validateBySubtype(requestedEformsVersion)) {
+        SchematronOutputType schematronOutput =
+            validatorsForSubtype
+                .get(Map.of(eformsVersion, extractNoticeSubType(eforms)))
+                .applySchematronValidationToSVRL(new StringStreamSource(eforms));
+        schematronOutputs.add(schematronOutput);
       } else {
         SchematronOutputType schematronOutput =
             getValidators(supportedType)
@@ -83,6 +99,22 @@ class PhaxNativeValidator implements FormsValidator {
     } catch (Exception e) {
       log.warn("Exception occurred while reading source ", e);
       throw new ValidatorApplicationException(ErrorCode.MALFORMED_XML);
+    }
+  }
+
+  private boolean validateBySubtype(String eformsVersion) {
+    return validationConfig.eformVersionsValidatedBySubtype().contains(eformsVersion);
+  }
+
+  public String extractNoticeSubType(String input) {
+    String regex = "<cbc:SubTypeCode listName=\"notice-subtype\">([^<]+)</cbc:SubTypeCode>";
+    Matcher matcher = Pattern.compile(regex).matcher(input);
+
+    if (matcher.find()) {
+      log.info("Notice subtype found: " + matcher.group(1));
+      return matcher.group(1);
+    } else {
+      throw new IllegalArgumentException("Notice subtype not found in the input XML!");
     }
   }
 
@@ -176,10 +208,23 @@ class PhaxNativeValidator implements FormsValidator {
       applyPhase(aResPure, path);
     }
 
+    if (SupportedType.EU.equals(supportedType) && validateBySubtype(version)) {
+      ICommonsList<String> allPhaseIDs =
+          SchematronResourcePure.fromClassPath(path, this.getClass().getClassLoader())
+              .getOrCreateBoundSchema()
+              .getOriginalSchema()
+              .getAllPhaseIDs();
+      for (String phaseId : allPhaseIDs) {
+        SchematronResourcePure resource = aResPure.setPhase(phaseId);
+        validatorsForSubtype.put(Map.of(supportedVersion, phaseId), resource);
+      }
+    } else {
+      getValidators(supportedType).put(supportedVersion, aResPure);
+    }
+
     if (!aResPure.isValidSchematron()) {
       throw new IllegalArgumentException("Invalid Schematron!");
     }
-
     getValidators(supportedType).put(supportedVersion, aResPure);
   }
 

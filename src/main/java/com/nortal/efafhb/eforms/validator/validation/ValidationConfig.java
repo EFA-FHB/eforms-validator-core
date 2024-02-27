@@ -27,4 +27,12 @@ public interface ValidationConfig {
    */
   @WithName("de_schematron_phase")
   String deSchematronPhase();
+
+  /**
+   * Retrieves the list of supported eForm versions, which are validated by subtype
+   *
+   * @return list of supported eForm versions
+   */
+  @WithName("eform_versions_validated_by_subtype")
+  List<String> eformVersionsValidatedBySubtype();
 }
