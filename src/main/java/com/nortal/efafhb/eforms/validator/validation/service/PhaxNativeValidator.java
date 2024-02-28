@@ -4,7 +4,6 @@ import static com.nortal.efafhb.eforms.validator.validation.service.ValidatorUti
 import static com.nortal.efafhb.eforms.validator.validation.service.ValidatorUtil.EXCLUDED_SCHEMATRON_RULES_DE;
 import static com.nortal.efafhb.eforms.validator.validation.service.ValidatorUtil.RESOURCE_PATH;
 
-import com.helger.commons.collection.impl.ICommonsList;
 import com.helger.schematron.ISchematronResource;
 import com.helger.schematron.pure.SchematronResourcePure;
 import com.helger.schematron.pure.model.PSPhase;
@@ -30,8 +29,6 @@ import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import lombok.extern.jbosslog.JBossLog;
 import org.apache.commons.lang3.StringUtils;
 
@@ -76,18 +73,12 @@ class PhaxNativeValidator implements FormsValidator {
             validatorsNativeDe
                 .get(eformsVersion)
                 .applySchematronValidationToSVRL(new StringStreamSource(eforms));
-        var eu =
-            validatorsNativeEu
-                .get(euVersion)
-                .applySchematronValidationToSVRL(new StringStreamSource(eforms));
+        var eu = getSchematronOutputForEuNotice(eforms, euVersion, requestedEformsVersion);
         schematronOutputs.add(de);
         schematronOutputs.add(eu);
-      } else if (validateBySubtype(requestedEformsVersion)) {
-        SchematronOutputType schematronOutput =
-            validatorsForSubtype
-                .get(Map.of(eformsVersion, extractNoticeSubType(eforms)))
-                .applySchematronValidationToSVRL(new StringStreamSource(eforms));
-        schematronOutputs.add(schematronOutput);
+      } else if (validateByNoticeSubtype(requestedEformsVersion)) {
+        SchematronOutputType output = getSchematronOutputForSubtype(eforms, eformsVersion);
+        schematronOutputs.add(output);
       } else {
         SchematronOutputType schematronOutput =
             getValidators(supportedType)
@@ -102,20 +93,25 @@ class PhaxNativeValidator implements FormsValidator {
     }
   }
 
-  private boolean validateBySubtype(String eformsVersion) {
-    return validationConfig.eformVersionsValidatedBySubtype().contains(eformsVersion);
+  private SchematronOutputType getSchematronOutputForEuNotice(
+      String eforms, SupportedVersion version, String requestedEformsVersion) throws Exception {
+    if (validateByNoticeSubtype(requestedEformsVersion)) {
+      return getSchematronOutputForSubtype(eforms, version);
+    }
+    return validatorsNativeEu
+        .get(version)
+        .applySchematronValidationToSVRL(new StringStreamSource(eforms));
   }
 
-  public String extractNoticeSubType(String input) {
-    String regex = "<cbc:SubTypeCode listName=\"notice-subtype\">([^<]+)</cbc:SubTypeCode>";
-    Matcher matcher = Pattern.compile(regex).matcher(input);
+  private SchematronOutputType getSchematronOutputForSubtype(
+      String eforms, SupportedVersion version) throws Exception {
+    return validatorsForSubtype
+        .get(Map.of(version, validatorUtil.extractNoticeSubType(eforms)))
+        .applySchematronValidationToSVRL(new StringStreamSource(eforms));
+  }
 
-    if (matcher.find()) {
-      log.info("Notice subtype found: " + matcher.group(1));
-      return matcher.group(1);
-    } else {
-      throw new IllegalArgumentException("Notice subtype not found in the input XML!");
-    }
+  private boolean validateByNoticeSubtype(String eformsVersion) {
+    return validationConfig.eformVersionsValidatedBySubtype().contains(eformsVersion);
   }
 
   private ValidationResult createValidationResult(
@@ -208,24 +204,27 @@ class PhaxNativeValidator implements FormsValidator {
       applyPhase(aResPure, path);
     }
 
-    if (validateBySubtype(version)) {
-      ICommonsList<String> allPhaseIDs =
-          SchematronResourcePure.fromClassPath(path, this.getClass().getClassLoader())
-              .getOrCreateBoundSchema()
-              .getOriginalSchema()
-              .getAllPhaseIDs();
-      for (String phaseId : allPhaseIDs) {
-        SchematronResourcePure resource = aResPure.setPhase(phaseId);
-        validatorsForSubtype.put(Map.of(supportedVersion, phaseId), resource);
-      }
-    } else {
-      getValidators(supportedType).put(supportedVersion, aResPure);
+    if (validateByNoticeSubtype(version)) {
+      applyPhaseForEachSubtype(path, aResPure, supportedVersion);
     }
 
     if (!aResPure.isValidSchematron()) {
       throw new IllegalArgumentException("Invalid Schematron!");
     }
     getValidators(supportedType).put(supportedVersion, aResPure);
+  }
+
+  private void applyPhaseForEachSubtype(
+      String path, SchematronResourcePure aResPure, SupportedVersion supportedVersion) {
+    SchematronResourcePure.fromClassPath(path, this.getClass().getClassLoader())
+        .getOrCreateBoundSchema()
+        .getOriginalSchema()
+        .getAllPhaseIDs()
+        .forEach(
+            phaseId -> {
+              SchematronResourcePure resource = aResPure.setPhase(phaseId);
+              validatorsForSubtype.put(Map.of(supportedVersion, phaseId), resource);
+            });
   }
 
   private void applyPhase(SchematronResourcePure aResPure, String schematronPath) {
@@ -266,15 +265,14 @@ class PhaxNativeValidator implements FormsValidator {
     }
   }
 
-  private EnumMap<SupportedVersion, ISchematronResource> getValidators(
-      SupportedType supportedType) {
-    switch (supportedType) {
+  private EnumMap<SupportedVersion, ISchematronResource> getValidators(SupportedType type) {
+    switch (type) {
       case DE:
         return validatorsNativeDe;
       case EU:
         return validatorsNativeEu;
       default:
-        throw new IllegalArgumentException("Unsupported type: " + supportedType);
+        throw new IllegalArgumentException("Unsupported type: " + type);
     }
   }
 }

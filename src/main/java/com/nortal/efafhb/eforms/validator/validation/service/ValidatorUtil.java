@@ -18,6 +18,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import lombok.extern.jbosslog.JBossLog;
 import org.apache.commons.lang3.StringUtils;
 
@@ -27,6 +29,8 @@ public class ValidatorUtil {
 
   @Inject Translate translate;
 
+  public static final String SUBTYPE_REGEX =
+      "<cbc:SubTypeCode listName=\"notice-subtype\">([^<]+)</cbc:SubTypeCode>";
   public static final String RESOURCE_PATH = "schematron/%s/";
   public static final String EFORMS_SDK_VERSION_DELIMITER = "-";
 
@@ -111,6 +115,16 @@ public class ValidatorUtil {
         .test(test)
         .type(VALIDATION_ENTRY_T015_SCHEMATRON_TYPE)
         .build();
+  }
+
+  public String extractNoticeSubType(String input) {
+    Matcher matcher = Pattern.compile(SUBTYPE_REGEX).matcher(input);
+    if (matcher.find()) {
+      log.info("Notice subtype found: " + matcher.group(1));
+      return matcher.group(1);
+    } else {
+      throw new IllegalArgumentException("Notice subtype not found in the input XML!");
+    }
   }
 
   private static List<String> readExcludedSchematronRules(String fileName) {
