@@ -43,4 +43,18 @@ public enum EFormSupportedVersion {
         .map(com.nortal.efafhb.eforms.validator.enums.EFormSupportedVersion::getSupportedVersion)
         .orElse(null);
   }
+
+  /**
+   * Gets eForms version for the given supported version.
+   *
+   * @param supportedVersion the supported version
+   * @return the eForms version, or null if not found
+   */
+  public static String getEFormsVersion(String supportedVersion) {
+    return Stream.of(values())
+        .filter(v -> v.getSupportedVersion().equals(supportedVersion))
+        .findAny()
+        .map(com.nortal.efafhb.eforms.validator.enums.EFormSupportedVersion::getEformsVersion)
+        .orElse(null);
+  }
 }
