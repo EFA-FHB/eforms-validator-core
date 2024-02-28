@@ -208,7 +208,7 @@ class PhaxNativeValidator implements FormsValidator {
       applyPhase(aResPure, path);
     }
 
-    if (SupportedType.EU.equals(supportedType) && validateBySubtype(version)) {
+    if (validateBySubtype(version)) {
       ICommonsList<String> allPhaseIDs =
           SchematronResourcePure.fromClassPath(path, this.getClass().getClassLoader())
               .getOrCreateBoundSchema()

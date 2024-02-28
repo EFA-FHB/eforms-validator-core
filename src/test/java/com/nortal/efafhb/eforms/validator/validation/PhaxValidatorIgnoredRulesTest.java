@@ -25,6 +25,7 @@ class PhaxValidatorIgnoredRulesTest {
   private static final String CN_24_MINIMAL_XML = "cn_24_minimal.xml";
   private static final String NOTICE_CN_DE_11_WARNING_AND_ERROR =
       "notice_cn_de_11_warning_and_error.xml";
+  public static final String VERSION = "eforms-de-anyVersion";
 
   @Inject FormsValidator schematronValidator;
 
@@ -34,7 +35,7 @@ class PhaxValidatorIgnoredRulesTest {
 
     ValidationResult reportWithError =
         schematronValidator.validate(
-            SupportedType.EU, eformsWithError, SupportedVersion.V1_0_0, "version");
+            SupportedType.EU, eformsWithError, SupportedVersion.V1_0_0, VERSION);
     assertFalse(reportWithError.getErrors().isEmpty());
     assertNotEquals(2, reportWithError.getErrors().size());
     reportWithError
@@ -51,7 +52,7 @@ class PhaxValidatorIgnoredRulesTest {
     String eformsWithWarning = readFromEFormsResourceAsString(CN_24_MINIMAL_XML);
     ValidationResult reportWithWarning =
         schematronValidator.validate(
-            SupportedType.EU, eformsWithWarning, SupportedVersion.V1_0_0, "version");
+            SupportedType.EU, eformsWithWarning, SupportedVersion.V1_0_0, VERSION);
     assertFalse(reportWithWarning.getWarnings().isEmpty());
     assertNotEquals(5, reportWithWarning.getWarnings().size());
     reportWithWarning
@@ -72,7 +73,7 @@ class PhaxValidatorIgnoredRulesTest {
 
     ValidationResult validationResult =
         schematronValidator.validate(
-            SupportedType.DE, eformsWithError, SupportedVersion.V1_1_0, "version");
+            SupportedType.DE, eformsWithError, SupportedVersion.V1_1_0, VERSION);
     assertFalse(validationResult.getErrors().isEmpty());
     assertNotEquals(6, validationResult.getErrors().size());
     validationResult

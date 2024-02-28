@@ -80,7 +80,7 @@ class ValidatorServiceImplTest {
                 Mockito.any(SupportedType.class),
                 Mockito.anyString(),
                 Mockito.any(SupportedVersion.class),
-                "version"))
+                Mockito.anyString()))
         .thenReturn(result);
     ValidationModelDTO validationModel = validatorService.validate(validationRequestDTO);
 
