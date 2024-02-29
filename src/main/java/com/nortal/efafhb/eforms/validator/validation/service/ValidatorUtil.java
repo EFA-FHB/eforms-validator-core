@@ -120,7 +120,6 @@ public class ValidatorUtil {
   public String extractNoticeSubType(String input) {
     Matcher matcher = Pattern.compile(SUBTYPE_REGEX).matcher(input);
     if (matcher.find()) {
-      log.info("Notice subtype found: " + matcher.group(1));
       return matcher.group(1);
     } else {
       throw new IllegalArgumentException("Notice subtype not found in the input XML!");

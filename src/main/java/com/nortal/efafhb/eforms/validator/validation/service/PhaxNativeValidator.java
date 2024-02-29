@@ -24,12 +24,15 @@ import io.quarkus.arc.properties.IfBuildProperty;
 import io.quarkus.runtime.Startup;
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.inject.Inject;
 import java.util.ArrayList;
 import java.util.EnumMap;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.jbosslog.JBossLog;
 import org.apache.commons.lang3.StringUtils;
 
@@ -37,6 +40,7 @@ import org.apache.commons.lang3.StringUtils;
 @ApplicationScoped
 @Startup
 @IfBuildProperty(name = "eforms-validator.engine", stringValue = "phax")
+@RequiredArgsConstructor
 class PhaxNativeValidator implements FormsValidator {
 
   private static final String SCHEMATRON_LOCATION = RESOURCE_PATH + "native-validation/%s/%s";
@@ -46,11 +50,11 @@ class PhaxNativeValidator implements FormsValidator {
   private static final EnumMap<SupportedVersion, ISchematronResource> validatorsNativeDe =
       new EnumMap<>(SupportedVersion.class);
   private static final Map<Map<SupportedVersion, String>, ISchematronResource>
-      validatorsForSubtype = new HashMap<>();
+      validatorsByVersionAndPhase = new ConcurrentHashMap<>();
 
-  @Inject ValidatorUtil validatorUtil;
-  @Inject ValidationConfig validationConfig;
-  @Inject IgnoredRulesConfig ignoredRulesConfig;
+  private final ValidatorUtil validatorUtil;
+  private final ValidationConfig validationConfig;
+  private final IgnoredRulesConfig ignoredRulesConfig;
 
   @PostConstruct
   void init() {
@@ -74,12 +78,11 @@ class PhaxNativeValidator implements FormsValidator {
             validatorsNativeDe
                 .get(eformsVersion)
                 .applySchematronValidationToSVRL(new StringStreamSource(eforms));
-        var eu = getSchematronOutputForEuNotice(eforms, euVersion);
+        var eu = validateEuNotice(eforms, euVersion);
         schematronOutputs.add(de);
         schematronOutputs.add(eu);
-      } else if (validateByNoticeSubtype(requestedEformsVersion)) {
-        SchematronOutputType output = getSchematronOutputForSubtype(eforms, eformsVersion);
-        schematronOutputs.add(output);
+      } else if (validationIsPossibleByPhase(requestedEformsVersion)) {
+        schematronOutputs.add(validateByPhase(eforms, eformsVersion));
       } else {
         SchematronOutputType schematronOutput =
             getValidators(supportedType)
@@ -94,26 +97,44 @@ class PhaxNativeValidator implements FormsValidator {
     }
   }
 
-  private SchematronOutputType getSchematronOutputForEuNotice(
-      String eforms, SupportedVersion version) throws Exception {
-    String eFormsVersion = EFormSupportedVersion.getEFormsVersion(version.getValue());
-    if (validateByNoticeSubtype(eFormsVersion)) {
-      return getSchematronOutputForSubtype(eforms, version);
+  private SchematronOutputType validateEuNotice(String eforms, SupportedVersion euVersion)
+      throws Exception {
+    String eFormsVersion = EFormSupportedVersion.getEFormsVersion(euVersion.getValue());
+    if (validationIsPossibleByPhase(eFormsVersion)) {
+      try {
+        return validateByPhase(eforms, euVersion);
+      } catch (Exception e) {
+        log.debugf(
+            "No resource found for euVersion %s and subtype %s. Using default phase.",
+            euVersion.getValue(), validatorUtil.extractNoticeSubType(eforms));
+      }
     }
+    return validateByDefaultPhase(eforms, euVersion);
+  }
+
+  private SchematronOutputType validateByPhase(String eforms, SupportedVersion euVersion)
+      throws Exception {
+    try {
+      return validatorsByVersionAndPhase
+          .get(Map.of(euVersion, validatorUtil.extractNoticeSubType(eforms)))
+          .applySchematronValidationToSVRL(new StringStreamSource(eforms));
+    } catch (Exception e) {
+      log.debugf(
+          "No resource found for euVersion %s and subtype %s. Using default phase.",
+          euVersion.getValue(), validatorUtil.extractNoticeSubType(eforms));
+    }
+    return validateByDefaultPhase(eforms, euVersion);
+  }
+
+  private SchematronOutputType validateByDefaultPhase(String eforms, SupportedVersion version)
+      throws Exception {
     return validatorsNativeEu
         .get(version)
         .applySchematronValidationToSVRL(new StringStreamSource(eforms));
   }
 
-  private SchematronOutputType getSchematronOutputForSubtype(
-      String eforms, SupportedVersion version) throws Exception {
-    return validatorsForSubtype
-        .get(Map.of(version, validatorUtil.extractNoticeSubType(eforms)))
-        .applySchematronValidationToSVRL(new StringStreamSource(eforms));
-  }
-
-  private boolean validateByNoticeSubtype(String eformsVersion) {
-    return validationConfig.eformVersionsValidatedBySubtype().contains(eformsVersion);
+  private boolean validationIsPossibleByPhase(String eformsVersion) {
+    return validationConfig.eformVersionsValidatedByPhase().contains(eformsVersion);
   }
 
   private ValidationResult createValidationResult(
@@ -206,30 +227,42 @@ class PhaxNativeValidator implements FormsValidator {
       applyPhase(aResPure, path);
     }
 
-    if (validateByNoticeSubtype(version)) {
-      getValidators(supportedType).put(supportedVersion, aResPure); // for all phases check
-      applyPhaseForEachSubtype(path, supportedVersion);
-    } else {
-      getValidators(supportedType).put(supportedVersion, aResPure);
+    if (validationIsPossibleByPhase(version)) {
+      CompletableFuture.runAsync(
+          () -> {
+            applyPhaseForEachSubtype(path, supportedVersion);
+            log.debugf("Resource added for all phases in path '%s'", path);
+          });
     }
 
     if (!aResPure.isValidSchematron()) {
       throw new IllegalArgumentException("Invalid Schematron!");
     }
+
+    getValidators(supportedType).put(supportedVersion, aResPure);
   }
 
   private void applyPhaseForEachSubtype(String path, SupportedVersion supportedVersion) {
+    final ExecutorService executorService = Executors.newCachedThreadPool();
     SchematronResourcePure.fromClassPath(path, this.getClass().getClassLoader())
         .getOrCreateBoundSchema()
         .getOriginalSchema()
         .getAllPhaseIDs()
         .forEach(
-            phaseId -> {
-              SchematronResourcePure resource =
-                  SchematronResourcePure.fromClassPath(path, this.getClass().getClassLoader());
-              resource.setPhase(phaseId);
-              validatorsForSubtype.put(Map.of(supportedVersion, phaseId), resource);
-            });
+            phaseId ->
+                CompletableFuture.runAsync(
+                    () -> addResource(path, supportedVersion, phaseId), executorService));
+    executorService.shutdown();
+  }
+
+  private void addResource(String path, SupportedVersion supportedVersion, String phaseId) {
+    log.debugf("Adding resource for phase '%s' in path '%s'", phaseId, path);
+    SchematronResourcePure resource =
+        SchematronResourcePure.fromClassPath(path, this.getClass().getClassLoader())
+            .setPhase(phaseId);
+    resource.getOrCreateBoundSchema();
+    validatorsByVersionAndPhase.put(Map.of(supportedVersion, phaseId), resource);
+    log.debugf("Resource added for phase '%s' in path '%s': ", phaseId, path);
   }
 
   private void applyPhase(SchematronResourcePure aResPure, String schematronPath) {
