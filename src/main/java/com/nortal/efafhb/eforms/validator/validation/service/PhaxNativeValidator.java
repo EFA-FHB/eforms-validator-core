@@ -26,12 +26,9 @@ import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.ApplicationScoped;
 import java.util.ArrayList;
 import java.util.EnumMap;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.jbosslog.JBossLog;
 import org.apache.commons.lang3.StringUtils;
@@ -50,7 +47,7 @@ class PhaxNativeValidator implements FormsValidator {
   private static final EnumMap<SupportedVersion, ISchematronResource> validatorsNativeDe =
       new EnumMap<>(SupportedVersion.class);
   private static final Map<Map<SupportedVersion, String>, ISchematronResource>
-      validatorsByVersionAndPhase = new ConcurrentHashMap<>();
+      validatorsByVersionAndPhase = new HashMap<>();
 
   private final ValidatorUtil validatorUtil;
   private final ValidationConfig validationConfig;
@@ -82,7 +79,8 @@ class PhaxNativeValidator implements FormsValidator {
         schematronOutputs.add(de);
         schematronOutputs.add(eu);
       } else if (validationIsPossibleByPhase(requestedEformsVersion)) {
-        schematronOutputs.add(validateByPhase(eforms, eformsVersion));
+        SchematronOutputType output = validateByPhase(eforms, eformsVersion);
+        schematronOutputs.add(output);
       } else {
         SchematronOutputType schematronOutput =
             getValidators(supportedType)
@@ -105,7 +103,7 @@ class PhaxNativeValidator implements FormsValidator {
         return validateByPhase(eforms, euVersion);
       } catch (Exception e) {
         log.debugf(
-            "No resource found for euVersion %s and subtype %s. Using default phase.",
+            "No resource found for version %s and subtype %s. Using default phase.",
             euVersion.getValue(), validatorUtil.extractNoticeSubType(eforms));
       }
     }
@@ -120,7 +118,7 @@ class PhaxNativeValidator implements FormsValidator {
           .applySchematronValidationToSVRL(new StringStreamSource(eforms));
     } catch (Exception e) {
       log.debugf(
-          "No resource found for euVersion %s and subtype %s. Using default phase.",
+          "No resource found for version %s and subtype %s. Using default phase.",
           euVersion.getValue(), validatorUtil.extractNoticeSubType(eforms));
     }
     return validateByDefaultPhase(eforms, euVersion);
@@ -228,11 +226,7 @@ class PhaxNativeValidator implements FormsValidator {
     }
 
     if (validationIsPossibleByPhase(version)) {
-      CompletableFuture.runAsync(
-          () -> {
-            applyPhaseForEachSubtype(path, supportedVersion);
-            log.debugf("Resource added for all phases in path '%s'", path);
-          });
+      applyPhaseForEachSubtype(path, supportedVersion);
     }
 
     if (!aResPure.isValidSchematron()) {
@@ -243,26 +237,18 @@ class PhaxNativeValidator implements FormsValidator {
   }
 
   private void applyPhaseForEachSubtype(String path, SupportedVersion supportedVersion) {
-    final ExecutorService executorService = Executors.newCachedThreadPool();
     SchematronResourcePure.fromClassPath(path, this.getClass().getClassLoader())
         .getOrCreateBoundSchema()
         .getOriginalSchema()
         .getAllPhaseIDs()
-        .forEach(
-            phaseId ->
-                CompletableFuture.runAsync(
-                    () -> addResource(path, supportedVersion, phaseId), executorService));
-    executorService.shutdown();
+        .forEach(phaseId -> addResource(path, supportedVersion, phaseId));
   }
 
   private void addResource(String path, SupportedVersion supportedVersion, String phaseId) {
-    log.debugf("Adding resource for phase '%s' in path '%s'", phaseId, path);
     SchematronResourcePure resource =
         SchematronResourcePure.fromClassPath(path, this.getClass().getClassLoader())
             .setPhase(phaseId);
-    resource.getOrCreateBoundSchema();
     validatorsByVersionAndPhase.put(Map.of(supportedVersion, phaseId), resource);
-    log.debugf("Resource added for phase '%s' in path '%s': ", phaseId, path);
   }
 
   private void applyPhase(SchematronResourcePure aResPure, String schematronPath) {
