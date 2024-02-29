@@ -24,12 +24,12 @@ import io.quarkus.arc.properties.IfBuildProperty;
 import io.quarkus.runtime.Startup;
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.jbosslog.JBossLog;
 import org.apache.commons.lang3.StringUtils;
 
@@ -37,7 +37,6 @@ import org.apache.commons.lang3.StringUtils;
 @ApplicationScoped
 @Startup
 @IfBuildProperty(name = "eforms-validator.engine", stringValue = "phax")
-@RequiredArgsConstructor
 class PhaxNativeValidator implements FormsValidator {
 
   private static final String SCHEMATRON_LOCATION = RESOURCE_PATH + "native-validation/%s/%s";
@@ -49,9 +48,9 @@ class PhaxNativeValidator implements FormsValidator {
   private static final Map<Map<SupportedVersion, String>, ISchematronResource>
       validatorsByVersionAndPhase = new HashMap<>();
 
-  private final ValidatorUtil validatorUtil;
-  private final ValidationConfig validationConfig;
-  private final IgnoredRulesConfig ignoredRulesConfig;
+  @Inject ValidatorUtil validatorUtil;
+  @Inject ValidationConfig validationConfig;
+  @Inject IgnoredRulesConfig ignoredRulesConfig;
 
   @PostConstruct
   void init() {
