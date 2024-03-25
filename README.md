@@ -13,7 +13,7 @@
 
 ## Purpose
 
-Providing combined offline validation of eforms-EU and eForms-DE schematron (.sch) rules. Additionally schema (.xsd) validation is included and some eForms-EU rule errors are left out via blacklist.
+Providing combined offline validation of eforms-EU and eForms-DE schematron (.sch) rules. Additionally, schema (.xsd) validation is included and some eForms-EU rule errors are left out via blacklist.
 
 General process of validation:
 
