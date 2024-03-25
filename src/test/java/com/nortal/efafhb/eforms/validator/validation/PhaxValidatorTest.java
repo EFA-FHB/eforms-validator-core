@@ -397,7 +397,7 @@ class PhaxValidatorTest {
       strings = {
         "1.2.0/valid/eforms_CAN_29-DE_valid.xml",
         "1.2.0/valid/eforms_CAN_31-DE_valid_FRA.xml",
-        "1.2.0/valid/eforms_PIN_4_min-DE_valid.xml",
+        "1.2.0/valid/eforms_PIN_4_DE_BT_708_Part.xml",
         "1.2.0/valid/eforms_PIN_7-DE.xml"
       })
   void validate_notices_de_v1_2_0_valid(String validNotice) throws Exception {

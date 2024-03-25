@@ -32,7 +32,7 @@
 
   <!-- economic-operator-size.gc -->
 
-  <!-- this xpath can be made more concise by cac:PartyIdentification/cbc:ID/text() = (list of possibilities)  -->
+  <!-- this xpath can be made more concise by cac:PartyIdentification/cbc:ID/text() = (list of possibilities)  as done in rule CR-DE-BT-165 -->
   <rule
     context="$EXTENSION-ORG-NODE/efac:Company[(cac:PartyIdentification/cbc:ID/text() = //efac:TenderingParty/efac:Tenderer/cbc:ID/text()) or (cac:PartyIdentification/cbc:ID/text() = //efac:TenderingParty/efac:Subcontractor/cbc:ID/text())]/efbc:CompanySizeCode">
 

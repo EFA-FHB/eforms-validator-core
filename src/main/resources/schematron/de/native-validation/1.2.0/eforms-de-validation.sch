@@ -206,8 +206,9 @@ we need to add 7,8,9,12,13,14, 19,20,21,22,32,E4,33,34,35
 
       <assert id="CR-DE-BT-513" test="boolean(normalize-space($ADDRESS-NODE/cbc:CityName))" role="error">[CR-DE-BT-513] Every <name /> must have a cbc:CityName.</assert>
 
+      <!-- commented out because already checked by EU if the country can have a postalzone
       <assert id="CR-DE-BT-512" test="boolean(normalize-space($ADDRESS-NODE/cbc:PostalZone))" role="error" see="cac:PostalAddress">[CR-DE-BT-512] Every <name /> must have a PostalZone.</assert>
-
+        -->
       <assert id="CR-DE-BT-514" test="boolean(normalize-space($ADDRESS-NODE/cac:Country/cbc:IdentificationCode))" role="error">[CR-DE-BT-514] Every <name /> must have a cac:Country/cbc:IdentificationCode.</assert>
 
       <assert id="CR-DE-BT-739" test="count($CONTACT-NODE/cbc:Telefax) le 1" role="error">[CR-DE-BT-739]In every <name /> cac:Contact/cbc:Telefax may only occure ones.</assert>
@@ -243,6 +244,7 @@ we need to add 7,8,9,12,13,14, 19,20,21,22,32,E4,33,34,35
     </rule>
 
     <!-- Match on level PartyIdentifcation in order to avoid shadowing with rule on company -->
+<!-- the predicate means if this party is a winner -->
     <rule
       context="$EXTENSION-ORG-NODE/efac:Company[cac:PartyIdentification/cbc:ID = (//efac:TenderingParty/efac:Tenderer/cbc:ID, //efac:TenderingParty/efac:Subcontractor/cbc:ID)]/cac:PartyIdentification"
       role="error">
@@ -345,18 +347,6 @@ we need to add 7,8,9,12,13,14, 19,20,21,22,32,E4,33,34,35
 
 
     <rule
-      context="$ROOT-NODE/cac:ProcurementProjectLot[cbc:ID/@schemeName = 'Lot' or cbc:ID/@schemeName = 'Part']/cac:ProcurementProject/cac:RealizedLocation/cac:Address">
-      <assert id="SR-DE-15" test="count(cac:Country) = 1" role="error">[SR-DE-15] Every <name /> has to have cac:Country</assert>
-
-      <assert id="CR-DE-BT-5141" test="boolean(normalize-space(cac:Country/cbc:IdentificationCode))" role="error">[CR-DE-BT-5141] cbc:IdentificationCode must exist.</assert>
-
-      <!-- BT-5071 conditional mandatory in 1.1 - see BR-DE-27 
-      <assert id="CR-DE-BT-5071" test="boolean(normalize-space(cbc:CountrySubentityCode))" role="error">[CR-DE-BT-5071] cbc:CountrySubentityCode must exist.</assert>
-      -->
-    </rule>
-
-
-    <rule
       context="$EXTENSION-NODE/efac:NoticeResult/efac:GroupFramework/efbc:GroupFrameworkMaximumValueAmount">
       <assert id="CR-DE-BT-156-NoticeResult" test="false()" role="error">[CR-DE-BT-156-NoticeResult] efbc:GroupFrameworkMaximumValueAmount forbidden.</assert>
     </rule>
@@ -404,47 +394,31 @@ we need to add 7,8,9,12,13,14, 19,20,21,22,32,E4,33,34,35
 
     </rule>
 
-    <!-- following  rules CR-DE-BT-708-Part and CR-DE-BT-708-Lot may be combined into single one -->
     <rule
-      context="$ROOT-NODE/cac:ProcurementProjectLot[cbc:ID/@schemeName = 'Lot']/cac:TenderingTerms/cac:CallForTendersDocumentReference">
-      <assert id="CR-DE-BT-708-Lot" test="
-          if ($SUBTYPE = $SUBTYPES-BT-708) then
-            (count(cbc:LanguageID) ge 1)
-          else
-            true()" role="error">[CR-DE-BT-708-Lot] cbc:LanguageID must exist.</assert>
+      context="$ROOT-NODE/cac:ProcurementProjectLot[cbc:ID/@schemeName = ('Lot', 'Part')]/cac:TenderingTerms/cac:CallForTendersDocumentReference">
+     
+      <assert id="CR-DE-BT-708-warn" test="
+        if ($SUBTYPE = $SUBTYPES-BT-708) then
+        not(count(cbc:LanguageID) ge 1)
+        else
+        true()" role="warn">[CR-DE-BT-708-warn] cbc:LanguageID needs to be moved to ext:UBLExtensions/ext:UBLExtension/ext:ExtensionContent/efext:EformsExtension/efac:OfficialLanguages/cac:Language/cbc:ID</assert>
 
       <!-- bt-15 now only mandatory for non-restricted-document, BT-615 is restricted-document,but same xml field, and not mandatory-->
-      <assert id="CR-DE-BT-15-Lot" test="
+      <assert id="CR-DE-BT-15" test="
           if ($SUBTYPE = $SUBTYPES-BT-15) then
             if (cbc:DocumentType/text() = 'non-restricted-document') then
               (count(cac:Attachment/cac:ExternalReference/cbc:URI) ge 1)
             else
               true()
           else
-            true()" role="error">[CR-DE-BT-15-Lot] /cac:Attachment/cac:ExternalReference/cbc:URI must exist in cac:CallForTendersDocumentReference for DocumentType non-restricted-document.</assert>
-    </rule>
-
-    <rule
-      context="$ROOT-NODE/cac:ProcurementProjectLot[cbc:ID/@schemeName = 'Part']/cac:TenderingTerms/cac:CallForTendersDocumentReference">
-      <assert id="CR-DE-BT-708-Part" test="
-          if ($SUBTYPE = $SUBTYPES-BT-708) then
-            (count(cbc:LanguageID) ge 1)
-          else
-            true()" role="error">[CR-DE-BT-708-Part] cbc:LanguageID must exist.</assert>
-
-      <!--  bt-15 now only mandatory for non-restricted-document, BT-615 is restricted-document,but same xml field, and not mandatory-->
-      <assert id="CR-DE-BT-15-Part" test="
-          if ($SUBTYPE = $SUBTYPES-BT-15) then
-            if (cbc:DocumentType/text() = 'non-restricted-document') then
-              (count(cac:Attachment/cac:ExternalReference/cbc:URI) ge 1)
+            true()" role="error">[CR-DE-BT-15] /cac:Attachment/cac:ExternalReference/cbc:URI must exist in cac:CallForTendersDocumentReference for DocumentType non-restricted-document.</assert>
+    
+      <assert id="CR-DE-BT-708" test="
+            if ($SUBTYPE = $SUBTYPES-BT-708) then
+            (count(ext:UBLExtensions/ext:UBLExtension/ext:ExtensionContent/efext:EformsExtension/efac:OfficialLanguages/cac:Language/cbc:ID) ge 1)
             else
-              true()
-          else
-            true()" role="error">[CR-DE-BT-15-Part] /cac:Attachment/cac:ExternalReference/cbc:URI must exist in cac:CallForTendersDocumentReference for DocumentType non-restricted-document.</assert>
-
+            true()" role="error">[CR-DE-BT-708] ext:UBLExtensions/ext:UBLExtension/ext:ExtensionContent/efext:EformsExtension/efac:OfficialLanguages/cac:Language/cbc:ID must exist.</assert>
     </rule>
-
-
 
 
     <rule

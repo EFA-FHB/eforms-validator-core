@@ -1,10 +1,4 @@
 <pattern xmlns="http://purl.oclc.org/dsdl/schematron" id="conditional-mandatory">
-  <let name="SUBTYPES-BT-5071-BT-5141-Lot"
-    value="('E2', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', 'E3', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31', '32', 'E4', '33', '34', '35', '36', '37', '38', '39', '40')" />
-  <let name="SUBTYPES-BT-5071-BT-5141-Part" value="('4', '5', '6')" />
-
-  <let name="COUNTRIES-WITH-NUTS"
-    value="('BEL', 'BGR', 'CZE', 'DNK', 'DEU', 'EST', 'IRL', 'GRC', 'ESP', 'FRA', 'HRV', 'ITA', 'CYP', 'LVA', 'LTU', 'LUX', 'HUN', 'MLT', 'NLD', 'AUT', 'POL', 'PRT', 'ROU', 'SVN', 'SVK', 'FIN', 'SWE', 'GBR', 'ISL', 'LIE', 'NOR', 'CHE', 'MNE', 'MKD', 'ALB', 'SRB', 'TUR')"/>
 
   <rule
     context="$ROOT-NODE/cac:ProcurementProjectLot[cbc:ID/@schemeName = 'Lot']/cac:ProcurementProject/cac:ProcurementAdditionalType">
@@ -27,73 +21,12 @@
 
   </rule>
 
-
-  <!-- all countries according to ted
-    ('1A0', 'ABW', 'AFG', 'AGO', 'AIA', 'ALA', 'ALB', 'AND', 'ARE', 'ARG', 'ARM', 'ASM', 'ATA', 'ATG', 'AUS', 'AUT', 'AZE', 'BDI', 'BEL', 'BEN', 'BES', 'BFA', 'BGD', 'BGR', 'BHR', 'BHS', 'BIH', 'BLM', 'BLR', 'BLZ', 'BMU', 'BOL', 'BRA', 'BRB', 'BRN', 'BTN', 'BVT', 'BWA', 'CAF', 'CAN', 'CCK', 'CHE', 'CHL', 'CHN', 'CIV', 'CMR', 'COD', 'COG', 'COK', 'COL', 'COM', 'CPT', 'CPV', 'CRI', 'CUB', 'CUW', 'CXR', 'CYM', 'CYP', 'CZE', 'DEU', 'DJI', 'DMA', 'DNK', 'DOM', 'DZA', 'ECU', 'EGY', 'ERI', 'ESH', 'ESP', 'EST', 'ETH', 'FIN', 'FJI', 'FLK', 'FRA', 'FRO', 'FSM', 'GAB', 'GBR', 'GEO', 'GGY', 'GHA', 'GIB', 'GIN', 'GMB', 'GNB', 'GNQ', 'GRC', 'GRD', 'GRL', 'GTM', 'GUM', 'HKG', 'HMD', 'HND', 'HRV', 'HTI', 'HUN', 'IDN', 'IMN', 'IND', 'IOT', 'IRL', 'IRN', 'IRQ', 'ISL', 'ISR', 'ITA', 'JAM', 'JEY', 'JOR', 'JPN', 'KAZ', 'KEN', 'KGZ', 'KHM', 'KIR', 'KNA', 'KOR', 'KWT', 'LAO', 'LBN', 'LBR', 'LBY', 'LCA', 'LIE', 'LKA', 'LSO', 'LTU', 'LUX', 'LVA', 'MAC', 'MAF', 'MAR', 'MCO', 'MDA', 'MDG', 'MDV', 'MEX', 'MHL', 'MKD', 'MLI', 'MLT', 'MMR', 'MNE', 'MNG', 'MNP', 'MOZ', 'MRT', 'MSR', 'MUS', 'MWI', 'MYS', 'NAM', 'NCL', 'NER', 'NFK', 'NGA', 'NIC', 'NIU', 'NLD', 'NOR', 'NPL', 'NRU', 'NZL', 'OMN', 'PAK', 'PAN', 'PCN', 'PER', 'PHL', 'PLW', 'PNG', 'POL', 'PRI', 'PRK', 'PRT', 'PRY', 'PSE', 'PYF', 'QAT', 'ROU', 'RUS', 'RWA', 'SAU', 'SDN', 'SEN', 'SGP', 'SGS', 'SHN', 'SJM', 'SLB', 'SLE', 'SLV', 'SMR', 'SOM', 'SPM', 'SRB', 'SSD', 'STP', 'SUR', 'SVK', 'SVN', 'SWE', 'SWZ', 'SXM', 'SYC', 'SYR', 'TCA', 'TCD', 'TGO', 'THA', 'TJK', 'TKL', 'TKM', 'TLS', 'TON', 'TTO', 'TUN', 'TUR', 'TUV', 'TWN', 'TZA', 'UGA', 'UKR', 'UMI', 'URY', 'USA', 'UZB', 'VAT', 'VCT', 'VEN', 'VGB', 'VIR', 'VNM', 'VUT', 'WLF', 'WSM', 'YEM', 'ZAF', 'ZMB', 'ZWE')
-   -->
-  <!-- countries with nuts codes according to EU regulators 
-    alpha-2-codes: BE,BG,CZ,DK,DE,EE,IE,EL,ES,FR,HR,IT,CY,LV,LT,LU,HU,MT,NL,AT,PL,PT,RO,SI,SK,FI,SE,UK,IS,LI,NO,CH,ME,MK,AL,RS,TR
-    alpha-3-codes: 'BEL', 'BGR', 'CZE', 'DNK', 'DEU', 'EST', 'IRL', 'GRC', 'ESP', 'FRA', 'HRV', 'ITA', 'CYP', 'LVA', 'LTU', 'LUX', 'HUN', 'MLT', 'NLD', 'AUT', 'POL', 'PRT', 'ROU', 'SVN', 'SVK', 'FIN', 'SWE', 'GBR', 'ISL', 'LIE', 'NOR', 'CHE', 'MNE', 'MKD', 'ALB', 'SRB', 'TUR' 
-    -->
-
-  <!-- 
-    Erfüllungsort 
-    BT-5071: Procedure, Lot, Part
-        Procedure:   /*/cac:ProcurementProject/cac:RealizedLocation/cac:Address/cbc:CountrySubentityCode | forbidden: never
-        Lot:         /*/cac:ProcurementProjectLot[cbc:ID/@schemeName='Lot']/cac:ProcurementProject/cac:RealizedLocation/cac:Address/cbc:CountrySubentityCode
-        Part:        /*/cac:ProcurementProjectLot[cbc:ID/@schemeName='Part']/cac:ProcurementProject/cac:RealizedLocation/cac:Address/cbc:CountrySubentityCode 
-    
-    Erfüllungsort — Ländercode
-    BT-5141: Procedure, Lot, Part
-        Procedure:  /*/cac:ProcurementProject/cac:RealizedLocation/cac:Address/cac:Country/cbc:IdentificationCode | forbidden: never
-        Lot:        /*/cac:ProcurementProjectLot[cbc:ID/@schemeName='Lot']/cac:ProcurementProject/cac:RealizedLocation/cac:Address/cac:Country/cbc:IdentificationCode
-        Part:       /*/cac:ProcurementProjectLot[cbc:ID/@schemeName='Part']/cac:ProcurementProject/cac:RealizedLocation/cac:Address/cac:Country/cbc:IdentificationCode
-    -->
-  <!--
-    Country Subdivision (nuts-code)
-    BT-507: UBO, Business, Organization-Company, Organization-TouchPoint
-        - WIRD NICHT UMGESETZT, da nicht anwendbar. UBO:                    /*/ext:UBLExtensions/ext:UBLExtension/ext:ExtensionContent/efext:EformsExtension/efac:Organizations/efac:UltimateBeneficialOwner/cac:ResidenceAddress/cbc:CountrySubentityCode
-        Organization-Company:   /*/ext:UBLExtensions/ext:UBLExtension/ext:ExtensionContent/efext:EformsExtension/efac:Organizations/efac:Organization/efac:Company/cac:PostalAddress/cbc:CountrySubentityCode | forbidden: never
-        Organization-Touchpoint:/*/ext:UBLExtensions/ext:UBLExtension/ext:ExtensionContent/efext:EformsExtension/efac:Organizations/efac:Organization/efac:TouchPoint/cac:PostalAddress/cbc:CountrySubentityCode | forbidden: never 
-        -X xml gibt's nicht: Business: /*/cac:BusinessParty/cac:PostalAddress/cbc:CountrySubentityCode
-    
-    Country Code
-    BT-514: UBO, Business, Organization-Company, Organization-TouchPoint
-        - WIRD NICHT UMGESETZT, da nicht anwendbar. UBO:                    /*/ext:UBLExtensions/ext:UBLExtension/ext:ExtensionContent/efext:EformsExtension/efac:Organizations/efac:UltimateBeneficialOwner/cac:ResidenceAddress/cac:Country/cbc:IdentificationCode
-        regeln nicht nötig, weil Country/Identificationcode eh verpflichtend - Organization-Company:   /*/ext:UBLExtensions/ext:UBLExtension/ext:ExtensionContent/efext:EformsExtension/efac:Organizations/efac:Organization/efac:Company/cac:PostalAddress/cac:Country/cbc:IdentificationCode | forbidden: never
-        regeln nicht nötig, weil Country/Identificationcode eh verpflichtend - Organization-Touchpoint:/*/ext:UBLExtensions/ext:UBLExtension/ext:ExtensionContent/efext:EformsExtension/efac:Organizations/efac:Organization/efac:TouchPoint/cac:PostalAddress/cac:Country/cbc:IdentificationCode | forbidden: never
-        -X xml gibt's nicht: Business: /*/cac:BusinessParty/cac:PostalAddress/cac:Country/cbc:IdentificationCode
-    -->
-
-
-  <rule
-    context="$ROOT-NODE/cac:ProcurementProjectLot[cbc:ID/@schemeName = ('Lot', 'Part')]/cac:ProcurementProject/cac:RealizedLocation/cac:Address">
-    <assert id="BR-DE-27-Lot" test="
-        if ((normalize-space(cac:Country/cbc:IdentificationCode/text()) = $COUNTRIES-WITH-NUTS) and ($SUBTYPE = $SUBTYPES-BT-5071-BT-5141-Lot)) then
-          boolean(normalize-space(cbc:CountrySubentityCode))
-        else
-          true()" role="warning">[BR-DE-27-Lot] In Countries where NUTS-Codes exist,
-      cbc:CountrySubentityCode (BT-5071) is mandatory. </assert>
-
-    <assert id="BR-DE-27-Part" test="
-        if ((normalize-space(cac:Country/cbc:IdentificationCode/text()) = $COUNTRIES-WITH-NUTS and ($SUBTYPE = $SUBTYPES-BT-5071-BT-5141-Part))) then
-          boolean(normalize-space(cbc:CountrySubentityCode))
-        else
-          true()" role="warning">[BR-DE-27-Part] In Countries where NUTS-Codes exist,
-      cbc:CountrySubentityCode (BT-5071) is mandatory. </assert>
-  </rule>
-
-  <rule context="$ROOT-NODE/cac:ProcurementProject/cac:RealizedLocation/cac:Address">
-    <assert id="BR-DE-27-Procedure" test="
-        if (normalize-space(cac:Country/cbc:IdentificationCode/text()) = $COUNTRIES-WITH-NUTS) then
-          boolean(normalize-space(cbc:CountrySubentityCode))
-        else
-          true()" role="warning">[BR-DE-27-Procedure] In Countries where NUTS-Codes exist,
-      cbc:CountrySubentityCode (BT-5071) is mandatory. </assert>
-  </rule>
-
   <rule
     context="($EXTENSION-ORG-NODE/efac:TouchPoint union $EXTENSION-ORG-NODE/efac:Company)/cac:PostalAddress">
+
+    <let name="COUNTRIES-WITH-NUTS"
+         value="('BEL', 'BGR', 'CZE', 'DNK', 'DEU', 'EST', 'IRL', 'GRC', 'ESP', 'FRA', 'HRV', 'ITA', 'CYP', 'LVA', 'LTU', 'LUX', 'HUN', 'MLT', 'NLD', 'AUT', 'POL', 'PRT', 'ROU', 'SVN', 'SVK', 'FIN', 'SWE', 'GBR', 'ISL', 'LIE', 'NOR', 'CHE', 'MNE', 'MKD', 'ALB', 'SRB', 'TUR')"/>
+
     <assert id="BR-DE-28-Company-Touchpoint" test="
         if (normalize-space(cac:Country/cbc:IdentificationCode/text()) = $COUNTRIES-WITH-NUTS) then
           boolean(normalize-space(cbc:CountrySubentityCode))
