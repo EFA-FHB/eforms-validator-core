@@ -61,7 +61,7 @@ dependencies {
 
     implementation 'com.jcabi:jcabi-xml:0.29.0'
     implementation 'com.helger.schematron:ph-schematron-pure:7.1.2'
-    implementation 'com.github.vladimir-bukhtoyarov:bucket4j-core:7.6.0'
+    implementation 'com.github.vladimir-bukhtoyarov:bucket4j-core:7.6.1'
 
     implementation 'com.opencsv:opencsv:5.8'
 
