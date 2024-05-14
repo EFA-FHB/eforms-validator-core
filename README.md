@@ -1,3 +1,12 @@
+# This Project is archived!
+The sources were migrated to [Kosit](https://projekte.kosit.org/eforms/validator-edition-eforms-de). 
+Active development and maintenance is continued from there. 
+
+Starting from version `v10.0.14` onwards, packages will be available for download [over here](https://projekte.kosit.org/eforms/validator-edition-eforms-de/-/packages). 
+For the time being, packages will also be publised in [Github Packages](https://github.com/EFA-FHB/eforms-validator-core/packages/1887953), but be advised this service
+might be discontinued without further notice in the future. 
+
+
 # eForms Validator - Core
 
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=EFA-FHB_eforms-validator-core&metric=coverage&token=b0d391e76c7ec6ffe551f1f7cd57a960fa0a17d5)](https://sonarcloud.io/summary/new_code?id=EFA-FHB_eforms-validator-core)
@@ -9,7 +18,6 @@
 
 [![en](https://img.shields.io/badge/lang-en-blue.svg)](./README.md)
 [![de](https://img.shields.io/badge/lang-de-green.svg)](README.de.md)
-
 
 ## Purpose
 
