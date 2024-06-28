@@ -57,7 +57,7 @@ dependencies {
     implementation 'commons-io:commons-io:2.16.1'
     implementation 'org.apache.commons:commons-lang3:3.13.0'
 
-    implementation 'org.projectlombok:lombok:1.18.32'
+    implementation 'org.projectlombok:lombok:1.18.34'
 
     implementation 'com.jcabi:jcabi-xml:0.29.0'
     implementation 'com.helger.schematron:ph-schematron-pure:7.1.2'
@@ -65,9 +65,9 @@ dependencies {
 
     implementation 'com.opencsv:opencsv:5.8'
 
-    compileOnly 'org.projectlombok:lombok:1.18.32'
+    compileOnly 'org.projectlombok:lombok:1.18.34'
 
-    annotationProcessor 'org.projectlombok:lombok:1.18.32'
+    annotationProcessor 'org.projectlombok:lombok:1.18.34'
 
     testImplementation 'io.quarkus:quarkus-junit5'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.10.3'
