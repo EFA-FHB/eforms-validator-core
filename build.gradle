@@ -76,7 +76,7 @@ dependencies {
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.11.0'
     implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.17.2'
     constraints {
-        implementation('org.yaml:snakeyaml:2.0') {
+        implementation('org.yaml:snakeyaml:2.3') {
             because 'version 1.33 is vulnerable to CVE-2022-1471'
         }
     }
