@@ -7,7 +7,7 @@ plugins {
     id 'io.quarkus'
     id 'org.sonarqube'
     id 'maven-publish'
-    id 'org.ajoberstar.grgit' version '5.2.2'
+    id 'org.ajoberstar.grgit' version '5.3.0'
     id "com.diffplug.spotless" version "6.25.0"
     id "com.github.vlsi.jandex" version "1.90"
     id 'com.github.johnrengelman.shadow' version '7.1.2'
