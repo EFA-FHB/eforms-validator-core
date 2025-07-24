@@ -8,19 +8,15 @@ updates:
   - package-ecosystem: "gradle" # See documentation for possible values
     directory: "/" # Location of package manifests
     schedule:
-      interval: "daily"
+      interval: "weekly"
     allow:
       # Allow both direct and indirect updates for all packages
       - dependency-type: "all"
     commit-message:
-      prefix: "[github]"
-      #mention dependency name in commit-message
+      prefix: "chore"
       include: "scope"
     ignore:
-        # Ignore major updates for any dependency
-      - dependency-name: "*"
-        update-types: ["version-update:semver-major"]
-        # Ignore test dependencies
+      # Ignore test dependencies
       - dependency-name: "app.getxray:xray-junit-extensions"
     labels:
       - "dependencies"
@@ -29,7 +25,22 @@ updates:
     pull-request-branch-name:
       separator: "/"
     target-branch: "development"
-    reviewers:
-      - "@EFA-FHB/smurfs"
-      - "@EFA-FHB/slenders"
+    rebase-strategy: "auto"
+  - package-ecosystem: "github-actions"
+    directories:
+      - "/.github/workflows"
+    schedule:
+      interval: "weekly"
+    allow:
+      - dependency-type: "all"
+    commit-message:
+      prefix: "chore"
+      include: "scope"
+    labels:
+      - "dependencies"
+    # limit on open pull requests
+    open-pull-requests-limit: 10
+    pull-request-branch-name:
+      separator: "/"
+    target-branch: "development"
     rebase-strategy: "auto"

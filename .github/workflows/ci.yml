@@ -16,6 +16,9 @@ on:
       - main
       - development
       - 'feature/**'
+    paths:
+      - '**'
+      - '!.github/**/*.yml'
 permissions:
   contents: read
   packages: write
