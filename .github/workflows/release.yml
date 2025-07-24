@@ -41,7 +41,7 @@ jobs:
         run: |
           echo '${{ toJSON(github) }}'
 
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         name: Checkout project
         with:
           fetch-depth: 0 #spotless fix

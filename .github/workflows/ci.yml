@@ -28,7 +28,7 @@ jobs:
     name: "🛠️ build"
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         name: Checkout project
         with:
           fetch-depth: 0 #spotless fix
@@ -70,7 +70,7 @@ jobs:
     name: "📝 run tests"
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         name: Checkout project
 
       - name: install_shared_actions
@@ -121,7 +121,7 @@ jobs:
     name: "🚀 publish"
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         name: checkout project
 
       - name: install_shared_actions
