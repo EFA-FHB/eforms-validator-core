@@ -10,7 +10,7 @@ plugins {
     id 'org.ajoberstar.grgit' version '5.3.2'
     id "com.diffplug.spotless" version "6.25.0"
     id "com.github.vlsi.jandex" version "1.90"
-    id 'com.github.johnrengelman.shadow' version '7.1.2'
+    id 'com.github.johnrengelman.shadow' version '8.1.1'
 }
 
 apply from: rootProject.file('gradle/install-git-hooks.gradle')
